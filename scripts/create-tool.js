@@ -7,13 +7,9 @@
  * - page.tsx with metadata
  * - UI component file
  * - utils.ts file
- * - Adds tool to registry
- *
- * Usage:
- *   node scripts/create-tool.js --id=my-tool --name="My Tool" --group=JSON --color=blue --icon=zap
- *
- * Or interactive mode:
- *   node scripts/create-tool.js
+ * - config.ts file
+ * - test file
+ * - Registers config in app/tools/tool-configs.ts
  */
 
 const fs = require("fs");
@@ -50,7 +46,6 @@ const VALID_COLORS = [
   "yellow",
 ];
 
-// Parse command line arguments
 function parseArgs() {
   const args = {};
   process.argv.slice(2).forEach((arg) => {
@@ -60,7 +55,6 @@ function parseArgs() {
   return args;
 }
 
-// Interactive prompt
 function prompt(question) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -75,7 +69,6 @@ function prompt(question) {
   });
 }
 
-// Kebab case converter
 function toKebabCase(str) {
   return str
     .toLowerCase()
@@ -83,7 +76,6 @@ function toKebabCase(str) {
     .replace(/^-|-$/g, "");
 }
 
-// Pascal case converter
 function toPascalCase(str) {
   return str
     .split(/[-_\s]+/)
@@ -91,7 +83,6 @@ function toPascalCase(str) {
     .join("");
 }
 
-// Generate page.tsx template
 function generatePageTemplate(config) {
   const componentName = `${toPascalCase(config.id)}UI`;
 
@@ -135,29 +126,12 @@ export default function ${toPascalCase(config.id)}Page() {
       </div>
 
       <${componentName} />
-
-      {/* SEO Content Section */}
-      <div className="mt-16 space-y-12">
-        <section>
-          <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-            What is ${config.name}?
-          </h2>
-          <div className="space-y-4 text-gray-700 dark:text-gray-300">
-            <p>
-              Add detailed explanation of the tool here...
-            </p>
-          </div>
-        </section>
-
-        {/* Add more SEO sections as needed */}
-      </div>
     </div>
   );
 }
 `;
 }
 
-// Generate UI component template
 function generateUITemplate(config) {
   const componentName = `${toPascalCase(config.id)}UI`;
 
@@ -170,14 +144,12 @@ export function ${componentName}() {
   const [output, setOutput] = useState("");
 
   const handleProcess = () => {
-    // TODO: Implement tool logic
     setOutput("Processing: " + input);
   };
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <div className="space-y-6">
-        {/* Input Section */}
         <div>
           <label
             htmlFor="input"
@@ -195,7 +167,6 @@ export function ${componentName}() {
           />
         </div>
 
-        {/* Action Button */}
         <div className="flex gap-3">
           <button
             onClick={handleProcess}
@@ -205,7 +176,6 @@ export function ${componentName}() {
           </button>
         </div>
 
-        {/* Output Section */}
         {output && (
           <div>
             <label
@@ -230,55 +200,98 @@ export function ${componentName}() {
 `;
 }
 
-// Generate utils template
 function generateUtilsTemplate(config) {
   return `/**
  * Utility functions for ${config.name}
  */
 
-/**
- * TODO: Implement core logic for ${config.id}
- */
 export function process${toPascalCase(config.id)}(input: string): string {
-  // Implement your tool logic here
   return input;
 }
 `;
 }
 
-// Add tool to registry
-function addToRegistry(config) {
-  const registryPath = path.join(__dirname, "../lib/tools/registry.ts");
-  let content = fs.readFileSync(registryPath, "utf-8");
+function generateConfigTemplate(config) {
+  const varName = `${toPascalCase(config.id)}ToolConfig`;
 
-  const newTool = `  {
-    id: "${config.id}",
-    name: "${config.name}",
-    description: "${config.description}",
-    href: "/tools/${config.id}",
-    group: "${config.group}",
-    groupColor: "${config.color}",
-    groupIcon: "${config.icon}",
-    keywords: [],
-    relatedTools: [],
-  },`;
+  return `import type { Tool } from "@/lib/types/tool";
 
-  // Insert before the closing bracket of TOOL_REGISTRY array
-  content = content.replace(
-    /(\];[\s\n]*\/\*\*[\s\n]*\* Get a tool by ID)/,
-    `${newTool}\n];\n\n/**\n * Get a tool by ID`
-  );
+export const ${varName}: Tool = {
+  id: "${config.id}",
+  name: "${config.name}",
+  description: "${config.description}",
+  href: "/tools/${config.id}",
+  group: "${config.group}",
+  groupColor: "${config.color}",
+  groupIcon: "${config.icon}",
+  keywords: [],
+  relatedTools: [],
+};
 
-  fs.writeFileSync(registryPath, content);
+export default ${varName};
+`;
 }
 
-// Main function
+function generateTestTemplate(config) {
+  const componentName = `${toPascalCase(config.id)}UI`;
+
+  return `import { render, screen } from "@testing-library/react";
+import { ${componentName} } from "./${config.id}-ui";
+
+describe("${componentName}", () => {
+  it("renders basic input and action controls", () => {
+    render(<${componentName} />);
+
+    expect(screen.getByLabelText(/input/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /process/i })).toBeInTheDocument();
+  });
+});
+`;
+}
+
+function ensureToolConfigsIndex(indexPath) {
+  if (fs.existsSync(indexPath)) return;
+
+  const initial = `import type { Tool } from "@/lib/types/tool";
+
+export const TOOL_CONFIGS: Tool[] = [];
+`;
+
+  fs.writeFileSync(indexPath, initial);
+}
+
+function registerInToolConfigs(config) {
+  const indexPath = path.join(__dirname, "../app/tools/tool-configs.ts");
+  ensureToolConfigsIndex(indexPath);
+
+  const varName = `${toPascalCase(config.id)}ToolConfig`;
+  const importLine = `import ${varName} from "./${config.id}/config";`;
+
+  let content = fs.readFileSync(indexPath, "utf8");
+
+  if (!content.includes(importLine)) {
+    content = content.replace(
+      /import type \{ Tool \} from "@\/lib\/types\/tool";\n/,
+      `import type { Tool } from "@/lib/types/tool";\n${importLine}\n`
+    );
+  }
+
+  if (!content.includes(`  ${varName},`)) {
+    content = content.replace(/(export const TOOL_CONFIGS: Tool\[] = \[\n)([\s\S]*?)(\];)/, (_m, start, middle, end) => {
+      const trimmed = middle.trimEnd();
+      const nextMiddle = trimmed ? `${trimmed}\n  ${varName},\n` : `  ${varName},\n`;
+      return `${start}${nextMiddle}${end}`;
+    });
+  }
+
+  fs.writeFileSync(indexPath, content);
+}
+
 async function main() {
   console.log("🛠️  Tool Generator\n");
 
   const args = parseArgs();
 
-  // Collect configuration
   const config = {
     id:
       args.id ||
@@ -294,7 +307,6 @@ async function main() {
     icon: args.icon || (await prompt("Lucide Icon Name (e.g., 'zap'): ")),
   };
 
-  // Validate
   if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(config.id)) {
     console.error("❌ Invalid ID. Must be kebab-case.");
     process.exit(1);
@@ -314,7 +326,6 @@ async function main() {
     process.exit(1);
   }
 
-  // Create tool directory
   const toolDir = path.join(__dirname, "../app/tools", config.id);
   if (fs.existsSync(toolDir)) {
     console.error(`❌ Tool directory already exists: ${toolDir}`);
@@ -326,34 +337,32 @@ async function main() {
 
   fs.mkdirSync(toolDir, { recursive: true });
 
-  // Generate files
   const files = [
     { name: "page.tsx", content: generatePageTemplate(config) },
     { name: `${config.id}-ui.tsx`, content: generateUITemplate(config) },
     { name: "utils.ts", content: generateUtilsTemplate(config) },
+    { name: "config.ts", content: generateConfigTemplate(config) },
+    { name: `${config.id}.test.tsx`, content: generateTestTemplate(config) },
   ];
 
   files.forEach((file) => {
-    const filePath = path.join(toolDir, file.name);
-    fs.writeFileSync(filePath, file.content);
+    fs.writeFileSync(path.join(toolDir, file.name), file.content);
     console.log(`✅ Created: ${file.name}`);
   });
 
-  // Add to registry
-  addToRegistry(config);
-  console.log("✅ Added to registry\n");
+  registerInToolConfigs(config);
+  console.log("✅ Registered in app/tools/tool-configs.ts\n");
 
   console.log("🎉 Tool scaffolded successfully!\n");
   console.log("Next steps:");
-  console.log(
-    `1. Implement the tool logic in app/tools/${config.id}/${config.id}-ui.tsx`
-  );
+  console.log(`1. Implement tool logic in app/tools/${config.id}/${config.id}-ui.tsx`);
   console.log(`2. Add utility functions in app/tools/${config.id}/utils.ts`);
-  console.log(`3. Enhance SEO content in app/tools/${config.id}/page.tsx`);
-  console.log(`4. Update keywords and relatedTools in lib/tools/registry.ts`);
-  console.log(
-    `5. Test your tool at http://localhost:3000/tools/${config.id}\n`
-  );
+  console.log(`3. Fill keywords/relatedTools in app/tools/${config.id}/config.ts`);
+  console.log(`4. Run npm run validate:tools && npm run test:ci`);
+  console.log(`5. Test at http://localhost:3000/tools/${config.id}\n`);
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error("❌ Tool generator failed:", error);
+  process.exit(1);
+});

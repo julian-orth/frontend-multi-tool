@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SITE_NAME } from "@/lib/i18n/en";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -7,6 +9,24 @@ import { MobileNavProvider } from "@/lib/contexts/mobile-nav-context";
 import { ClientLayoutWrapper } from "@/components/layout-client";
 import { LoadingBar } from "@/components/loading-bar";
 import MobileNav from "@/components/MobileNav";
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-space-grotesk",
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-ibm-plex-sans",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-ibm-plex-mono",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -72,6 +92,25 @@ export const metadata: Metadata = {
   },
 };
 
+const themeBootstrapScript = `
+(function() {
+  try {
+    var storageKey = 'theme';
+    var storedTheme = localStorage.getItem(storageKey);
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var resolvedTheme = storedTheme === 'light' || storedTheme === 'dark'
+      ? storedTheme
+      : (prefersDark ? 'dark' : 'light');
+
+    var root = document.documentElement;
+    root.classList.toggle('dark', resolvedTheme === 'dark');
+    root.style.colorScheme = resolvedTheme;
+  } catch (_) {
+    // Keep default light theme if browser APIs are unavailable.
+  }
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -80,21 +119,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                const theme = localStorage.getItem('theme') || 'dark';
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                }
-              })();
-            `,
-          }}
-        />
+        <Script id="theme-bootstrap" strategy="beforeInteractive">
+          {themeBootstrapScript}
+        </Script>
       </head>
       <body
-        className="flex min-h-screen flex-col bg-gradient-to-br from-gray-50 via-white to-gray-50 text-gray-900 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 dark:text-gray-50"
+        className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} flex min-h-screen flex-col text-gray-900 dark:text-gray-50`}
         suppressHydrationWarning
       >
         <ThemeProvider>

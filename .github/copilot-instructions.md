@@ -245,7 +245,7 @@ app/tools/{tool-id}/
 - **Single source of truth**: All URLs must use `SITE_CONFIG.domain`
 - Never hardcode domains in components or metadata
 - Import: `import { SITE_CONFIG } from "@/lib/site-config"`
-- Use helper functions: `getToolUrl()`, `getBlogUrl()`, etc.
+- Use helper functions: `getToolUrl()`, `getAboutUrl()`, `getContactUrl()`.
 
 ## Accessibility (a11y) Best Practices
 

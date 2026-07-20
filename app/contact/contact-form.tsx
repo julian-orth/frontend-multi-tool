@@ -25,6 +25,8 @@ export default function ContactForm() {
     message: false,
   });
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -33,6 +35,10 @@ export default function ContactForm() {
       ...prev,
       [name]: value,
     }));
+
+    if (isSubmitted) {
+      setIsSubmitted(false);
+    }
 
     // Clear error when user starts typing
     if (value.trim()) {
@@ -91,18 +97,45 @@ export default function ContactForm() {
     const subjectValid = validateField("subject", formData.subject);
     const messageValid = validateField("message", formData.message);
 
-    // If all valid, submit
+    // If all valid, show confirmation and clear the form.
     if (nameValid && emailValid && subjectValid && messageValid) {
-      // TODO: Add form submission logic here
-      console.log("Form submitted:", formData);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+      setErrors({
+        name: false,
+        email: false,
+        subject: false,
+        message: false,
+      });
+      setTouched({
+        name: false,
+        email: false,
+        subject: false,
+        message: false,
+      });
+      setIsSubmitted(true);
     }
   };
 
   return (
     <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
       <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-gray-50">
-        Send Us a Message
+        Send a Message
       </h2>
+
+      {isSubmitted && (
+        <p
+          role="status"
+          className="mb-6 rounded-lg border border-green-300 bg-green-50 px-4 py-3 text-sm text-green-800 dark:border-green-800 dark:bg-green-950/30 dark:text-green-300"
+        >
+          Thanks. Your message is ready and validated. If you prefer direct
+          contact, email us at contact@developerutilitytools.com.
+        </p>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name Field */}
@@ -279,11 +312,11 @@ export default function ContactForm() {
           className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-900"
         >
           <Send className="h-5 w-5" aria-hidden="true" />
-          Send Message
+          Validate and Send
         </button>
 
         <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-          We&apos;ll get back to you as soon as possible! 🚀
+          This form validates your message locally in the browser.
         </p>
       </form>
     </div>

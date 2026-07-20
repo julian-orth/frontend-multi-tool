@@ -2,6 +2,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  --paper: #eaeef2;
+  --paper-2: #e1e6ec;
+  --card: #fdfdfc;
+  --ink: #16233a;
+  --ink-soft: #4b5a72;
+  --line: #c7cdd6;
+  --line-soft: #dadfe5;
+  --focus: #3d5a99;
   --background: #ffffff;
   --foreground: #0a0a0a;
   --card: #ffffff;
@@ -19,20 +27,35 @@
 }
 
 .dark {
+  --paper: #101722;
+  --paper-2: #162132;
+  --ink: #e5edf7;
+  --ink-soft: #97a9c3;
+  --line: #2b3a4f;
+  --line-soft: #213044;
+  --focus: #7da0e8;
   --background: #0a0a0a;
   --foreground: #ededed;
-  --card: #171717;
+  --card: #111b2b;
   --card-foreground: #ededed;
-  --border: #262626;
-  --input: #1f1f1f;
+  --border: #2b3a4f;
+  --input: #162132;
   --primary: #3b82f6;
   --primary-foreground: #ffffff;
-  --secondary: #262626;
+  --secondary: #162132;
   --secondary-foreground: #ededed;
-  --muted: #171717;
+  --muted: #111b2b;
   --muted-foreground: #9ca3af;
-  --accent: #262626;
+  --accent: #162132;
   --accent-foreground: #ededed;
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 * {
@@ -40,11 +63,13 @@
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  background-image:
+    linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 28px 28px;
+  font-family: var(--font-ibm-plex-sans), "IBM Plex Sans", sans-serif;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;

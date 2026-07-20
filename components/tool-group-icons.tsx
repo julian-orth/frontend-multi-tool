@@ -1,30 +1,4 @@
-import {
-  Braces,
-  Fingerprint,
-  Binary,
-  Regex,
-  Palette,
-  Text,
-  Clock,
-  ShieldCheck,
-  Shield,
-  FileText,
-  FileCode,
-} from "lucide-react";
-
-const icons: Record<string, React.ComponentType<{ className?: string }>> = {
-  braces: Braces,
-  fingerprint: Fingerprint,
-  binary: Binary,
-  regex: Regex,
-  palette: Palette,
-  text: Text,
-  clock: Clock,
-  "shield-check": ShieldCheck,
-  shield: Shield,
-  "file-text": FileText,
-  "file-code": FileCode,
-};
+import { resolveToolIcon } from "@/lib/tools/icon-resolver";
 
 export function ToolGroupIcon({
   icon,
@@ -33,6 +7,6 @@ export function ToolGroupIcon({
   icon: string;
   className?: string;
 }) {
-  const LucideIcon = icons[icon] || Braces;
+  const LucideIcon = resolveToolIcon(icon);
   return <LucideIcon className={className} />;
 }

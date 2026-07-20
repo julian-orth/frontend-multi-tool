@@ -28,15 +28,18 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+        <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
+          Legal
+        </span>
+        <h1 className="mb-6 mt-4 font-[Space_Grotesk] text-5xl font-bold tracking-tight text-[var(--ink)]">
           Terms &amp; Conditions
         </h1>
 
-        <div className="space-y-8 text-gray-700 dark:text-gray-300">
+        <div className="space-y-8 text-[var(--ink-soft)]">
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Welcome to Frontend Tools Hub
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -46,8 +49,8 @@ export default function TermsPage() {
             </p>
           </section>
 
-          <section className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-50">
+          <section className="rounded-lg border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_1px_0_var(--line-soft)]">
+            <h2 className="mb-4 font-[Space_Grotesk] text-xl font-semibold text-[var(--ink)]">
               TL;DR
             </h2>
             <p className="leading-relaxed">

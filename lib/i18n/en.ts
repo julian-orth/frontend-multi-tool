@@ -19,7 +19,6 @@ export { TOOLS } from "@/lib/tools/registry";
 export const NAV_ITEMS = [
   { name: "Home", href: "/" },
   { name: "Tools", href: "/tools" },
-  { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];

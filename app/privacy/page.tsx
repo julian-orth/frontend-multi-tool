@@ -28,15 +28,18 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-4xl">
-        <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+        <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
+          Legal
+        </span>
+        <h1 className="mb-6 mt-4 font-[Space_Grotesk] text-5xl font-bold tracking-tight text-[var(--ink)]">
           Privacy Policy
         </h1>
 
-        <div className="space-y-8 text-gray-700 dark:text-gray-300">
+        <div className="space-y-8 text-[var(--ink-soft)]">
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Your Privacy Matters
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -50,8 +53,8 @@ export default function PrivacyPage() {
             </p>
           </section>
 
-          <section className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-50">
+          <section className="rounded-lg border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_1px_0_var(--line-soft)]">
+            <h2 className="mb-4 font-[Space_Grotesk] text-xl font-semibold text-[var(--ink)]">
               TL;DR
             </h2>
             <p className="leading-relaxed">
@@ -62,7 +65,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               How Our Tools Work
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -91,7 +94,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               What We Collect
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -99,7 +102,7 @@ export default function PrivacyPage() {
               experience:
             </p>
 
-            <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+            <h3 className="mb-3 font-[Space_Grotesk] text-xl font-semibold text-[var(--ink)]">
               Local Storage
             </h3>
             <p className="mb-4 leading-relaxed">
@@ -117,7 +120,7 @@ export default function PrivacyPage() {
               by clearing your browser&apos;s local storage.
             </p>
 
-            <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+            <h3 className="mb-3 font-[Space_Grotesk] text-xl font-semibold text-[var(--ink)]">
               Analytics (Optional)
             </h3>
             <p className="mb-4 leading-relaxed">
@@ -132,7 +135,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Third-Party Services
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -146,7 +149,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Cookies
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -156,7 +159,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Data Security
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -176,7 +179,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Children&apos;s Privacy
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -188,7 +191,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Open Source
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -199,7 +202,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Changes to This Policy
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -210,7 +213,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-50">
+            <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
               Contact
             </h2>
             <p className="mb-4 leading-relaxed">
@@ -219,8 +222,8 @@ export default function PrivacyPage() {
             </p>
           </section>
 
-          <section className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-800">
-            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+          <section className="mt-12 border-t border-[var(--line)] pt-8">
+            <p className="text-center text-sm text-[var(--ink-soft)]">
               Last updated: December 2, 2025
             </p>
           </section>

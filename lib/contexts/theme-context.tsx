@@ -10,31 +10,54 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
 });
 
+function applyTheme(nextTheme: Theme) {
+  document.documentElement.classList.toggle("dark", nextTheme === "dark");
+  document.documentElement.style.colorScheme = nextTheme;
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
-  const [mounted, setMounted] = useState(false);
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof document === "undefined") return "light";
+    return document.documentElement.classList.contains("dark")
+      ? "dark"
+      : "light";
+  });
 
   useEffect(() => {
-    setMounted(true);
-    const storedTheme = localStorage.getItem("theme") as Theme | null;
-    if (storedTheme) {
+    const storedTheme = localStorage.getItem("theme");
+
+    if (storedTheme === "light" || storedTheme === "dark") {
       setTheme(storedTheme);
-      document.documentElement.classList.toggle("dark", storedTheme === "dark");
-    } else {
-      // Default to dark
-      document.documentElement.classList.add("dark");
+      applyTheme(storedTheme);
+      return;
     }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const initialTheme = mediaQuery.matches ? "dark" : "light";
+    setTheme(initialTheme);
+    applyTheme(initialTheme);
+
+    const handleSystemThemeChange = (event: MediaQueryListEvent) => {
+      const nextTheme: Theme = event.matches ? "dark" : "light";
+      setTheme(nextTheme);
+      applyTheme(nextTheme);
+    };
+
+    mediaQuery.addEventListener("change", handleSystemThemeChange);
+    return () => {
+      mediaQuery.removeEventListener("change", handleSystemThemeChange);
+    };
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    applyTheme(newTheme);
   };
 
   return (

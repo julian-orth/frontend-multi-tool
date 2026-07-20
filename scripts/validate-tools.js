@@ -3,61 +3,17 @@
 /**
  * Tool Validator Script
  *
- * Validates all tools in the registry to ensure:
+ * Validates tool configs in tool folders and checks folder consistency:
  * - Required fields are present
  * - No duplicate IDs or hrefs
  * - Proper naming conventions
- * - Associated files exist
- * - Metadata is complete
- *
- * Usage:
- *   npm run validate:tools
+ * - Every config has a matching folder/page
+ * - Every non-redirect tool folder has a config
+ * - relatedTools references are valid
  */
 
 const fs = require("fs");
 const path = require("path");
-
-// We'll read the registry as a module by using a workaround
-// Since we can't directly import TS, we'll read and evaluate it
-function loadRegistry() {
-  const registryPath = path.join(__dirname, "../lib/tools/registry.ts");
-  const content = fs.readFileSync(registryPath, "utf-8");
-
-  // Extract just the array content between TOOL_REGISTRY = [ and ];
-  const startMarker = "export const TOOL_REGISTRY: Tool[] = [";
-  const endMarker = "];";
-
-  const startIdx = content.indexOf(startMarker);
-  if (startIdx === -1) {
-    console.error("❌ Could not find TOOL_REGISTRY in registry.ts");
-    process.exit(1);
-  }
-
-  const arrayStart = startIdx + startMarker.length - 1; // Include the [
-  const arrayEnd = content.indexOf(endMarker, arrayStart) + 1; // Include the ]
-
-  if (arrayEnd === 0) {
-    console.error("❌ Could not find end of TOOL_REGISTRY array");
-    process.exit(1);
-  }
-
-  let arrayContent = content.substring(arrayStart, arrayEnd);
-
-  // Remove TypeScript-specific syntax and convert to valid JSON
-  arrayContent = arrayContent
-    .replace(/\/\*[\s\S]*?\*\//g, "") // Remove block comments
-    .replace(/\/\/.*$/gm, "") // Remove line comments
-    .replace(/,(\s*[}\]])/g, "$1"); // Remove trailing commas
-
-  try {
-    // Use eval in a safer context (we control the input)
-    const tools = eval(`(${arrayContent})`);
-    return tools;
-  } catch (error) {
-    console.error("❌ Failed to parse TOOL_REGISTRY:", error.message);
-    process.exit(1);
-  }
-}
 
 const VALID_GROUPS = [
   "JSON",
@@ -89,15 +45,84 @@ const VALID_COLORS = [
   "yellow",
 ];
 
-function validateTool(tool, index) {
+function getToolFolders() {
+  const toolsRoot = path.join(__dirname, "../app/tools");
+  return fs
+    .readdirSync(toolsRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
+}
+
+function extractConfigObject(configPath) {
+  const content = fs.readFileSync(configPath, "utf8");
+  const objectMatch = content.match(/const\s+\w+\s*:\s*Tool\s*=\s*({[\s\S]*?});/);
+
+  if (!objectMatch) {
+    throw new Error("Could not find `const <name>: Tool = { ... };` in config.ts");
+  }
+
+  const cleaned = objectMatch[1]
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/.*$/gm, "")
+    .replace(/,(\s*[}\]])/g, "$1");
+
+  return eval(`(${cleaned})`);
+}
+
+function loadConfigs() {
+  const folders = getToolFolders();
+  const tools = [];
+  const warnings = [];
+
+  for (const folder of folders) {
+    const dirPath = path.join(__dirname, "../app/tools", folder);
+    const pagePath = path.join(dirPath, "page.tsx");
+    const configPath = path.join(dirPath, "config.ts");
+
+    const hasPage = fs.existsSync(pagePath);
+    if (!hasPage) {
+      warnings.push(`Folder ${folder} has no page.tsx`);
+      continue;
+    }
+
+    if (!fs.existsSync(configPath)) {
+      const pageContent = fs.readFileSync(pagePath, "utf8");
+      const isRedirectAlias = /redirect\(\s*["']\/tools\//.test(pageContent);
+
+      if (isRedirectAlias) {
+        warnings.push(`Folder ${folder} is a redirect alias and has no config.ts (allowed)`);
+        continue;
+      }
+
+      throw new Error(`Folder ${folder} has page.tsx but no config.ts`);
+    }
+
+    let config;
+    try {
+      config = extractConfigObject(configPath);
+    } catch (error) {
+      throw new Error(`Failed to parse ${folder}/config.ts: ${error.message}`);
+    }
+
+    tools.push({ ...config, __folder: folder });
+  }
+
+  return { tools, warnings };
+}
+
+function validateTool(tool, allToolIds) {
   const errors = [];
   const warnings = [];
 
-  // Required fields
   if (!tool.id) {
     errors.push("Missing required field: id");
   } else if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(tool.id)) {
     errors.push("id must be kebab-case (lowercase, hyphens only)");
+  }
+
+  if (tool.id && tool.__folder && tool.id !== tool.__folder) {
+    errors.push(`id and folder mismatch: id=${tool.id}, folder=${tool.__folder}`);
   }
 
   if (!tool.name) {
@@ -119,7 +144,7 @@ function validateTool(tool, index) {
     errors.push("Missing required field: href");
   } else if (!tool.href.startsWith("/tools/")) {
     errors.push("href must start with /tools/");
-  } else if (tool.href !== `/tools/${tool.id}`) {
+  } else if (tool.id && tool.href !== `/tools/${tool.id}`) {
     errors.push(`href should be /tools/${tool.id} (got ${tool.href})`);
   }
 
@@ -139,45 +164,28 @@ function validateTool(tool, index) {
     errors.push("Missing required field: groupIcon");
   }
 
-  // Check if tool directory exists
-  const toolDir = path.join(__dirname, "../app/tools", tool.id);
-  if (!fs.existsSync(toolDir)) {
-    errors.push(`Tool directory does not exist: ${toolDir}`);
-  } else {
-    // Check for required files
-    const pageFile = path.join(toolDir, "page.tsx");
-    if (!fs.existsSync(pageFile)) {
-      errors.push("Missing page.tsx file");
-    }
-
-    // Check for UI component (loose check)
-    // Note: Some tools use inline components in page.tsx, which is valid
-    const files = fs.readdirSync(toolDir);
-    const hasUIFile = files.some(
-      (f) => f.endsWith("-ui.tsx") || f === "client.tsx"
-    );
-    const hasOnlyPageFile = files.length === 1 && files.includes("page.tsx");
-
-    if (!hasUIFile && !hasOnlyPageFile && files.length > 1) {
-      warnings.push(
-        "No UI component file found (*-ui.tsx or client.tsx). Consider extracting UI to separate file."
-      );
-    }
-  }
-
-  // Optional but recommended
   if (!tool.keywords || tool.keywords.length === 0) {
     warnings.push("No keywords defined (recommended for SEO)");
   }
 
-  return { errors, warnings, toolId: tool.id || `Tool #${index}` };
+  if (Array.isArray(tool.relatedTools)) {
+    for (const relatedId of tool.relatedTools) {
+      if (relatedId === tool.id) {
+        errors.push("relatedTools contains self reference");
+      }
+      if (!allToolIds.has(relatedId)) {
+        errors.push(`relatedTools contains unknown id: ${relatedId}`);
+      }
+    }
+  }
+
+  return { errors, warnings, toolId: tool.id || tool.__folder || "unknown" };
 }
 
 function validateRegistry(tools) {
   const errors = [];
   const warnings = [];
 
-  // Check for duplicates
   const ids = new Map();
   const hrefs = new Map();
 
@@ -203,13 +211,11 @@ function validateRegistry(tools) {
     }
   });
 
-  // Summary
   if (tools.length === 0) {
-    errors.push("No tools found in registry");
+    errors.push("No tools found in app/tools/*/config.ts");
   } else {
     warnings.push(`Total tools: ${tools.length}`);
 
-    // Group summary
     const groups = tools.reduce((acc, tool) => {
       acc[tool.group] = (acc[tool.group] || 0) + 1;
       return acc;
@@ -225,16 +231,25 @@ function validateRegistry(tools) {
 }
 
 function main() {
-  console.log("🔍 Validating Tools Registry...\n");
+  console.log("🔍 Validating Tools Configuration...\n");
 
-  const tools = loadRegistry();
-  console.log(`Found ${tools.length} tools\n`);
+  let loaded;
+  try {
+    loaded = loadConfigs();
+  } catch (error) {
+    console.error(`❌ ${error.message}`);
+    process.exit(1);
+  }
+
+  const { tools, warnings: loadWarnings } = loaded;
+  console.log(`Found ${tools.length} tool configs\n`);
 
   let hasErrors = false;
 
-  // Validate each tool
-  tools.forEach((tool, index) => {
-    const result = validateTool(tool, index);
+  const allToolIds = new Set(tools.map((tool) => tool.id));
+
+  tools.forEach((tool) => {
+    const result = validateTool(tool, allToolIds);
 
     if (result.errors.length > 0 || result.warnings.length > 0) {
       console.log(`\n📦 Tool: ${result.toolId}`);
@@ -252,11 +267,19 @@ function main() {
     }
   });
 
-  // Validate registry-level issues
   const registryResult = validateRegistry(tools);
 
-  if (registryResult.errors.length > 0 || registryResult.warnings.length > 0) {
+  if (
+    loadWarnings.length > 0 ||
+    registryResult.errors.length > 0 ||
+    registryResult.warnings.length > 0
+  ) {
     console.log("\n📋 Registry-Level Validation:");
+
+    if (loadWarnings.length > 0) {
+      console.log("  Notes:");
+      loadWarnings.forEach((warning) => console.log(`    ℹ️  ${warning}`));
+    }
 
     if (registryResult.errors.length > 0) {
       hasErrors = true;
@@ -272,15 +295,14 @@ function main() {
     }
   }
 
-  // Summary
   console.log("\n" + "=".repeat(50));
   if (hasErrors) {
     console.log("❌ Validation failed with errors");
     process.exit(1);
-  } else {
-    console.log("✅ All tools validated successfully!");
-    process.exit(0);
   }
+
+  console.log("✅ All tools validated successfully!");
+  process.exit(0);
 }
 
 main();

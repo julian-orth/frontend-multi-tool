@@ -3,17 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { NAV_ITEMS, SITE_NAME, TOOLS } from "@/lib/i18n/en";
+import { NAV_ITEMS, TOOLS } from "@/lib/i18n/en";
 import { useTheme } from "@/lib/contexts/theme-context";
 
 export function Footer() {
   const pathname = usePathname();
   const isToolPage = pathname.startsWith("/tools/");
   const { theme } = useTheme();
+  const currentYear = new Date().getFullYear();
 
   return (
     <footer
-      className={`relative border-t border-gray-200/50 bg-gradient-to-b from-white to-gray-50 py-16 dark:border-gray-800/50 dark:from-gray-950 dark:to-gray-900 ${isToolPage ? "md:ml-72" : ""}`}
+      className={`relative border-t border-[var(--line)] bg-[var(--paper)] py-16 ${isToolPage ? "md:ml-72" : ""}`}
     >
       <div
         className={`px-4 sm:px-6 ${isToolPage ? "max-w-full" : "mx-auto max-w-7xl"}`}
@@ -50,8 +51,8 @@ export function Footer() {
                       href={item.href}
                       className={`transition-colors ${
                         isActive
-                          ? "font-semibold text-blue-600 dark:text-blue-400"
-                          : "text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                          ? "font-semibold text-[var(--ink)]"
+                          : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                       }`}
                       aria-current={isActive ? "page" : undefined}
                     >
@@ -75,8 +76,8 @@ export function Footer() {
                       href={tool.href}
                       className={`transition-colors ${
                         isActive
-                          ? "font-semibold text-blue-600 dark:text-blue-400"
-                          : "text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                          ? "font-semibold text-[var(--ink)]"
+                          : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                       }`}
                       aria-current={isActive ? "page" : undefined}
                     >
@@ -88,18 +89,18 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-gray-200 pt-8 dark:border-gray-800">
+        <div className="mt-12 border-t border-[var(--line)] pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              © 2025 DeveloperUtilityTools.com. All rights reserved.
+              © {currentYear} DeveloperUtilityTools.com. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
               <Link
                 href="/privacy"
                 className={`transition-colors ${
                   pathname === "/privacy"
-                    ? "font-semibold text-blue-600 dark:text-blue-400"
-                    : "text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                    ? "font-semibold text-[var(--ink)]"
+                    : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                 }`}
                 aria-current={pathname === "/privacy" ? "page" : undefined}
               >
@@ -109,8 +110,8 @@ export function Footer() {
                 href="/terms"
                 className={`transition-colors ${
                   pathname === "/terms"
-                    ? "font-semibold text-blue-600 dark:text-blue-400"
-                    : "text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                    ? "font-semibold text-[var(--ink)]"
+                    : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                 }`}
                 aria-current={pathname === "/terms" ? "page" : undefined}
               >
@@ -120,8 +121,8 @@ export function Footer() {
                 href="/contact"
                 className={`transition-colors ${
                   pathname === "/contact"
-                    ? "font-semibold text-blue-600 dark:text-blue-400"
-                    : "text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                    ? "font-semibold text-[var(--ink)]"
+                    : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                 }`}
                 aria-current={pathname === "/contact" ? "page" : undefined}
               >

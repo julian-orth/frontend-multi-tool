@@ -17,12 +17,6 @@ export function getToolUrl(toolId: string): string {
   return `${SITE_CONFIG.domain}/tools/${toolId}`;
 }
 
-export function getBlogUrl(slug?: string): string {
-  return slug
-    ? `${SITE_CONFIG.domain}/blog/${slug}`
-    : `${SITE_CONFIG.domain}/blog`;
-}
-
 export function getAboutUrl(): string {
   return `${SITE_CONFIG.domain}/about`;
 }

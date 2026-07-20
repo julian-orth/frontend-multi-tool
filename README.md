@@ -1,6 +1,6 @@
 # DeveloperUtilityTools
 
-A modern, privacy-first web application built with Next.js 15 that provides a comprehensive collection of free online developer tools. All tools run entirely client-side in your browser, ensuring your data never leaves your device.
+A modern, privacy-first web application built with Next.js 16 that provides a comprehensive collection of free online developer tools. All tools run entirely client-side in your browser, ensuring your data never leaves your device.
 
 ![DeveloperUtilityTools Screenshot](/public/images/screenshot/developertools_screenshot2.png)
 
@@ -8,8 +8,8 @@ A modern, privacy-first web application built with Next.js 15 that provides a co
 
 ## 🚀 Features
 
-- **21+ Developer Tools** including JSON Formatter, UUID Suite, Base64 Encoder/Decoder, and more
-- **Next.js 15 App Router** with React 19 and TypeScript
+- **20 Developer Tools** including JSON Formatter, UUID Suite, Base64 Encoder/Decoder, and more
+- **Next.js 16 App Router** with React 19 and TypeScript
 - **Tailwind CSS 4** for modern, responsive styling
 - **SEO Optimized** with structured data, sitemap, metadata, and robots.txt
 - **Dark Mode** with persistent theme switching (localStorage-based)
@@ -64,7 +64,7 @@ A modern, privacy-first web application built with Next.js 15 that provides a co
 
 ## 🛠️ Tech Stack
 
-- **Framework:** Next.js 15 (App Router)
+- **Framework:** Next.js 16 (App Router)
 - **React:** React 19
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS 4 with custom CSS variables
@@ -76,7 +76,7 @@ A modern, privacy-first web application built with Next.js 15 that provides a co
 
 **Prerequisites:**
 
-- Node.js 18+ and npm
+- Node.js 20+ and npm
 
 **Installation:**
 
@@ -96,6 +96,9 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 npm run dev              # Start development server
 npm run build            # Create production build (validates tools)
 npm run start            # Start production server
+npm run typecheck        # TypeScript validation
+npm run test:ci          # Run test suite once
+npm run check:release    # Validate tools + typecheck + tests + production build
 npm run format           # Format code with Prettier
 npm run lint             # Lint code with ESLint
 npm run create:tool      # Generate a new tool (interactive CLI)
@@ -257,11 +260,30 @@ Theme persists to `localStorage` and uses Tailwind's class-based dark mode.
 
 ## 🚀 Deployment
 
+## Recruiter-Friendly Release Checklist
+
+- [ ] `npm run check:release` runs successfully
+- [ ] Contact and About pages reflect real project context (no placeholder personas)
+- [ ] Metadata, sitemap and robots are up to date
+- [ ] README stack versions and tool count are accurate
+- [ ] At least one meaningful UI test exists for critical user flow
+
+## Deployment
+
 **Vercel (Recommended):**
 
 1. Push to GitHub
 2. Import project in Vercel
-3. Zero configuration needed - deploys automatically
+3. Keep build command as default (`npm run build`)
+4. Deploy (no environment variables required)
+
+### Suggested Vercel Settings
+
+- Framework preset: `Next.js`
+- Node version: `20.x`
+- Install command: `npm install`
+- Build command: `npm run build`
+- Output directory: `.next` (default)
 
 **Manual Build:**
 

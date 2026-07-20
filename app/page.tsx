@@ -1,294 +1,225 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { SITE_NAME, SITE_DESCRIPTION, TOOLS } from "@/lib/i18n/en";
-import {
-  Zap,
-  ArrowRight,
-  ChevronDown,
-  Rocket,
-  ShieldCheck,
-  Infinity,
-  ArrowUpRight,
-} from "lucide-react";
+import { Search } from "lucide-react";
+import { TOOLS } from "@/lib/i18n/en";
 import { ToolGroupIcon } from "@/components/tool-group-icons";
+import type { Tool, ToolGroup } from "@/lib/types/tool";
 
-// Select diverse featured tools (max 1-2 per category)
-function getFeaturedTools() {
-  const groupCounts: Record<string, number> = {};
-  const featured = [];
+type SimpleGroupKey = "ESSENTIALS" | "DESIGN" | "CONTENT";
 
-  for (const tool of TOOLS) {
-    const count = groupCounts[tool.group] || 0;
-    // Allow max 2 tools per group, prioritize diversity
-    if (count < 2 && featured.length < 6) {
-      featured.push(tool);
-      groupCounts[tool.group] = count + 1;
-    }
-    if (featured.length === 6) break;
-  }
+const SIMPLE_GROUPS: Record<
+  SimpleGroupKey,
+  { label: string; color: string; description: string }
+> = {
+  ESSENTIALS: {
+    label: "Core Tools",
+    color: "#B5652C",
+    description: "Encode, validate, inspect, and debug development data.",
+  },
+  DESIGN: {
+    label: "UI & Color",
+    color: "#3D5A99",
+    description: "Design helpers for color, CSS, and visual output.",
+  },
+  CONTENT: {
+    label: "Text & Content",
+    color: "#2E6B5E",
+    description: "Write, format, compare, and transform content quickly.",
+  },
+};
 
-  return featured;
+const GROUP_TO_SIMPLE: Partial<Record<ToolGroup, SimpleGroupKey>> = {
+  Encoding: "ESSENTIALS",
+  UUID: "ESSENTIALS",
+  Regex: "ESSENTIALS",
+  JWT: "ESSENTIALS",
+  Security: "ESSENTIALS",
+  Time: "ESSENTIALS",
+  JSON: "ESSENTIALS",
+  Data: "ESSENTIALS",
+  Network: "ESSENTIALS",
+  Color: "DESIGN",
+  CSS: "DESIGN",
+  Image: "DESIGN",
+  Text: "CONTENT",
+  HTML: "CONTENT",
+};
+
+function mapGroup(group: ToolGroup): SimpleGroupKey {
+  return GROUP_TO_SIMPLE[group] ?? "ESSENTIALS";
+}
+
+function getSearchText(tool: Tool): string {
+  return [
+    tool.name,
+    tool.description,
+    tool.group,
+    ...(tool.keywords ?? []),
+    ...(tool.aliases ?? []),
+  ]
+    .join(" ")
+    .toLowerCase();
 }
 
 export default function Home() {
-  const featuredTools = getFeaturedTools();
+  const [query, setQuery] = useState("");
+
+  const filtered = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    if (!term) return TOOLS;
+    return TOOLS.filter((tool) => getSearchText(tool).includes(term));
+  }, [query]);
+
+  const grouped = useMemo(() => {
+    const initial: Record<SimpleGroupKey, Tool[]> = {
+      ESSENTIALS: [],
+      DESIGN: [],
+      CONTENT: [],
+    };
+
+    for (const tool of filtered) {
+      initial[mapGroup(tool.group)].push(tool);
+    }
+
+    return initial;
+  }, [filtered]);
+
   return (
-    <div className="relative">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-40 left-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 blur-3xl dark:from-blue-600/20 dark:via-purple-600/20 dark:to-pink-600/20" />
-        <div className="absolute right-1/4 -bottom-40 h-[500px] w-[500px] rounded-full bg-gradient-to-br from-cyan-400/20 via-blue-400/20 to-indigo-400/20 blur-3xl dark:from-cyan-600/20 dark:via-blue-600/20 dark:to-indigo-600/20" />
-      </div>
+    <div className="tb-root">
+      <style jsx global>{`
+        .tb-root {
+          --paper: #eaeef2;
+          --paper-2: #e1e6ec;
+          --card: #fdfdfc;
+          --ink: #16233a;
+          --ink-soft: #4b5a72;
+          --line: #c7cdd6;
+          --line-soft: #dadfe5;
+          --focus: #3d5a99;
+          min-height: 100vh;
+          background: var(--paper);
+          background-image:
+            linear-gradient(var(--line-soft) 1px, transparent 1px),
+            linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+          background-size: 28px 28px;
+          color: var(--ink);
+          font-family: var(--font-ibm-plex-sans), "IBM Plex Sans", sans-serif;
+        }
+        .dark .tb-root {
+          --paper: #101722;
+          --paper-2: #162132;
+          --card: #111b2b;
+          --ink: #e5edf7;
+          --ink-soft: #97a9c3;
+          --line: #2b3a4f;
+          --line-soft: #213044;
+          --focus: #7da0e8;
+        }
+        .tb-root * {
+          box-sizing: border-box;
+        }
+        .tb-root ::selection {
+          background: #16233a;
+          color: #eaeef2;
+        }
+        .tb-display {
+          font-family: var(--font-space-grotesk), "Space Grotesk", sans-serif;
+        }
+        .tb-mono {
+          font-family: var(--font-ibm-plex-mono), "IBM Plex Mono", monospace;
+        }
+        .tb-focus:focus-visible {
+          outline: 2px solid var(--focus);
+          outline-offset: 2px;
+        }
+      `}</style>
 
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        {/* Hero Section */}
-        <section className="mb-24 text-center">
-          <div className="mx-auto max-w-4xl">
-            {/* Badge */}
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 dark:border-blue-900 dark:bg-blue-950/50 dark:text-blue-300">
-              <Zap className="h-4 w-4" aria-hidden="true" />
-              Powerful Developer Tools
-            </div>
-
-            <h1 className="mb-6 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-6xl font-black tracking-tight text-transparent sm:text-7xl lg:text-8xl dark:from-white dark:via-blue-200 dark:to-purple-200">
-              Developer Utility Tools
-            </h1>
-            <p className="mx-auto mb-10 max-w-2xl text-xl leading-relaxed text-gray-600 dark:text-gray-300">
-              {SITE_DESCRIPTION}. Privacy-first, lightning-fast, and completely
-              free.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="#tools"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:scale-105 hover:shadow-xl hover:shadow-blue-500/40 dark:from-blue-500 dark:to-purple-500"
-              >
-                <span>Browse Tools</span>
-                <ArrowRight
-                  className="h-5 w-5 transition-transform group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </a>
-              <a
-                href="#features"
-                className="group inline-flex items-center gap-2 rounded-xl border-2 border-gray-300 bg-white/80 px-8 py-4 font-semibold text-gray-900 backdrop-blur-sm transition-all hover:border-gray-400 hover:bg-white dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-100 dark:hover:border-gray-600 dark:hover:bg-gray-900"
-              >
-                <span>Learn More</span>
-                <ChevronDown
-                  className="h-5 w-5 transition-transform group-hover:translate-y-1"
-                  aria-hidden="true"
-                />
-              </a>
-            </div>
-
-            {/* Stats */}
-            <div className="mt-16 flex flex-wrap justify-center gap-8 text-center">
-              <div>
-                <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                  {TOOLS.length}+
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Developer Tools
-                </div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                  100%
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Free Forever
-                </div>
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                  0
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Data Collected
-                </div>
-              </div>
-            </div>
+      <main className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:px-6 lg:px-8 lg:pt-16">
+        <header className="mb-10">
+          <div className="inline-flex items-center gap-2 rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)] tb-mono">
+            Willkommen · {TOOLS.length} Tools direkt im Browser
           </div>
-        </section>
-
-        {/* Features Section */}
-        <section id="features" className="mb-24">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
-              Why Choose Our Tools?
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              Built for developers, by developers
-            </p>
+          <h1 className="mt-4 text-[clamp(2.2rem,6vw,4.4rem)] font-bold leading-[0.95] tracking-[-0.02em] tb-display">
+            Frontend Tools Hub
+          </h1>
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-[var(--ink-soft)]">
+            Schnelle, praktische Entwickler-Tools in einem klaren Arbeitsbereich.
+          </p>
+          <div className="mt-6 flex max-w-xl items-center gap-3 rounded border border-[var(--line)] bg-[var(--card)] px-3 py-2.5 shadow-[0_2px_0_var(--line)] focus-within:border-[var(--focus)]">
+            <Search className="h-4 w-4 text-[#b5652c]" aria-hidden="true" />
+            <input
+              className="tb-focus tb-mono w-full border-none bg-transparent text-sm text-[var(--ink)] outline-none"
+              placeholder="Tool suchen, z.B. json, uuid, color..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+            />
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:scale-105 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900/50">
-              <div className="absolute top-0 right-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-blue-500/10 blur-2xl" />
-              <div className="relative">
-                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/30">
-                  <Rocket className="h-7 w-7" aria-hidden="true" />
-                </div>
-                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
-                  Lightning Fast
-                </h3>
-                <p className="leading-relaxed text-gray-600 dark:text-gray-400">
-                  All tools run directly in your browser with zero latency. No
-                  server uploads, no waiting times.
-                </p>
-              </div>
-            </div>
+        </header>
 
-            <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:scale-105 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900/50">
-              <div className="absolute top-0 right-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-green-500/10 blur-2xl" />
-              <div className="relative">
-                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/30">
-                  <ShieldCheck className="h-7 w-7" aria-hidden="true" />
-                </div>
-                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
-                  100% Private
-                </h3>
-                <p className="leading-relaxed text-gray-600 dark:text-gray-400">
-                  Your data never leaves your device. No tracking, no analytics,
-                  no data collection whatsoever.
-                </p>
-              </div>
-            </div>
-
-            <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:scale-105 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900/50">
-              <div className="absolute top-0 right-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-purple-500/10 blur-2xl" />
-              <div className="relative">
-                <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 text-white shadow-lg shadow-purple-500/30">
-                  <Infinity className="h-7 w-7" aria-hidden="true" />
-                </div>
-                <h3 className="mb-3 text-2xl font-bold text-gray-900 dark:text-white">
-                  Forever Free
-                </h3>
-                <p className="leading-relaxed text-gray-600 dark:text-gray-400">
-                  No sign-up required. No premium plans. All features available
-                  to everyone, always.
-                </p>
-              </div>
-            </div>
+        {filtered.length === 0 ? (
+          <div className="rounded border border-[var(--line)] bg-[var(--card)] px-4 py-10 text-center text-sm text-[var(--ink-soft)] tb-mono">
+            Keine Tools für "{query}" gefunden.
           </div>
-        </section>
+        ) : (
+          <section className="space-y-10">
+            {(Object.keys(SIMPLE_GROUPS) as SimpleGroupKey[]).map((groupKey) => {
+              const section = SIMPLE_GROUPS[groupKey];
+              const tools = grouped[groupKey];
 
-        {/* Tools Section */}
-        <section id="tools">
-          <div className="mb-12 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-900 dark:text-white">
-              Featured Tools
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
-              Handpicked utilities to boost your productivity
-            </p>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredTools.map((tool) => {
-              // Map groupColor to Tailwind color schemes
-              const colorMap: Record<
-                string,
-                {
-                  gradient: string;
-                  border: string;
-                  text: string;
-                }
-              > = {
-                blue: {
-                  gradient: "bg-gradient-to-br from-blue-500 to-cyan-500",
-                  border: "hover:border-blue-300 dark:hover:border-blue-700",
-                  text: "from-blue-500 to-cyan-500",
-                },
-                purple: {
-                  gradient: "bg-gradient-to-br from-purple-500 to-pink-500",
-                  border:
-                    "hover:border-purple-300 dark:hover:border-purple-700",
-                  text: "from-purple-500 to-pink-500",
-                },
-                green: {
-                  gradient: "bg-gradient-to-br from-green-500 to-emerald-500",
-                  border: "hover:border-green-300 dark:hover:border-green-700",
-                  text: "from-green-500 to-emerald-500",
-                },
-                orange: {
-                  gradient: "bg-gradient-to-br from-orange-500 to-red-500",
-                  border:
-                    "hover:border-orange-300 dark:hover:border-orange-700",
-                  text: "from-orange-500 to-red-500",
-                },
-                pink: {
-                  gradient: "bg-gradient-to-br from-pink-500 to-rose-500",
-                  border: "hover:border-pink-300 dark:hover:border-pink-700",
-                  text: "from-pink-500 to-rose-500",
-                },
-                red: {
-                  gradient: "bg-gradient-to-br from-red-500 to-pink-500",
-                  border: "hover:border-red-300 dark:hover:border-red-700",
-                  text: "from-red-500 to-pink-500",
-                },
-                cyan: {
-                  gradient: "bg-gradient-to-br from-cyan-500 to-teal-500",
-                  border: "hover:border-cyan-300 dark:hover:border-cyan-700",
-                  text: "from-cyan-500 to-teal-500",
-                },
-                yellow: {
-                  gradient: "bg-gradient-to-br from-yellow-500 to-orange-500",
-                  border:
-                    "hover:border-yellow-300 dark:hover:border-yellow-700",
-                  text: "from-yellow-500 to-orange-500",
-                },
-              };
-
-              const colorScheme = colorMap[tool.groupColor] || colorMap["blue"];
+              if (tools.length === 0) return null;
 
               return (
-                <Link
-                  key={tool.id}
-                  href={tool.href}
-                  className={`group relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:scale-105 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900/50 ${colorScheme.border}`}
-                >
-                  <div className="relative">
-                    <div
-                      className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${colorScheme.gradient} shadow-lg`}
+                <div key={groupKey}>
+                  <div className="mb-4 flex items-center gap-3">
+                    <span
+                      className="rounded-t-sm px-3 py-1.5 text-xs uppercase tracking-[0.1em] text-white tb-mono"
+                      style={{ background: section.color }}
                     >
-                      <ToolGroupIcon
-                        icon={tool.groupIcon}
-                        className="h-6 w-6 text-white"
-                      />
-                    </div>
-                    <h3 className="mb-2 text-xl font-bold text-gray-900 transition-colors dark:text-white">
-                      {tool.name}
-                    </h3>
-                    <p className="mb-4 text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-                      {tool.description}
-                    </p>
-                    <div
-                      className={`inline-flex items-center gap-1 bg-gradient-to-r text-sm font-semibold ${colorScheme.text} bg-clip-text text-transparent`}
-                    >
-                      Try it now
-                      <ArrowUpRight
-                        className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                        aria-hidden="true"
-                      />
-                    </div>
+                      {section.label}
+                    </span>
+                    <span className="text-xs text-[var(--ink-soft)] tb-mono">
+                      {tools.length} Tool{tools.length !== 1 ? "s" : ""}
+                    </span>
+                    <span className="h-px flex-1 bg-[var(--line)]" />
                   </div>
-                </Link>
+                  <p className="mb-3 text-sm text-[var(--ink-soft)]">
+                    {section.description}
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {tools.map((tool) => (
+                      <Link
+                        key={tool.id}
+                        href={tool.href}
+                        className="tb-focus group relative rounded-md border border-[var(--line)] bg-[var(--card)] px-4 py-4 text-left shadow-[0_1px_0_var(--line-soft)] transition duration-150 hover:-translate-y-0.5 hover:border-[var(--ink-soft)] hover:shadow-[0_8px_18px_-12px_rgba(22,35,58,0.35)]"
+                        aria-label={`${tool.name} öffnen`}
+                      >
+                        <span className="tb-mono absolute right-3 top-2 text-[9px] text-[var(--line)]">
+                          #{tool.id}
+                        </span>
+                        <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded border border-[var(--line)] bg-[var(--paper-2)]">
+                          <ToolGroupIcon
+                            icon={tool.groupIcon}
+                            className="h-4 w-4"
+                            aria-hidden="true"
+                          />
+                        </span>
+                        <div className="tb-display text-[15px] font-semibold">
+                          {tool.name}
+                        </div>
+                        <p className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-[var(--ink-soft)]">
+                          {tool.description}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               );
             })}
-          </div>
-
-          {/* View All Tools Button */}
-          <div className="mt-12 text-center">
-            <Link
-              href="/tools"
-              className="group inline-flex items-center gap-2 rounded-xl border-2 border-gray-300 bg-white/80 px-8 py-4 font-semibold text-gray-900 backdrop-blur-sm transition-all hover:scale-105 hover:border-gray-400 hover:bg-white hover:shadow-lg dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-100 dark:hover:border-gray-600 dark:hover:bg-gray-900"
-            >
-              <span>View All {TOOLS.length} Tools</span>
-              <ArrowRight
-                className="h-5 w-5 transition-transform group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
-          </div>
-        </section>
-      </div>
+          </section>
+        )}
+      </main>
     </div>
   );
 }

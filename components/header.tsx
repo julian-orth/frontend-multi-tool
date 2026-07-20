@@ -22,7 +22,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full border-b border-gray-200/50 bg-white/70 backdrop-blur-xl transition-all dark:border-gray-800/50 dark:bg-gray-950/70 ${isToolPage ? "md:left-72 md:w-[calc(100%-18rem)]" : ""}`}
+      className={`fixed top-0 left-0 z-50 w-full border-b border-[var(--line)] bg-[var(--card)]/95 backdrop-blur-sm transition-all ${isToolPage ? "md:left-72 md:w-[calc(100%-18rem)]" : ""}`}
     >
       <div
         className={`mx-auto flex items-center justify-between px-4 py-4 sm:px-6 ${isToolPage ? "max-w-full" : "max-w-7xl"}`}
@@ -54,10 +54,10 @@ export function Header() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className={`text-sm font-semibold transition-colors ${
+                      className={`rounded-sm px-2 py-1 text-sm font-semibold transition-colors ${
                         isActive
-                          ? "text-blue-600 dark:text-blue-400"
-                          : "text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                          ? "bg-[var(--paper-2)] text-[var(--ink)]"
+                          : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                       }`}
                       aria-current={isActive ? "page" : undefined}
                     >

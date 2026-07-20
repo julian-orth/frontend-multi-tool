@@ -1,33 +1,29 @@
 import type { Metadata } from "next";
-import { SITE_NAME } from "@/lib/i18n/en";
 import { SITE_CONFIG } from "@/lib/site-config";
 import ContactForm from "./contact-form";
 
 export const metadata: Metadata = {
-  title: "Contact Us",
+  title: "Contact",
   description:
-    "Get in touch with the DeveloperUtilityTools team. We're here to help with questions, feedback, or feature requests.",
+    "Get in touch for feedback, feature ideas, collaborations, or project inquiries.",
   keywords: [
     "contact",
-    "support",
     "feedback",
-    "help",
-    "customer service",
-    "developer tools support",
+    "collaboration",
+    "project inquiry",
+    "developer portfolio",
   ],
   openGraph: {
-    title: `Contact Us | ${SITE_CONFIG.name}`,
-    description:
-      "Get in touch with the DeveloperUtilityTools team. We're here to help!",
+    title: `Contact | ${SITE_CONFIG.name}`,
+    description: "Reach out for feedback, collaborations, or project questions.",
     type: "website",
     url: `${SITE_CONFIG.domain}/contact`,
     siteName: SITE_CONFIG.name,
   },
   twitter: {
     card: "summary",
-    title: `Contact Us | ${SITE_CONFIG.name}`,
-    description:
-      "Get in touch with the DeveloperUtilityTools team. We're here to help!",
+    title: `Contact | ${SITE_CONFIG.name}`,
+    description: "Reach out for feedback, collaborations, or project questions.",
   },
   alternates: {
     canonical: `${SITE_CONFIG.domain}/contact`,
@@ -36,97 +32,40 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-4 pb-16 sm:px-6">
+    <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6">
       <div className="mb-8">
-        <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-          Get In Touch
+        <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
+          Contact
+        </span>
+        <h1 className="mb-3 mt-4 font-[Space_Grotesk] text-5xl font-bold tracking-tight text-[var(--ink)]">
+          Contact
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          We&apos;d love to hear from you! Questions, feedback, or just want to
-          say hello?
+        <p className="text-lg text-[var(--ink-soft)]">
+          Questions, feedback, or collaboration ideas are welcome.
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        {/* Contact Form - Takes up 2 columns */}
-        <div className="lg:col-span-2">
+      <div className="space-y-8">
+        <section className="rounded-xl border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_1px_0_var(--line-soft)]">
+          <h2 className="mb-3 font-[Space_Grotesk] text-xl font-semibold text-[var(--ink)]">
+            Before You Send
+          </h2>
+          <p className="text-sm leading-relaxed text-[var(--ink-soft)]">
+            Include context such as browser, sample input, expected behavior, and
+            tool name when reporting issues. For direct contact you can also use
+            <a
+              href={`mailto:${SITE_CONFIG.email}`}
+              className="mx-1 font-medium text-[var(--ink)] underline underline-offset-2"
+            >
+              {SITE_CONFIG.email}
+            </a>
+            .
+          </p>
+        </section>
+
+        <section>
           <ContactForm />
-        </div>
-
-        {/* Support Team Member Card - Takes up 1 column */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-24 rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <div className="mb-6 text-center">
-              <div className="relative mx-auto mb-4 h-32 w-32 overflow-hidden rounded-full ring-4 ring-blue-100 dark:ring-blue-900/30">
-                <img
-                  src="/customer-support.jpg"
-                  alt="Sarah Martinez, Customer Support Lead"
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <h3 className="mb-1 text-xl font-bold text-gray-900 dark:text-gray-50">
-                Sarah Martinez
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Customer Support Lead
-              </p>
-            </div>
-
-            <div className="space-y-4 border-t border-gray-200 pt-6 dark:border-gray-800">
-              <div>
-                <p className="mb-3 text-sm font-semibold text-gray-900 dark:text-gray-50">
-                  Our Commitment
-                </p>
-                <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-                  We typically respond within 24 hours. Your feedback helps us
-                  build better tools for the developer community.
-                </p>
-              </div>
-
-              <div>
-                <p className="mb-2 text-sm font-semibold text-gray-900 dark:text-gray-50">
-                  Response Time
-                </p>
-                <div className="flex items-center gap-2">
-                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                  <p className="text-sm text-gray-700 dark:text-gray-300">
-                    Usually within 24 hours
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <p className="mb-2 text-sm font-semibold text-gray-900 dark:text-gray-50">
-                  Other Ways to Reach Us
-                </p>
-                <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                  <li className="flex items-center gap-2">
-                    <span className="text-blue-600 dark:text-blue-400">→</span>
-                    <a
-                      href="https://github.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-blue-600 dark:hover:text-blue-400"
-                    >
-                      GitHub Issues
-                    </a>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-blue-600 dark:text-blue-400">→</span>
-                    <a
-                      href="https://twitter.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-blue-600 dark:hover:text-blue-400"
-                    >
-                      Twitter / X
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </main>
   );
