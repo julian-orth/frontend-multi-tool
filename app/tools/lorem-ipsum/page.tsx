@@ -84,17 +84,17 @@ export default function LoremIpsumPage() {
                   dummy content to fill space and demonstrate visual layouts
                   without the distraction of meaningful content. The text has
                   been used since the 1500s when an unknown printer scrambled a
-                  passage from Cicero's philosophical work "De Finibus Bonorum
-                  et Malorum" (On the Extremes of Good and Evil) to create a
+                  passage from Cicero&apos;s philosophical work &quot;De Finibus Bonorum
+                  et Malorum&quot; (On the Extremes of Good and Evil) to create a
                   type specimen book.
                 </p>
                 <p>
-                  The passage begins with the famous line "Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit..." which has become
+                  The passage begins with the famous line &quot;Lorem ipsum dolor sit
+                  amet, consectetur adipiscing elit...&quot; which has become
                   instantly recognizable to designers, developers, and
                   publishers worldwide. Despite appearing to be random Latin
                   text, Lorem Ipsum actually originates from sections 1.10.32
-                  and 1.10.33 of Cicero's work written in 45 BC, making it over
+                  and 1.10.33 of Cicero&apos;s work written in 45 BC, making it over
                   2000 years old.
                 </p>
                 <p>
@@ -104,7 +104,7 @@ export default function LoremIpsumPage() {
                   further widespread adoption in the 1980s and 1990s when
                   desktop publishing software like Aldus PageMaker (later Adobe
                   PageMaker) bundled Lorem Ipsum as default placeholder text.
-                  Today, it's ubiquitous across web design, app development, and
+                  Today, it&apos;s ubiquitous across web design, app development, and
                   digital publishing.
                 </p>
               </div>
@@ -133,7 +133,7 @@ export default function LoremIpsumPage() {
                     Natural Letter Distribution
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Unlike repeating simple phrases like "text here" or random
+                    Unlike repeating simple phrases like &quot;text here&quot; or random
                     keyboard mashing, Lorem Ipsum has a natural distribution of
                     letters similar to English. This makes it ideal for testing
                     fonts, line spacing, and overall readability in realistic
@@ -159,7 +159,7 @@ export default function LoremIpsumPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Lorem Ipsum is universally recognized in design and
                     publishing industries. When someone sees Lorem Ipsum, they
-                    immediately understand it's placeholder text, eliminating
+                    immediately understand it&apos;s placeholder text, eliminating
                     confusion about whether content is final or temporary in
                     wireframes and mockups.
                   </p>
@@ -264,39 +264,39 @@ export default function LoremIpsumPage() {
               </h2>
               <div className="space-y-4 text-gray-700 dark:text-gray-300">
                 <p>
-                  The Lorem Ipsum text comes from Cicero's philosophical
-                  treatise "De Finibus Bonorum et Malorum" (On the Extremes of
-                  Good and Evil), written in 45 BC. Specifically, it's derived
+                  The Lorem Ipsum text comes from Cicero&apos;s philosophical
+                  treatise &quot;De Finibus Bonorum et Malorum&quot; (On the Extremes of
+                  Good and Evil), written in 45 BC. Specifically, it&apos;s derived
                   from sections 1.10.32 and 1.10.33 of the work, which discuss
                   ethics and the pursuit of pleasure versus pain.
                 </p>
                 <p>
-                  The discovery of Lorem Ipsum's true origin is credited to
+                  The discovery of Lorem Ipsum&apos;s true origin is credited to
                   Richard McClintock, a Latin scholar from Hampden-Sydney
                   College in Virginia. In the 1980s, McClintock was intrigued by
-                  the word "consectetur" in the Lorem Ipsum passage and traced
+                  the word &quot;consectetur&quot; in the Lorem Ipsum passage and traced
                   it through classical Latin literature until he found the
-                  source in Cicero's work. This debunked the long-held belief
+                  source in Cicero&apos;s work. This debunked the long-held belief
                   that Lorem Ipsum was simply nonsense text.
                 </p>
                 <p>
                   The actual scrambling likely occurred in the 1500s when a
                   printer needed specimen text to demonstrate typefaces. The
-                  printer took Cicero's work, scrambled portions of it, and
+                  printer took Cicero&apos;s work, scrambled portions of it, and
                   removed certain sections to create text that looked like Latin
-                  but didn't convey coherent meaning. This prevented readers
+                  but didn&apos;t convey coherent meaning. This prevented readers
                   from being distracted by the content and allowed them to focus
                   purely on the visual presentation of the type.
                 </p>
                 <p>
-                  Here's the original Latin passage from Cicero: "Neque porro
+                  Here&apos;s the original Latin passage from Cicero: &quot;Neque porro
                   quisquam est, qui dolorem ipsum quia dolor sit amet,
                   consectetur, adipisci velit, sed quia non numquam eius modi
                   tempora incidunt ut labore et dolore magnam aliquam quaerat
-                  voluptatem." Which translates to: "Nor is there anyone who
+                  voluptatem.&quot; Which translates to: &quot;Nor is there anyone who
                   loves or pursues or desires to obtain pain of itself, because
                   it is pain, but occasionally circumstances occur in which toil
-                  and pain can procure him some great pleasure."
+                  and pain can procure him some great pleasure.&quot;
                 </p>
               </div>
             </section>
@@ -314,7 +314,7 @@ export default function LoremIpsumPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Make absolutely certain to replace all Lorem Ipsum text with
                     actual content before publishing or launching. Search your
-                    entire project for "lorem" or "ipsum" to catch any missed
+                    entire project for &quot;lorem&quot; or &quot;ipsum&quot; to catch any missed
                     instances. Shipping Lorem Ipsum in production is
                     embarrassing and unprofessional.
                   </p>
@@ -342,7 +342,7 @@ export default function LoremIpsumPage() {
                     content-first design where real content drives layout
                     decisions. If possible, work with draft copy or collaborate
                     with content writers early to ensure your design truly
-                    serves the content's purpose.
+                    serves the content&apos;s purpose.
                   </p>
                 </div>
 
@@ -353,8 +353,8 @@ export default function LoremIpsumPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Make sure clients and stakeholders understand that Lorem
                     Ipsum is placeholder text. Some may not be familiar with it
-                    and could mistake it for real content or wonder why you're
-                    using "Latin." Clear communication prevents confusion during
+                    and could mistake it for real content or wonder why you&apos;re
+                    using &quot;Latin.&quot; Clear communication prevents confusion during
                     design reviews.
                   </p>
                 </div>
@@ -364,7 +364,7 @@ export default function LoremIpsumPage() {
                     Test Edge Cases
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Don't just test with perfect Lorem Ipsum. Try very long
+                    Don&apos;t just test with perfect Lorem Ipsum. Try very long
                     paragraphs, single words, unusual lengths, and content
                     variations to see how your design handles edge cases. Real
                     content is rarely perfect, so your design should be flexible
@@ -398,11 +398,11 @@ export default function LoremIpsumPage() {
                     Does Lorem Ipsum have any actual meaning?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Yes and no. The Lorem Ipsum text is derived from Cicero's
-                    "De Finibus Bonorum et Malorum" written in 45 BC, so the
+                    Yes and no. The Lorem Ipsum text is derived from Cicero&apos;s
+                    &quot;De Finibus Bonorum et Malorum&quot; written in 45 BC, so the
                     individual words are real Latin. However, the passage has
-                    been scrambled, truncated, and altered so that it doesn't
-                    form coherent, meaningful sentences. It's designed to look
+                    been scrambled, truncated, and altered so that it doesn&apos;t
+                    form coherent, meaningful sentences. It&apos;s designed to look
                     like natural language without conveying a distracting
                     message. If you read the original Cicero passage, it
                     discusses the philosophy of pleasure and pain.
@@ -425,13 +425,13 @@ export default function LoremIpsumPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Why does Lorem Ipsum always start with "Lorem ipsum dolor
-                    sit amet"?
+                    Why does Lorem Ipsum always start with &quot;Lorem ipsum dolor
+                    sit amet&quot;?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    This opening phrase has become the standard because it's the
+                    This opening phrase has become the standard because it&apos;s the
                     beginning of the most commonly used Lorem Ipsum passage. It
-                    comes from Cicero's original text where the words appear
+                    comes from Cicero&apos;s original text where the words appear
                     (though not in exactly this scrambled form). Starting with
                     these words makes the text immediately recognizable as
                     placeholder text to designers and clients, preventing
@@ -449,7 +449,7 @@ export default function LoremIpsumPage() {
                     words). For a full article, use 3-5 paragraphs. For a
                     landing page hero section, 10-20 words might suffice. The
                     goal is to see how your design handles realistic content
-                    lengths. It's often helpful to test both shorter and longer
+                    lengths. It&apos;s often helpful to test both shorter and longer
                     variations to ensure your layout is flexible.
                   </p>
                 </details>
@@ -472,7 +472,7 @@ export default function LoremIpsumPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Will Lorem Ipsum affect my website's SEO?
+                    Will Lorem Ipsum affect my website&apos;s SEO?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     If you accidentally publish Lorem Ipsum on a live website,
@@ -487,11 +487,11 @@ export default function LoremIpsumPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    How do I ensure I don't forget to replace Lorem Ipsum?
+                    How do I ensure I don&apos;t forget to replace Lorem Ipsum?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Create a pre-launch checklist that includes searching your
-                    entire codebase and CMS for "lorem" and "ipsum." Many code
+                    entire codebase and CMS for &quot;lorem&quot; and &quot;ipsum.&quot; Many code
                     editors and IDEs have project-wide search features. You can
                     also use automated tools or linters that flag Lorem Ipsum in
                     production code. Some teams use deliberately obvious
@@ -524,9 +524,9 @@ export default function LoremIpsumPage() {
                     Our generator offers several customization options: choose
                     between paragraphs, sentences, or words; specify the exact
                     count you need; and toggle whether to start with the classic
-                    "Lorem ipsum dolor sit amet" opening. The text is randomly
+                    &quot;Lorem ipsum dolor sit amet&quot; opening. The text is randomly
                     generated each time from a dictionary of authentic Lorem
-                    Ipsum words derived from Cicero's work, ensuring
+                    Ipsum words derived from Cicero&apos;s work, ensuring
                     natural-looking variation while maintaining the traditional
                     character distribution.
                   </p>
@@ -534,7 +534,7 @@ export default function LoremIpsumPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between paragraphs, sentences, and
+                    What&apos;s the difference between paragraphs, sentences, and
                     words mode?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">

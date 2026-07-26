@@ -19,6 +19,8 @@ import {
   type InputFormat,
 } from "./utils";
 
+const ALGORITHMS: HashAlgorithm[] = ["MD5", "SHA-1", "SHA-256", "SHA-512"];
+
 export function HashGeneratorUI() {
   const [input, setInput] = useState("");
   const [algorithm, setAlgorithm] = useState<HashAlgorithm>("SHA-256");
@@ -36,19 +38,6 @@ export function HashGeneratorUI() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-
-  const algorithms: HashAlgorithm[] = ["MD5", "SHA-1", "SHA-256", "SHA-512"];
-
-  // Live mode processing
-  useEffect(() => {
-    if (liveMode && input) {
-      handleGenerate();
-    } else if (!input) {
-      setResults({ MD5: "", "SHA-1": "", "SHA-256": "", "SHA-512": "" });
-      setError(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [input, algorithm, inputFormat, useHMAC, hmacKey, liveMode]);
 
   const handleGenerate = useCallback(async () => {
     if (!input) {
@@ -73,7 +62,7 @@ export function HashGeneratorUI() {
       };
 
       // Generate hash for all algorithms
-      for (const algo of algorithms) {
+      for (const algo of ALGORITHMS) {
         let result: HashResult;
         if (useHMAC) {
           result = await generateHMAC(input, hmacKey, algo, inputFormat);
@@ -98,7 +87,21 @@ export function HashGeneratorUI() {
     } finally {
       setIsProcessing(false);
     }
-  }, [input, algorithm, inputFormat, useHMAC, hmacKey, algorithms]);
+  }, [input, inputFormat, useHMAC, hmacKey]);
+
+  // Live mode processing: intentionally re-syncs output to input on every
+  // change while the user has live mode on (an explicit opt-in toggle, not
+  // the default), as opposed to the manual "Generate" button flow below.
+  useEffect(() => {
+    if (liveMode && input) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      handleGenerate();
+    } else if (!input) {
+      setResults({ MD5: "", "SHA-1": "", "SHA-256": "", "SHA-512": "" });
+      setError(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input, algorithm, inputFormat, useHMAC, hmacKey, liveMode]);
 
   const handleClear = useCallback(() => {
     setInput("");
@@ -124,7 +127,7 @@ export function HashGeneratorUI() {
     content += `HMAC: ${useHMAC ? "Yes" : "No"}\n`;
     content += `\n${"=".repeat(60)}\n\n`;
 
-    algorithms.forEach((algo) => {
+    ALGORITHMS.forEach((algo) => {
       if (results[algo]) {
         content += `${algo}:\n${results[algo]}\n\n`;
       }
@@ -139,7 +142,7 @@ export function HashGeneratorUI() {
     a.click();
     a.remove();
     URL.revokeObjectURL(url);
-  }, [results, inputFormat, useHMAC, algorithms]);
+  }, [results, inputFormat, useHMAC]);
 
   const handleLoadSample = useCallback(() => {
     setInput("The quick brown fox jumps over the lazy dog");
@@ -383,7 +386,7 @@ export function HashGeneratorUI() {
           </div>
 
           <div className="space-y-4">
-            {algorithms.map((algo) => {
+            {ALGORITHMS.map((algo) => {
               const info = getAlgorithmInfo(algo);
               const hash = results[algo];
               if (!hash) return null;

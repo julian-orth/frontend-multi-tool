@@ -37,6 +37,7 @@ export default function NotFoundClient() {
             src={errorIcons[currentIcon]}
             alt="Error page icon"
             fill
+            sizes="192px"
             className="object-contain brightness-0 invert-0 dark:brightness-0 dark:invert"
             style={{
               filter:

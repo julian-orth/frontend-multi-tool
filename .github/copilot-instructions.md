@@ -1,8 +1,8 @@
-# Frontend Tools Hub - AI Coding Agent Instructions
+# DeveloperUtilityTools - AI Coding Agent Instructions
 
 ## Project Overview
 
-Next.js 15 App Router application providing client-side developer tools. All tools run in-browser (no backend) ensuring privacy. Uses TypeScript, Tailwind CSS 4, and React 19.
+Next.js 16 App Router application providing client-side developer tools. All tools run in-browser (no backend) ensuring privacy. Uses TypeScript, Tailwind CSS 4, and React 19.
 
 ## Architecture & Key Patterns
 

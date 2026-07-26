@@ -192,7 +192,7 @@ export default function HtmlEncoderPage() {
                     When processing form submissions, encoding special
                     characters prevents issues with database storage, ensures
                     data integrity, and protects against SQL injection when
-                    combined with proper parameterized queries. It's essential
+                    combined with proper parameterized queries. It&apos;s essential
                     for safely handling user input.
                   </p>
                 </div>
@@ -533,7 +533,7 @@ export default function HtmlEncoderPage() {
               <div className="space-y-6">
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between HTML encoding and URL
+                    What&apos;s the difference between HTML encoding and URL
                     encoding?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
@@ -550,7 +550,7 @@ export default function HtmlEncoderPage() {
                     ) for transmitting data in URLs. HTML encoding is for
                     content display and XSS prevention, while URL encoding is
                     for safe transmission of data in web addresses and query
-                    parameters. They're complementary but serve different
+                    parameters. They&apos;re complementary but serve different
                     purposes.
                   </p>
                 </details>
@@ -590,14 +590,14 @@ export default function HtmlEncoderPage() {
                     </code>
                     ,{" "}
                     <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
-                      "
+                      &quot;
                     </code>
                     , and{" "}
                     <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
-                      '
+                      &apos;
                     </code>{" "}
                     in user-generated content to prevent XSS. For UTF-8 encoded
-                    pages, you don't need to encode international characters
+                    pages, you don&apos;t need to encode international characters
                     (like accented letters or Chinese characters), but you may
                     choose to for compatibility with older systems or email
                     clients. Encoding non-breaking spaces and special symbols
@@ -610,7 +610,7 @@ export default function HtmlEncoderPage() {
                     Can I decode doubly-encoded HTML entities?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Yes, but you'll need to decode multiple times. Sometimes
+                    Yes, but you&apos;ll need to decode multiple times. Sometimes
                     data gets encoded twice (like{" "}
                     <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
                       &amp;amp;lt;
@@ -638,7 +638,7 @@ export default function HtmlEncoderPage() {
                     protection against encoding corruption during data
                     transmission, explicit indication of special characters in
                     source code, and prevention of issues with systems that
-                    don't properly handle Unicode. For critical symbols (©, ®,
+                    don&apos;t properly handle Unicode. For critical symbols (©, ®,
                     ™) and HTML-significant characters (&lt;, &gt;, &amp;),
                     entities are the safer choice.
                   </p>
@@ -661,7 +661,7 @@ export default function HtmlEncoderPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between &amp;apos; and &amp;#39;?
+                    What&apos;s the difference between &amp;apos; and &amp;#39;?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Both represent the apostrophe/single quote character.{" "}
@@ -673,7 +673,7 @@ export default function HtmlEncoderPage() {
                     <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
                       &amp;apos;
                     </code>{" "}
-                    is the named entity but isn't defined in HTML4, only in
+                    is the named entity but isn&apos;t defined in HTML4, only in
                     XHTML and HTML5. For maximum compatibility, use{" "}
                     <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
                       &amp;#39;
@@ -692,8 +692,8 @@ export default function HtmlEncoderPage() {
                     How do I encode emoji or other Unicode symbols?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Emoji and most Unicode symbols don't have named entities, so
-                    they're encoded using numeric entities. For example, 😀
+                    Emoji and most Unicode symbols don&apos;t have named entities, so
+                    they&apos;re encoded using numeric entities. For example, 😀
                     becomes{" "}
                     <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
                       &amp;#128512;
@@ -715,14 +715,14 @@ export default function HtmlEncoderPage() {
                     Can I use this tool for email address obfuscation?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Yes, using the "Encode All" option converts every character
+                    Yes, using the &quot;Encode All&quot; option converts every character
                     to numeric entities, which can help hide email addresses
                     from simple spam bots. However, sophisticated scrapers can
                     decode HTML entities, so this provides only basic
                     protection. For better protection, combine entity encoding
                     with JavaScript-based rendering, contact forms instead of
                     direct mailto: links, or CAPTCHA verification. Entity
-                    encoding adds a layer of obfuscation but shouldn't be your
+                    encoding adds a layer of obfuscation but shouldn&apos;t be your
                     only anti-spam measure.
                   </p>
                 </details>
@@ -781,7 +781,7 @@ export default function HtmlEncoderPage() {
                     <p>
                       Always declare UTF-8 encoding in your HTML documents using{" "}
                       <code className="rounded bg-gray-100 px-1 dark:bg-gray-800">
-                        &lt;meta charset="utf-8"&gt;
+                        &lt;meta charset=&quot;utf-8&quot;&gt;
                       </code>
                       . This ensures consistent character rendering and reduces
                       the need for excessive entity encoding of international
@@ -790,7 +790,7 @@ export default function HtmlEncoderPage() {
                   </div>
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900 dark:text-gray-50">
-                      4. Don't Double-Encode
+                      4. Don&apos;t Double-Encode
                     </h3>
                     <p>
                       Avoid encoding already-encoded data, which creates

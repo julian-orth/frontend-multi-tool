@@ -260,7 +260,7 @@ export default function CSSMinifierPage() {
                     <strong>
                       Automate minification in your build process:
                     </strong>{" "}
-                    Don't minify manually for every deployment. Use build tools
+                    Don&apos;t minify manually for every deployment. Use build tools
                     like Webpack, Vite, Parcel, or PostCSS to automatically
                     minify CSS during production builds. This ensures
                     consistency and prevents human error.
@@ -282,7 +282,7 @@ export default function CSSMinifierPage() {
                   <p>
                     <strong>Test after minification:</strong> Always test your
                     website after minifying CSS to ensure nothing broke. While
-                    minification shouldn't change functionality, complex CSS
+                    minification shouldn&apos;t change functionality, complex CSS
                     with nested selectors or vendor prefixes can sometimes
                     produce unexpected results.
                   </p>
@@ -323,7 +323,7 @@ export default function CSSMinifierPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Minification removes all unnecessary spaces, tabs, and line
-                    breaks that don't affect CSS functionality. CSS is parsed
+                    breaks that don&apos;t affect CSS functionality. CSS is parsed
                     into tokens, and only required spaces (like those between
                     selectors or values) are preserved. This typically accounts
                     for 10-20% of file size reduction.
@@ -365,7 +365,7 @@ export default function CSSMinifierPage() {
                     This tool preserves all CSS functionality including vendor
                     prefixes (-webkit-, -moz-, -ms-), CSS custom properties
                     (variables), media queries, @import rules, and modern CSS
-                    features. Minification is purely textual and doesn't modify
+                    features. Minification is purely textual and doesn&apos;t modify
                     how browsers interpret your styles.
                   </p>
                 </div>
@@ -427,12 +427,12 @@ export default function CSSMinifierPage() {
                     Is CSS minification the same as compression?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    No, they're different but complementary. Minification
+                    No, they&apos;re different but complementary. Minification
                     removes unnecessary characters from the source code itself,
                     creating a smaller file. Compression (gzip/brotli) applies
                     an algorithm during transmission to further reduce size. Use
                     both: minify your CSS files, then enable HTTP compression on
-                    your web server for maximum size reduction. Together they're
+                    your web server for maximum size reduction. Together they&apos;re
                     far more effective than either alone.
                   </p>
                 </details>
@@ -443,10 +443,10 @@ export default function CSSMinifierPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Beautification can make minified CSS readable again, but
-                    won't restore the original formatting perfectly. Comments
-                    are permanently removed during minification and can't be
+                    won&apos;t restore the original formatting perfectly. Comments
+                    are permanently removed during minification and can&apos;t be
                     recovered. Beautifiers add consistent indentation and line
-                    breaks based on CSS syntax, but the original developer's
+                    breaks based on CSS syntax, but the original developer&apos;s
                     formatting choices are lost. Always keep unminified source
                     files.
                   </p>
@@ -460,7 +460,7 @@ export default function CSSMinifierPage() {
                     CSS-in-JS solutions like styled-components, Emotion, or CSS
                     Modules typically handle minification automatically in
                     production builds. The generated CSS is minified at build
-                    time or runtime. You generally don't need to manually minify
+                    time or runtime. You generally don&apos;t need to manually minify
                     CSS from these tools. However, this tool can be useful for
                     debugging the generated output.
                   </p>
@@ -551,7 +551,7 @@ export default function CSSMinifierPage() {
                     <strong>Improved Core Web Vitals:</strong> Smaller CSS files
                     contribute to better Largest Contentful Paint (LCP) scores
                     by reducing render-blocking resources. This directly impacts
-                    Google's page experience ranking signals and can improve
+                    Google&apos;s page experience ranking signals and can improve
                     search visibility.
                   </p>
                   <p>

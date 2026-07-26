@@ -28,7 +28,7 @@ export function WhatIsQRCodeSection() {
           displays.
         </p>
         <p>
-          The "Quick Response" name comes from the original intent: instant
+          The &quot;Quick Response&quot; name comes from the original intent: instant
           decoding. Modern smartphones can scan QR codes in milliseconds, making
           them ideal for contactless payments, restaurant menus, event
           check-ins, marketing campaigns, product authentication, and bridging
@@ -342,14 +342,14 @@ export function CustomizationSection() {
           </p>
           <ul className="ml-6 list-disc space-y-1 text-sm text-gray-700 dark:text-gray-300">
             <li>
-              <strong>Minimum size:</strong> 2cm × 2cm (0.8" × 0.8") for
+              <strong>Minimum size:</strong> 2cm × 2cm (0.8&quot; × 0.8&quot;) for
               close-up scanning
             </li>
             <li>
-              <strong>Business cards:</strong> 2-3cm (0.8-1.2") works well
+              <strong>Business cards:</strong> 2-3cm (0.8-1.2&quot;) works well
             </li>
             <li>
-              <strong>Posters/Flyers:</strong> 5-10cm (2-4") for arm's-length
+              <strong>Posters/Flyers:</strong> 5-10cm (2-4&quot;) for arm&apos;s-length
               scanning
             </li>
             <li>
@@ -384,8 +384,8 @@ export function BestPracticesSection() {
           </p>
           <p>
             <strong>Provide Context:</strong> Add a clear call-to-action near
-            your QR code: "Scan to visit website," "Scan for menu," "Scan to
-            connect to WiFi." Users are more likely to scan when they know what
+            your QR code: &quot;Scan to visit website,&quot; &quot;Scan for menu,&quot; &quot;Scan to
+            connect to WiFi.&quot; Users are more likely to scan when they know what
             to expect. Include your logo or brand elements nearby for trust and
             recognition.
           </p>
@@ -393,7 +393,7 @@ export function BestPracticesSection() {
             <strong>Maintain Quiet Zone:</strong> Leave adequate white space
             (quiet zone) around your QR code—at least 4 modules (squares) wide
             on all sides. This border helps scanners detect the code edges.
-            Don't crop QR codes too tightly or place them on busy backgrounds.
+            Don&apos;t crop QR codes too tightly or place them on busy backgrounds.
           </p>
           <p>
             <strong>Choose the Right Format:</strong> Use PNG for digital

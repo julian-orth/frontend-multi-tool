@@ -81,7 +81,7 @@ export default function ColorPickerPage() {
                 <p>
                   A color picker is an essential tool for designers, developers,
                   and digital creators that allows you to select, identify, and
-                  convert colors between different formats. Whether you're
+                  convert colors between different formats. Whether you&apos;re
                   designing a website, creating graphics, or developing an
                   application, choosing the right colors is crucial for
                   aesthetics, branding, and user experience.
@@ -122,7 +122,7 @@ export default function ColorPickerPage() {
                     The most common format in web design, HEX colors use six
                     hexadecimal digits to represent red, green, and blue values
                     (00-FF for each). Example: #3B82F6 represents a vibrant
-                    blue. It's compact, easy to copy, and universally supported
+                    blue. It&apos;s compact, easy to copy, and universally supported
                     in CSS and HTML.
                   </p>
                 </div>
@@ -462,11 +462,11 @@ export default function ColorPickerPage() {
                     How do I pick a color from an image or screenshot?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    While this tool doesn't support direct image sampling, most
+                    While this tool doesn&apos;t support direct image sampling, most
                     operating systems have built-in color pickers: macOS has
                     Digital Color Meter, Windows has the PowerToys Color Picker,
                     and most graphic design software includes eyedropper tools.
-                    Once you've identified the HEX or RGB value from your image,
+                    Once you&apos;ve identified the HEX or RGB value from your image,
                     paste it into our tool to convert it to other formats and
                     generate matching palettes.
                   </p>
@@ -479,8 +479,8 @@ export default function ColorPickerPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Colors can appear different due to screen calibration,
                     display technology (LCD, OLED, etc.), brightness settings,
-                    and color profiles. While you can't control how users see
-                    your colors, you can ensure they're specified correctly in
+                    and color profiles. While you can&apos;t control how users see
+                    your colors, you can ensure they&apos;re specified correctly in
                     your code. Use our tool to get precise color values, test on
                     multiple devices when possible, and focus on sufficient
                     contrast for readability rather than perfect color
@@ -501,8 +501,8 @@ export default function ColorPickerPage() {
                     Web Content Accessibility Guidelines (WCAG) define minimum
                     contrast ratios to ensure text is readable for people with
                     visual impairments, including color blindness and low
-                    vision. Following these standards isn't just good
-                    practice—it's often legally required for public websites and
+                    vision. Following these standards isn&apos;t just good
+                    practice—it&apos;s often legally required for public websites and
                     applications.
                   </p>
                   <ul className="ml-6 list-disc space-y-2">

@@ -38,17 +38,6 @@ export function HtmlEncoderUI() {
   const [copied, setCopied] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  // Live mode processing
-  useEffect(() => {
-    if (liveMode && input) {
-      handleProcess();
-    } else if (!input) {
-      setOutput("");
-      setResult(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [input, liveMode, mode, useNamedEntities, encodeAll, lineByLine]);
-
   const handleProcess = useCallback(() => {
     let processResult: HtmlResult;
 
@@ -69,6 +58,20 @@ export function HtmlEncoderUI() {
     setResult(processResult);
     setOutput(processResult.output);
   }, [input, mode, useNamedEntities, encodeAll, lineByLine]);
+
+  // Live mode processing: intentionally re-syncs output to input on every
+  // change while the user has live mode on (an explicit opt-in toggle, not
+  // the default), as opposed to the manual "Process" button flow below.
+  useEffect(() => {
+    if (liveMode && input) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      handleProcess();
+    } else if (!input) {
+      setOutput("");
+      setResult(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input, liveMode, mode, useNamedEntities, encodeAll, lineByLine]);
 
   const handleClear = useCallback(() => {
     setInput("");
@@ -386,7 +389,7 @@ export function HtmlEncoderUI() {
                 </code>
               </pre>
             ) : (
-              <div className="flex h-[400px] items-center justify-center text-gray-400 dark:text-gray-600">
+              <div className="flex h-[400px] items-center justify-center text-gray-500 dark:text-gray-400">
                 <p className="text-sm">
                   {liveMode
                     ? "Start typing to see live results..."

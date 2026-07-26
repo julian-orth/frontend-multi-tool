@@ -91,7 +91,7 @@ export default function RegexTesterPage() {
                 <p>
                   A regex pattern is composed of a sequence of characters that
                   define a search pattern. These patterns can include literal
-                  characters (like "cat"), special characters called
+                  characters (like &quot;cat&quot;), special characters called
                   metacharacters (like . * + ? [ ] {} ( ) ^ $ | \), and
                   character classes. The true power of regular expressions lies
                   in their ability to express complex matching logic in a
@@ -215,7 +215,7 @@ export default function RegexTesterPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Makes the pattern matching case-insensitive. For example,
-                    the pattern /hello/i will match "hello", "Hello", "HELLO",
+                    the pattern /hello/i will match &quot;hello&quot;, &quot;Hello&quot;, &quot;HELLO&quot;,
                     or any other case variation. Particularly useful when you
                     want to match text regardless of capitalization, such as
                     user input or natural language text.
@@ -297,15 +297,15 @@ export default function RegexTesterPage() {
               <div className="space-y-6">
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between . and \. in regex?
+                    What&apos;s the difference between . and \. in regex?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     The dot (.) is a special metacharacter that matches any
                     single character (except newlines by default). If you want
                     to match a literal period/dot character, you need to escape
-                    it with a backslash: \. For example, to match "example.com",
+                    it with a backslash: \. For example, to match &quot;example.com&quot;,
                     use the pattern example\.com instead of example.com which
-                    would match "exampleXcom" where X is any character.
+                    would match &quot;exampleXcom&quot; where X is any character.
                   </p>
                 </details>
 
@@ -328,10 +328,10 @@ export default function RegexTesterPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Capture groups are portions of a regex pattern enclosed in
-                    parentheses ( ) that "capture" the matched text for later
+                    parentheses ( ) that &quot;capture&quot; the matched text for later
                     use. For example, in the pattern (\d{`{3}`})-(\d{`{4}`}),
                     the two groups capture the area code and number separately
-                    from a phone number like "555-1234". You can reference these
+                    from a phone number like &quot;555-1234&quot;. You can reference these
                     groups in replacements using $1, $2, etc., or access them
                     programmatically in your code.
                   </p>
@@ -339,15 +339,15 @@ export default function RegexTesterPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between greedy and lazy matching?
+                    What&apos;s the difference between greedy and lazy matching?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     By default, quantifiers like *, +, and {`{n,m}`} are
                     greedy—they match as much text as possible. For example, .*
-                    in the string "&lt;div&gt;content&lt;/div&gt;" matches the
+                    in the string &quot;&lt;div&gt;content&lt;/div&gt;&quot; matches the
                     entire string. Adding a ? after the quantifier makes it
                     lazy: .*? matches as little as possible, so it would match
-                    just "&lt;div&gt;" first. Use lazy matching when you want to
+                    just &quot;&lt;div&gt;&quot; first. Use lazy matching when you want to
                     match the shortest possible string.
                   </p>
                 </details>
@@ -359,8 +359,8 @@ export default function RegexTesterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Use \b to match a position between a word character (\w) and
                     a non-word character, or at the start/end of a string. For
-                    example, \bcat\b matches "cat" as a whole word but not
-                    "category" or "scat". Word boundaries are essential for
+                    example, \bcat\b matches &quot;cat&quot; as a whole word but not
+                    &quot;category&quot; or &quot;scat&quot;. Word boundaries are essential for
                     matching complete words without accidentally matching parts
                     of longer words.
                   </p>
@@ -383,10 +383,10 @@ export default function RegexTesterPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Why isn't my regex pattern matching Unicode characters?
+                    Why isn&apos;t my regex pattern matching Unicode characters?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    If you're working with Unicode characters (emoji, accented
+                    If you&apos;re working with Unicode characters (emoji, accented
                     letters, non-Latin scripts), enable the Unicode flag (u).
                     Without it, character classes like \w or . may not work
                     correctly with Unicode. For example, use /[\u0400-\u04FF]+/u
@@ -402,8 +402,8 @@ export default function RegexTesterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     To match literal special characters like . * + ? ^ $ [ ]{" "}
                     {`{ }`} ( ) | \, you need to escape them with a backslash.
-                    For example, to match "example.com", use example\.com. To
-                    match a backslash itself, use \\. If you're dynamically
+                    For example, to match &quot;example.com&quot;, use example\.com. To
+                    match a backslash itself, use \\. If you&apos;re dynamically
                     building regex patterns from user input, use a function to
                     escape all special characters to prevent regex injection
                     vulnerabilities.
@@ -418,11 +418,11 @@ export default function RegexTesterPage() {
                     Lookaheads and lookbehinds are zero-width assertions that
                     check for patterns without including them in the match.
                     Positive lookahead (?=...) ensures a pattern follows,
-                    negative lookahead (?!...) ensures it doesn't. For example,
-                    \d+(?= dollars) matches numbers followed by " dollars" but
-                    doesn't include " dollars" in the match. Lookbehinds work
+                    negative lookahead (?!...) ensures it doesn&apos;t. For example,
+                    \d+(?= dollars) matches numbers followed by &quot; dollars&quot; but
+                    doesn&apos;t include &quot; dollars&quot; in the match. Lookbehinds work
                     similarly: (?&lt;=...) checks what comes before, (?&lt;!...)
-                    checks what doesn't come before.
+                    checks what doesn&apos;t come before.
                   </p>
                 </details>
 

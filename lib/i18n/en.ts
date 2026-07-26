@@ -20,5 +20,4 @@ export const NAV_ITEMS = [
   { name: "Home", href: "/" },
   { name: "Tools", href: "/tools" },
   { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
 ];

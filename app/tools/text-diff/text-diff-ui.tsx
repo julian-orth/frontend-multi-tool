@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
 import { Checkbox } from "@/components/checkbox";
+import { useDebouncedValue } from "@/lib/hooks/use-debounced-value";
 import {
   computeDiff,
   prepareSplitView,
@@ -36,9 +37,12 @@ export function TextDiffUI() {
   const fileInputOldRef = React.useRef<HTMLInputElement>(null);
   const fileInputNewRef = React.useRef<HTMLInputElement>(null);
 
-  // Compute diff
+  // Compute diff (debounced so large pasted documents don't block typing)
+  const debouncedOldText = useDebouncedValue(oldText, 200);
+  const debouncedNewText = useDebouncedValue(newText, 200);
+
   const diffResult: DiffResult | null = useMemo(() => {
-    if (!oldText && !newText) return null;
+    if (!debouncedOldText && !debouncedNewText) return null;
 
     const options: DiffOptions = {
       ignoreCase,
@@ -46,10 +50,10 @@ export function TextDiffUI() {
       newlineIsToken,
     };
 
-    return computeDiff(oldText, newText, diffMode, options);
+    return computeDiff(debouncedOldText, debouncedNewText, diffMode, options);
   }, [
-    oldText,
-    newText,
+    debouncedOldText,
+    debouncedNewText,
     diffMode,
     ignoreCase,
     ignoreWhitespace,

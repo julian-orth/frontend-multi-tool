@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useMemo } from "react";
 import {
   Copy,
   Check,
@@ -52,10 +52,8 @@ type Mode = "minify" | "beautify";
 
 export default function CSSMinifierUI() {
   const [input, setInput] = useState(SAMPLE_CSS);
-  const [output, setOutput] = useState("");
   const [mode, setMode] = useState<Mode>("minify");
   const [copied, setCopied] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   // Minify options
   const [removeComments, setRemoveComments] = useState(true);
@@ -65,66 +63,36 @@ export default function CSSMinifierUI() {
   const [indentSize, setIndentSize] = useState(2);
   const [indentChar, setIndentChar] = useState<" " | "\t">(" ");
 
-  // Stats
-  const [stats, setStats] = useState<{
-    originalSize: number;
-    processedSize: number;
-    savedBytes: number;
-    savedPercentage: string;
-    originalLines: number;
-    processedLines: number;
-  } | null>(null);
-
-  // Process CSS
-  const processCSS = useCallback(() => {
+  // Output, validation, and stats are all pure derivations of the input
+  // and current options, so they're computed directly rather than synced
+  // via state + effect.
+  const { output, error, stats } = useMemo(() => {
     if (!input.trim()) {
-      setOutput("");
-      setError(null);
-      setStats(null);
-      return;
+      return { output: "", error: null as string | null, stats: null };
     }
 
-    // Validate CSS
     const validation = validateCSS(input);
-    if (!validation.valid) {
-      setError(validation.errors.join(", "));
-    } else {
-      setError(null);
-    }
+    const error: string | null = validation.valid
+      ? null
+      : validation.errors.join(", ");
 
     try {
-      let processed = "";
+      const minifyOptions: MinifyOptions = { removeComments, preserveImportant };
+      const beautifyOptions: BeautifyOptions = { indentSize, indentChar };
+      const processed =
+        mode === "minify"
+          ? minifyCSS(input, minifyOptions)
+          : beautifyCSS(input, beautifyOptions);
 
-      if (mode === "minify") {
-        const minifyOptions: MinifyOptions = {
-          removeComments,
-          preserveImportant,
-        };
-        processed = minifyCSS(input, minifyOptions);
-      } else {
-        const beautifyOptions: BeautifyOptions = {
-          indentSize,
-          indentChar,
-        };
-        processed = beautifyCSS(input, beautifyOptions);
-      }
-
-      setOutput(processed);
-
-      // Calculate stats
-      const cssStats = calculateCSSStats(input, processed);
-      setStats(cssStats);
+      return { output: processed, error, stats: calculateCSSStats(input, processed) };
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid CSS");
-      setOutput("");
-      setStats(null);
+      return {
+        output: "",
+        error: err instanceof Error ? err.message : "Invalid CSS",
+        stats: null,
+      };
     }
   }, [input, mode, removeComments, preserveImportant, indentSize, indentChar]);
-
-  // Auto-process on input or settings change
-  useEffect(() => {
-    processCSS();
-  }, [processCSS]);
 
   // Copy to clipboard
   const handleCopy = async () => {
@@ -157,9 +125,6 @@ export default function CSSMinifierUI() {
   // Clear all
   const handleClear = () => {
     setInput("");
-    setOutput("");
-    setError(null);
-    setStats(null);
   };
 
   // Load sample
@@ -452,8 +417,8 @@ export default function CSSMinifierUI() {
                 colors (#FFFFFF → #FFF) and removes units from zeros (0px → 0)
               </li>
               <li>
-                <strong>Comment control:</strong> Choose to preserve important
-                /*! */ comments while removing others
+                <strong>Comment control:</strong> Choose to preserve important{" "}
+                {"/*! */"} comments while removing others
               </li>
               <li>
                 <strong>Real-time stats:</strong> See file size savings,
@@ -747,7 +712,7 @@ export default function CSSMinifierUI() {
                 -o-) correctly during both minification and beautification. They
                 will be preserved and formatted appropriately. The tool
                 recognizes vendor-prefixed properties and values as valid CSS
-                and won't remove or break them during processing.
+                and won&apos;t remove or break them during processing.
               </p>
             </details>
 
@@ -767,7 +732,7 @@ export default function CSSMinifierUI() {
 
             <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
               <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                What's the difference between CSS minification and compression?
+                What&apos;s the difference between CSS minification and compression?
               </summary>
               <p className="mt-3 text-gray-700 dark:text-gray-300">
                 CSS minification removes unnecessary characters from the source

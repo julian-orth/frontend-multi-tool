@@ -183,27 +183,42 @@ export function parseMarkdown(
   return result.join("\n");
 }
 
+// Only allow link/image URLs that can't execute script (blocks
+// javascript:, data:, vbscript:, etc.). Relative and anchor URLs have no
+// scheme and are always allowed.
+const SAFE_URL_SCHEMES = /^(https?|mailto|tel):/i;
+function isSafeUrl(url: string): boolean {
+  const trimmed = url.trim();
+  if (/^(#|\/|\.\.?\/)/.test(trimmed)) return true;
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return true;
+  return SAFE_URL_SCHEMES.test(trimmed);
+}
+
 /**
  * Process inline markdown (bold, italic, code, links, etc.)
  */
 function processInline(text: string): string {
-  // Escape HTML entities
+  // Escape HTML entities, including quotes so nothing below can break out
+  // of an attribute value it's interpolated into.
   let result = text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 
   // Inline code (process first to protect code content)
   result = result.replace(/`([^`]+)`/g, "<code>$1</code>");
 
   // Images (before links since they have similar syntax)
-  result = result.replace(
-    /!\[([^\]]*)\]\(([^)]+)\)/g,
-    '<img src="$2" alt="$1" />'
+  result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) =>
+    isSafeUrl(url) ? `<img src="${url}" alt="${alt}" />` : match
   );
 
   // Links
-  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) =>
+    isSafeUrl(url) ? `<a href="${url}">${label}</a>` : match
+  );
 
   // Bold and italic (*** before ** and *)
   result = result.replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>");
@@ -244,19 +259,6 @@ function parseTable(lines: string[]): string {
     .join("");
 
   return `<table><thead><tr>${headerCells}</tr></thead><tbody>${bodyRows}</tbody></table>`;
-}
-
-/**
- * Sanitize HTML to prevent XSS attacks
- * Basic implementation - for production use DOMPurify
- */
-export function sanitizeHTML(html: string): string {
-  // This is a very basic sanitizer
-  // For production, use a library like DOMPurify
-  return html
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-    .replace(/javascript:/gi, "")
-    .replace(/on\w+\s*=/gi, "");
 }
 
 /**

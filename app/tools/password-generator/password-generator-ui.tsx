@@ -388,6 +388,8 @@ export function PasswordGeneratorUI() {
                 onClick={() => setShowValues((value) => !value)}
                 variant="outline"
                 className="border-indigo-500 text-indigo-700 dark:border-indigo-400 dark:text-indigo-300"
+                aria-label={showValues ? "Hide passwords" : "Show passwords"}
+                title={showValues ? "Hide passwords" : "Show passwords"}
               >
                 {showValues ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
               </PrimaryButton>

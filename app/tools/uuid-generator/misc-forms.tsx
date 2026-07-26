@@ -204,7 +204,7 @@ export function UuidValidateForm() {
                   <div className="font-bold">Invalid UUID</div>
                   <div className="mt-1 text-sm text-gray-700 dark:text-gray-300">
                     The input does not meet the RFC 4122 string requirements.
-                    Below are common reasons why it's invalid.
+                    Below are common reasons why it&apos;s invalid.
                   </div>
                 </div>
               </div>

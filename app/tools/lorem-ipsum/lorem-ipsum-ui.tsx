@@ -26,7 +26,11 @@ export function LoremIpsumUI() {
   const [type, setType] = useState<GeneratorType>("classic");
   const [count, setCount] = useState(5);
   const [startWithLorem, setStartWithLorem] = useState(true);
-  const [result, setResult] = useState("");
+  // Lazily generate the initial text once on mount instead of starting
+  // empty and syncing it in via an effect.
+  const [result, setResult] = useState(() =>
+    generateLoremIpsum({ mode, count, startWithLorem, type })
+  );
   const [copied, setCopied] = useState(false);
   const [liveMode, setLiveMode] = useState(true);
 
@@ -39,15 +43,10 @@ export function LoremIpsumUI() {
   // Live mode - generate as options change
   useEffect(() => {
     if (liveMode) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       performGenerate();
     }
   }, [mode, count, startWithLorem, type, liveMode, performGenerate]);
-
-  // Generate on mount
-  useEffect(() => {
-    performGenerate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleGenerate = useCallback(() => {
     if (!liveMode) {

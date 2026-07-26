@@ -81,13 +81,13 @@ export default function UuidFormatConverterPage() {
                   remains identical, different platforms and use cases prefer
                   different string formats: the canonical hyphenated lowercase
                   format (8-4-4-4-12), compact format without hyphens, uppercase
-                  variants, URN format with "urn:uuid:" prefix, or Microsoft's
+                  variants, URN format with &quot;urn:uuid:&quot; prefix, or Microsoft&apos;s
                   braced format with curly braces.
                 </p>
                 <p>
                   Converting between formats is essential when integrating
                   systems that use different UUID conventions. For example,
-                  PostgreSQL's UUID type stores and returns UUIDs in lowercase
+                  PostgreSQL&apos;s UUID type stores and returns UUIDs in lowercase
                   hyphenated format, while some Java systems use uppercase, and
                   certain APIs expect compact format for URL efficiency. Format
                   conversion ensures compatibility across your technology stack
@@ -120,8 +120,8 @@ export default function UuidFormatConverterPage() {
                     uses lowercase hyphenated format, MySQL BINARY(16) requires
                     compact hex, SQL Server UNIQUEIDENTIFIER accepts braced
                     format. Converting ensures your UUIDs are stored correctly
-                    and queries match expected formats, preventing "UUID not
-                    found" errors from format mismatches.
+                    and queries match expected formats, preventing &quot;UUID not
+                    found&quot; errors from format mismatches.
                   </p>
                 </div>
                 <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
@@ -212,7 +212,7 @@ export default function UuidFormatConverterPage() {
                   <p className="mt-2 text-gray-700 dark:text-gray-300">
                     Use this format for: APIs, databases with native UUID
                     support (PostgreSQL), logging, and general-purpose display.
-                    It's the most human-readable and universally compatible.
+                    It&apos;s the most human-readable and universally compatible.
                   </p>
                 </div>
 
@@ -250,7 +250,7 @@ export default function UuidFormatConverterPage() {
                   </pre>
                   <p className="mt-2 text-gray-700 dark:text-gray-300">
                     Use this format for: binary storage representations, compact
-                    URLs, cache keys, or systems that don't require hyphens.
+                    URLs, cache keys, or systems that don&apos;t require hyphens.
                     Save 4 bytes per UUID, which adds up at scale.
                   </p>
                 </div>
@@ -260,7 +260,7 @@ export default function UuidFormatConverterPage() {
                     URN (Uniform Resource Name)
                   </h3>
                   <p className="mb-2 text-gray-700 dark:text-gray-300">
-                    Canonical format prefixed with "urn:uuid:" to create a valid
+                    Canonical format prefixed with &quot;urn:uuid:&quot; to create a valid
                     URN. Used in semantic web, XML namespaces, and formal
                     specifications.
                   </p>
@@ -337,12 +337,12 @@ export default function UuidFormatConverterPage() {
                     Are uppercase and lowercase UUIDs considered equal?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Yes, they're the same UUID. However, some systems treat them
+                    Yes, they&apos;re the same UUID. However, some systems treat them
                     as different strings in comparisons. Best practice:
                     normalize to lowercase canonical format for storage and
                     comparison to prevent duplicates. For example, without
-                    normalization, you might accidentally treat "550E8400-..."
-                    and "550e8400-..." as different records in case-sensitive
+                    normalization, you might accidentally treat &quot;550E8400-...&quot;
+                    and &quot;550e8400-...&quot; as different records in case-sensitive
                     systems.
                   </p>
                 </details>
@@ -352,7 +352,7 @@ export default function UuidFormatConverterPage() {
                     Should I convert UUIDs before database insertion?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Depends on your database. PostgreSQL's UUID type accepts any
+                    Depends on your database. PostgreSQL&apos;s UUID type accepts any
                     valid format and normalizes automatically. For string
                     columns (CHAR/ VARCHAR), normalize to your standard format
                     before insertion for consistency. For BINARY columns,
@@ -383,8 +383,8 @@ export default function UuidFormatConverterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Most languages provide UUID libraries with format
                     conversion: JavaScript uuid library has formatting options,
-                    Python uuid module supports str() and hex properties, Java's
-                    UUID class has toString(), C#'s Guid has ToString(format).
+                    Python uuid module supports str() and hex properties, Java&apos;s
+                    UUID class has toString(), C#&apos;s Guid has ToString(format).
                     For custom formats, normalize to lowercase, remove/add
                     hyphens as needed, and wrap with prefixes/ suffixes. Regex
                     can help but libraries are more reliable.
@@ -428,7 +428,7 @@ export default function UuidFormatConverterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Yes, format conversion is lossless and repeatable.
                     Converting canonical → compact → uppercase → URN → braced →
-                    back to canonical yields the exact same UUID. There's no
+                    back to canonical yields the exact same UUID. There&apos;s no
                     degradation or loss of information. However, repeated
                     conversions waste CPU cycles. Convert once at system
                     boundaries and store in your preferred format to avoid
@@ -443,7 +443,7 @@ export default function UuidFormatConverterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Mixing formats causes problems: duplicate records (same UUID
                     in different formats treated as different values), failed
-                    queries (searching for lowercase doesn't find uppercase),
+                    queries (searching for lowercase doesn&apos;t find uppercase),
                     broken foreign key relationships, and debugging nightmares.
                     Always normalize to one format at input boundaries. Use
                     database constraints or triggers to enforce format
@@ -490,8 +490,8 @@ export default function UuidFormatConverterPage() {
                   <p>
                     <strong>Document format requirements clearly:</strong> In
                     API documentation, specify accepted UUID formats explicitly.
-                    Don't just say "UUID"—say "canonical lowercase hyphenated
-                    format (8-4-4-4-12)" with examples. This prevents
+                    Don&apos;t just say &quot;UUID&quot;—say &quot;canonical lowercase hyphenated
+                    format (8-4-4-4-12)&quot; with examples. This prevents
                     integration issues and support requests. Include format
                     requirements in error messages when validation fails.
                   </p>

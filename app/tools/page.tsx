@@ -81,7 +81,7 @@ export default function ToolsPage() {
   );
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <header className="mb-10">
         <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
           Tool Directory
@@ -152,6 +152,6 @@ export default function ToolsPage() {
           );
         })}
       </section>
-    </main>
+    </div>
   );
 }

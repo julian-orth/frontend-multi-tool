@@ -49,7 +49,7 @@ export function HowItWorksSection() {
             Scanning Process
           </h3>
           <p className="mb-3 text-gray-700 dark:text-gray-300">
-            When you scan a QR code, here's what happens in milliseconds:
+            When you scan a QR code, here&apos;s what happens in milliseconds:
           </p>
           <ol className="ml-6 list-decimal space-y-2 text-gray-700 dark:text-gray-300">
             <li>

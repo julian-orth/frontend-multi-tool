@@ -20,7 +20,3 @@ export function getToolUrl(toolId: string): string {
 export function getAboutUrl(): string {
   return `${SITE_CONFIG.domain}/about`;
 }
-
-export function getContactUrl(): string {
-  return `${SITE_CONFIG.domain}/contact`;
-}

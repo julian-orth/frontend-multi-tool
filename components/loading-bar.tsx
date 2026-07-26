@@ -59,7 +59,9 @@ export function LoadingBar() {
     return () => document.removeEventListener("click", handleClick, true);
   }, []);
 
-  // Complete loading when pathname changes
+  // Complete loading when pathname changes — this is genuinely syncing to
+  // an external event (the Next.js router finishing navigation), not a
+  // derived value.
   useEffect(() => {
     if (isLoading) {
       // Cancel animation
@@ -69,6 +71,7 @@ export function LoadingBar() {
       }
 
       // Jump to 100%
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProgress(100);
 
       // Hide after animation completes

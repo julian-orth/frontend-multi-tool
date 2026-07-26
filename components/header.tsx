@@ -6,12 +6,10 @@ import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NAV_ITEMS } from "@/lib/i18n/en";
 import { MobileNavButton } from "@/components/MobileNav";
-import { useTheme } from "@/lib/contexts/theme-context";
 
 export function Header() {
   const pathname = usePathname();
   const isToolPage = pathname.startsWith("/tools/");
-  const { theme } = useTheme();
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (pathname === "/") {
@@ -34,11 +32,19 @@ export function Header() {
           aria-label="DeveloperUtilityTools Home"
         >
           <Image
-            src={theme === "dark" ? "/logo-darkmode.svg" : "/logo.svg"}
+            src="/logo.svg"
             alt="DeveloperUtilityTools"
             width={320}
             height={48}
-            className="h-10 w-auto"
+            className="h-10 w-auto dark:hidden"
+            priority
+          />
+          <Image
+            src="/logo-darkmode.svg"
+            alt="DeveloperUtilityTools"
+            width={320}
+            height={48}
+            className="hidden h-10 w-auto dark:block"
             priority
           />
         </Link>

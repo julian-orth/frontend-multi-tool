@@ -184,7 +184,7 @@ export default function JwtDecoderPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     The most common scenario for using JWT is authentication.
                     Once a user successfully logs in, the server generates a JWT
-                    containing the user's identity and permissions. Each
+                    containing the user&apos;s identity and permissions. Each
                     subsequent request includes the JWT, allowing the user to
                     access routes, services, and resources that are permitted
                     with that token. This eliminates the need for server-side
@@ -200,7 +200,7 @@ export default function JwtDecoderPage() {
                     parties. Because they can be signed using public/private key
                     pairs, you can be sure the senders are who they claim to be.
                     Additionally, since the signature is calculated using the
-                    header and payload, you can verify that the content hasn't
+                    header and payload, you can verify that the content hasn&apos;t
                     been tampered with during transmission.
                   </p>
                 </div>
@@ -268,7 +268,7 @@ export default function JwtDecoderPage() {
                       </span>
                       <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
                         Identifies the subject of the JWT (usually the user ID).
-                        Must be unique within the issuer's context.
+                        Must be unique within the issuer&apos;s context.
                       </p>
                     </div>
                     <div className="rounded-lg border border-red-100 bg-red-50/30 p-4 dark:border-red-900 dark:bg-red-950/10">
@@ -440,7 +440,7 @@ export default function JwtDecoderPage() {
                     Is JWT the same as OAuth or authentication?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    No, JWT is not an authentication protocol—it's a token
+                    No, JWT is not an authentication protocol—it&apos;s a token
                     format. OAuth 2.0 and OpenID Connect are authentication and
                     authorization protocols that often use JWTs as the token
                     format. JWT simply provides a standardized way to represent
@@ -460,7 +460,7 @@ export default function JwtDecoderPage() {
                     payload to view their contents—anyone can decode a JWT
                     without any secret or key. Verification, on the other hand,
                     checks the signature using the appropriate key to ensure the
-                    token hasn't been tampered with and was issued by a trusted
+                    token hasn&apos;t been tampered with and was issued by a trusted
                     party. Our tool only decodes JWTs; it does not verify
                     signatures.
                   </p>
@@ -474,7 +474,7 @@ export default function JwtDecoderPage() {
                     Yes. All JWT decoding happens entirely in your browser using
                     JavaScript. No data is ever transmitted to our servers or
                     any third party. You can verify this by checking your
-                    browser's network activity or by disconnecting from the
+                    browser&apos;s network activity or by disconnecting from the
                     internet after loading the page—the tool will continue to
                     work. However, remember that JWTs are not encrypted by
                     default, only signed. Anyone with access to a JWT can decode
@@ -484,16 +484,16 @@ export default function JwtDecoderPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What does "algorithm: none" mean and why is it dangerous?
+                    What does &quot;algorithm: none&quot; mean and why is it dangerous?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    The "none" algorithm means the JWT has no signature and
+                    The &quot;none&quot; algorithm means the JWT has no signature and
                     provides no cryptographic protection. While technically
-                    valid per the JWT spec, it's extremely dangerous in
+                    valid per the JWT spec, it&apos;s extremely dangerous in
                     production because anyone can create or modify these tokens.
                     Attackers can change user IDs, permissions, or expiration
                     dates without detection. Some libraries have been vulnerable
-                    to accepting "none" algorithm tokens even when expecting
+                    to accepting &quot;none&quot; algorithm tokens even when expecting
                     signed tokens. Always use proper signing algorithms in
                     production.
                   </p>
@@ -510,7 +510,7 @@ export default function JwtDecoderPage() {
                     tokens can last longer (days to weeks) but should be
                     securely stored and rotated. For highly sensitive
                     operations, use even shorter expiration times. Always
-                    implement the "exp" (expiration) claim and validate it on
+                    implement the &quot;exp&quot; (expiration) claim and validate it on
                     the server side. Consider implementing token refresh
                     mechanisms to maintain user sessions without requiring
                     frequent re-authentication.
@@ -536,7 +536,7 @@ export default function JwtDecoderPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between JWT and JWE?
+                    What&apos;s the difference between JWT and JWE?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     JWT (JSON Web Token) is signed but not encrypted—the header
@@ -562,14 +562,14 @@ export default function JwtDecoderPage() {
                     use short expiration times with refresh tokens, include a
                     unique token ID (jti) and check it against a database on
                     each request, or implement token versioning where changing a
-                    user's token version invalidates all previous tokens. Each
+                    user&apos;s token version invalidates all previous tokens. Each
                     approach has trade-offs between security and performance.
                   </p>
                 </details>
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between symmetric and asymmetric JWT
+                    What&apos;s the difference between symmetric and asymmetric JWT
                     algorithms?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
@@ -626,7 +626,7 @@ export default function JwtDecoderPage() {
                       libraries.
                     </li>
                     <li>
-                      <strong>Set short expiration times:</strong> Use the "exp"
+                      <strong>Set short expiration times:</strong> Use the &quot;exp&quot;
                       claim and set reasonable expiration times. Access tokens
                       should expire quickly (minutes to hours), while refresh
                       tokens can last longer.
@@ -655,14 +655,14 @@ export default function JwtDecoderPage() {
                       service disruption.
                     </li>
                     <li>
-                      <strong>Don't store sensitive data:</strong> Remember that
+                      <strong>Don&apos;t store sensitive data:</strong> Remember that
                       JWTs are encoded, not encrypted. Anyone with access to the
                       token can read its contents.
                     </li>
                     <li>
                       <strong>Use strong algorithms:</strong> Prefer RS256 or
                       ES256 over HS256 for better security in distributed
-                      systems. Never use the "none" algorithm in production.
+                      systems. Never use the &quot;none&quot; algorithm in production.
                     </li>
                     <li>
                       <strong>Implement token refresh:</strong> Use short-lived

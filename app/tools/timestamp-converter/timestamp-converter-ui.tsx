@@ -374,7 +374,7 @@ export function TimestampConverterUI() {
                 </code>
               </pre>
             ) : (
-              <div className="flex h-[300px] items-center justify-center text-gray-400 dark:text-gray-600">
+              <div className="flex h-[300px] items-center justify-center text-gray-500 dark:text-gray-400">
                 <p className="text-sm">Output will appear here...</p>
               </div>
             )}

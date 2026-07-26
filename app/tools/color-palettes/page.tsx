@@ -105,7 +105,7 @@ export default function ColorPalettesPage() {
                   professional-looking color schemes in seconds.
                 </p>
                 <p>
-                  Whether you're designing a website, creating a brand identity,
+                  Whether you&apos;re designing a website, creating a brand identity,
                   building a mobile app, or working on any visual project,
                   choosing the right colors is crucial. Colors evoke emotions,
                   communicate messages, establish hierarchy, and create the
@@ -138,7 +138,7 @@ export default function ColorPalettesPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Monochromatic color schemes use variations in lightness and
                     saturation of a single hue. These palettes create a
-                    cohesive, elegant look that's easy on the eyes. Perfect for
+                    cohesive, elegant look that&apos;s easy on the eyes. Perfect for
                     minimalist designs, professional websites, and creating
                     depth without complexity. Monochromatic palettes are
                     foolproof and work well for backgrounds, UI elements, and
@@ -183,7 +183,7 @@ export default function ColorPalettesPage() {
                     the color wheel (120 degrees apart). The primary colors
                     (red, yellow, blue) and secondary colors (orange, green,
                     purple) are classic triads. These palettes offer vibrant
-                    contrast while maintaining balance and harmony. They're
+                    contrast while maintaining balance and harmony. They&apos;re
                     perfect for creating colorful, dynamic designs with good
                     color variety. Works best when one color dominates and
                     others serve as accents.
@@ -213,7 +213,7 @@ export default function ColorPalettesPage() {
                     colors adjacent to its complement. This creates strong
                     visual contrast like complementary colors but with more
                     nuance and less tension. For example, if your base is blue,
-                    instead of using orange (complement), you'd use
+                    instead of using orange (complement), you&apos;d use
                     yellow-orange and red-orange. This harmony is versatile,
                     sophisticated, and easier to balance than pure complementary
                     schemes.
@@ -387,7 +387,7 @@ export default function ColorPalettesPage() {
                     <li>
                       <strong>Pastel:</strong> Soft, desaturated colors with
                       high lightness (70-90%). Perfect for gentle, approachable
-                      designs, children's content, or spring/summer themes.
+                      designs, children&apos;s content, or spring/summer themes.
                     </li>
                     <li>
                       <strong>Vibrant:</strong> Highly saturated colors
@@ -488,7 +488,7 @@ export default function ColorPalettesPage() {
                     How do I use the exported palette in my CSS?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Choose "CSS Variables" from the export menu, then copy the
+                    Choose &quot;CSS Variables&quot; from the export menu, then copy the
                     output. Paste it into your CSS file inside a :root selector
                     like this: :root &#123; --color-1: #123456; --color-2:
                     #abcdef; &#125;. Then use these variables throughout your
@@ -500,7 +500,7 @@ export default function ColorPalettesPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What does "locking" a color do?
+                    What does &quot;locking&quot; a color do?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     When you lock a color (by clicking the lock icon), that
@@ -509,7 +509,7 @@ export default function ColorPalettesPage() {
                     color or a color you love and want to build the rest of your
                     palette around it. You can lock multiple colors at once,
                     allowing you to iteratively refine your palette while
-                    keeping the colors you're happy with.
+                    keeping the colors you&apos;re happy with.
                   </p>
                 </details>
 
@@ -519,10 +519,10 @@ export default function ColorPalettesPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     First, click on any color swatch in the generated palette
-                    and type your brand color's hex code into the input field.
+                    and type your brand color&apos;s hex code into the input field.
                     Then lock that color by clicking the lock icon. Now select
                     different palette types (complementary, triadic, analogous,
-                    etc.) and click "Generate New" to explore different
+                    etc.) and click &quot;Generate New&quot; to explore different
                     harmonies built around your brand color. This lets you
                     discover professional color combinations that work perfectly
                     with your existing brand identity.
@@ -531,7 +531,7 @@ export default function ColorPalettesPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between pastel, vibrant, and dark
+                    What&apos;s the difference between pastel, vibrant, and dark
                     palettes?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
@@ -566,11 +566,11 @@ export default function ColorPalettesPage() {
                     How do I use the Tailwind export format?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Select "Tailwind Config" from the export menu and copy the
+                    Select &quot;Tailwind Config&quot; from the export menu and copy the
                     output. Open your tailwind.config.js file and add the
                     exported colors to the theme.extend.colors section. For
-                    example: colors: &#123; 'custom': &#123; 100: '#abc123',
-                    200: '#def456', ... &#125; &#125;. Then use these colors in
+                    example: colors: &#123; &apos;custom&apos;: &#123; 100: &apos;#abc123&apos;,
+                    200: &apos;#def456&apos;, ... &#125; &#125;. Then use these colors in
                     your HTML with classes like bg-custom-100, text-custom-200,
                     border-custom-300, etc. This integrates your generated
                     palette seamlessly into your Tailwind workflow.
@@ -708,7 +708,7 @@ export default function ColorPalettesPage() {
                   </div>
                   <p className="mt-4">
                     Remember that color meanings can vary across cultures.
-                    Always consider your target audience's cultural context when
+                    Always consider your target audience&apos;s cultural context when
                     selecting colors for global products or diverse audiences.
                   </p>
                 </div>

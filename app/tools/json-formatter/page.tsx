@@ -115,7 +115,7 @@ export default function JsonFormatterPage() {
                     RESTful APIs use JSON as the primary data format for request
                     and response payloads. Format API responses to debug
                     integration issues, validate request payloads before
-                    sending, and ensure proper data structure. JSON's
+                    sending, and ensure proper data structure. JSON&apos;s
                     lightweight nature and native JavaScript support make it
                     perfect for web APIs and microservices communication.
                   </p>
@@ -152,7 +152,7 @@ export default function JsonFormatterPage() {
                     Transfer data between systems, applications, or services
                     using JSON. Import/export data from spreadsheets, migrate
                     between different database systems, or exchange information
-                    between front-end and back-end applications. JSON's
+                    between front-end and back-end applications. JSON&apos;s
                     universal support makes it ideal for cross-platform data
                     exchange.
                   </p>
@@ -210,7 +210,7 @@ export default function JsonFormatterPage() {
                       type.
                     </li>
                     <li>
-                      <strong>Strings:</strong> Must use double quotes ("), not
+                      <strong>Strings:</strong> Must use double quotes (&quot;), not
                       single quotes. Special characters must be escaped with
                       backslash.
                     </li>
@@ -232,7 +232,7 @@ export default function JsonFormatterPage() {
                       objects or arrays cannot have a trailing comma.
                     </li>
                     <li>
-                      <strong>No comments:</strong> JSON specification doesn't
+                      <strong>No comments:</strong> JSON specification doesn&apos;t
                       allow comments (unlike JavaScript objects).
                     </li>
                   </ul>
@@ -276,7 +276,7 @@ export default function JsonFormatterPage() {
                     Transform minified or poorly formatted JSON into
                     human-readable format with proper indentation and line
                     breaks. Choose between 2, 3, or 4 spaces for indentation
-                    based on your project's coding standards. Proper formatting
+                    based on your project&apos;s coding standards. Proper formatting
                     makes JSON much easier to read, understand, and maintain,
                     especially for complex nested structures.
                   </p>
@@ -336,13 +336,13 @@ export default function JsonFormatterPage() {
               <div className="space-y-6">
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between JSON and JavaScript objects?
+                    What&apos;s the difference between JSON and JavaScript objects?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     While JSON syntax is based on JavaScript object notation,
-                    they're not identical. JSON requires double quotes for all
-                    keys and string values, doesn't support trailing commas,
-                    cannot contain functions or undefined values, and doesn't
+                    they&apos;re not identical. JSON requires double quotes for all
+                    keys and string values, doesn&apos;t support trailing commas,
+                    cannot contain functions or undefined values, and doesn&apos;t
                     allow comments. JavaScript objects are more flexible,
                     allowing single quotes, unquoted keys, trailing commas,
                     functions, and comments. Think of JSON as a strict subset of
@@ -372,14 +372,14 @@ export default function JsonFormatterPage() {
                     Can I add comments to JSON?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    No, the JSON specification doesn't support comments. If you
+                    No, the JSON specification doesn&apos;t support comments. If you
                     need documentation within your JSON data, you can add a
-                    special key like "_comment" or "description" with string
+                    special key like &quot;_comment&quot; or &quot;description&quot; with string
                     values. Some tools support JSON5 or JSONC (JSON with
                     Comments) which allow comments, but these are not standard
-                    JSON and won't work with most JSON parsers. For
+                    JSON and won&apos;t work with most JSON parsers. For
                     configuration files that need comments, consider using YAML,
-                    TOML, or your language's native configuration format.
+                    TOML, or your language&apos;s native configuration format.
                   </p>
                 </details>
 
@@ -389,11 +389,11 @@ export default function JsonFormatterPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     JSON strings must escape certain special characters using
-                    backslash: \\ for backslash, \" for double quote, \n for
+                    backslash: \\ for backslash, \&quot; for double quote, \n for
                     newline, \r for carriage return, \t for tab, \b for
                     backspace, \f for form feed, and \uXXXX for Unicode
                     characters. For example, to include a quote in a string, use
-                    "He said \"Hello\"". Proper escaping ensures your JSON
+                    &quot;He said \&quot;Hello\&quot;&quot;. Proper escaping ensures your JSON
                     remains valid and displays correctly when parsed.
                   </p>
                 </details>
@@ -424,7 +424,7 @@ export default function JsonFormatterPage() {
                     costs. However, keep formatted versions for development and
                     debugging. Use minification as part of your build process,
                     not manually. For configuration files on servers, formatting
-                    matters less than correctness, so choose what's more
+                    matters less than correctness, so choose what&apos;s more
                     maintainable for your team.
                   </p>
                 </details>
@@ -439,7 +439,7 @@ export default function JsonFormatterPage() {
                     dates (use ISO 8601 strings), functions (not serializable),
                     undefined (use null), circular references (will cause
                     errors), NaN or Infinity (use null or strings), or binary
-                    data (use Base64 encoding). For complex data types, you'll
+                    data (use Base64 encoding). For complex data types, you&apos;ll
                     need to serialize them to JSON-compatible formats and
                     deserialize them on the receiving end.
                   </p>
@@ -450,7 +450,7 @@ export default function JsonFormatterPage() {
                     What indentation size should I use?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    This depends on your project's coding standards. 2 spaces is
+                    This depends on your project&apos;s coding standards. 2 spaces is
                     compact and widely used in modern web development (default
                     for Prettier). 4 spaces provides better visual separation
                     and is common in enterprise projects. 3 spaces is less
@@ -484,7 +484,7 @@ export default function JsonFormatterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     This is a browser-based tool designed for manual use. For
                     programmatic JSON formatting, use your programming
-                    language's built-in functions: JSON.stringify() in
+                    language&apos;s built-in functions: JSON.stringify() in
                     JavaScript, json.dumps() in Python, json_encode() in PHP, or
                     JSON.Marshal() in Go. For command-line formatting, use jq
                     (Unix/Linux/Mac) or integrate Prettier into your build
@@ -523,7 +523,7 @@ export default function JsonFormatterPage() {
                     deep nesting.
                   </p>
                   <p>
-                    <strong>Use appropriate data types:</strong> Don't quote
+                    <strong>Use appropriate data types:</strong> Don&apos;t quote
                     numbers or booleans unnecessarily. Use null for missing
                     values instead of empty strings or zero. Represent dates as
                     ISO 8601 strings (YYYY-MM-DDTHH:mm:ss.sssZ) for consistency

@@ -76,7 +76,7 @@ export default function TextDiffPage() {
                 <p>
                   A text diff (difference) tool is an essential utility for
                   comparing two text documents and visualizing their
-                  differences. Whether you're reviewing code changes, comparing
+                  differences. Whether you&apos;re reviewing code changes, comparing
                   document versions, analyzing configuration files, or resolving
                   merge conflicts, a diff tool highlights exactly what has been
                   added, removed, or modified between two texts. This makes it
@@ -84,7 +84,7 @@ export default function TextDiffPage() {
                   through both documents.
                 </p>
                 <p>
-                  The term "diff" comes from the Unix diff utility created in
+                  The term &quot;diff&quot; comes from the Unix diff utility created in
                   the early 1970s by Douglas McIlroy and James Hunt. This
                   foundational tool introduced the concept of computing the
                   minimum set of changes needed to transform one file into
@@ -98,7 +98,7 @@ export default function TextDiffPage() {
                   daily by millions of developers through version control
                   systems like Git, code review platforms like GitHub and
                   GitLab, and integrated development environments (IDEs).
-                  They're also valuable for writers, editors, legal
+                  They&apos;re also valuable for writers, editors, legal
                   professionals, and anyone who needs to track changes in text
                   documents over time.
                 </p>
@@ -229,7 +229,7 @@ export default function TextDiffPage() {
                   </ul>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Split view is excellent for understanding the overall
-                    structure and context of changes. It's the preferred view
+                    structure and context of changes. It&apos;s the preferred view
                     when you need to see how changes affect the surrounding code
                     or text, making it ideal for code reviews and detailed
                     analysis.
@@ -248,14 +248,14 @@ export default function TextDiffPage() {
                   <ul className="ml-6 list-disc space-y-2 text-gray-700 dark:text-gray-300">
                     <li>
                       <strong className="text-red-600 dark:text-red-400">
-                        Lines with "-" prefix:
+                        Lines with &quot;-&quot; prefix:
                       </strong>{" "}
                       Deletions shown in red, indicating content removed from
                       the original
                     </li>
                     <li>
                       <strong className="text-green-600 dark:text-green-400">
-                        Lines with "+" prefix:
+                        Lines with &quot;+&quot; prefix:
                       </strong>{" "}
                       Additions shown in green, indicating new content in the
                       modified version
@@ -266,12 +266,12 @@ export default function TextDiffPage() {
                     </li>
                     <li>
                       <strong>Hunks:</strong> Groups of changes are organized
-                      into "hunks" with header lines showing line number ranges
+                      into &quot;hunks&quot; with header lines showing line number ranges
                     </li>
                   </ul>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Unified view is more compact than split view, making it
-                    easier to scan through many changes quickly. It's the
+                    easier to scan through many changes quickly. It&apos;s the
                     standard format for patches and is most familiar to
                     developers who work with Git. Perfect for getting a quick
                     overview of all changes or when screen space is limited.
@@ -301,7 +301,7 @@ export default function TextDiffPage() {
                     </li>
                     <li>Configuration files with line-oriented structure</li>
                     <li>
-                      Quick overviews where you don't need character-level
+                      Quick overviews where you don&apos;t need character-level
                       precision
                     </li>
                     <li>
@@ -310,7 +310,7 @@ export default function TextDiffPage() {
                     </li>
                   </ul>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Options like "ignore whitespace" and "newlines as tokens"
+                    Options like &quot;ignore whitespace&quot; and &quot;newlines as tokens&quot;
                     refine how lines are compared, letting you focus on
                     meaningful changes while ignoring formatting differences.
                   </p>
@@ -340,8 +340,8 @@ export default function TextDiffPage() {
                     <li>Editorial reviews and collaborative writing</li>
                   </ul>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    The "ignore case" option is particularly useful here when
-                    capitalization differences aren't important, such as when
+                    The &quot;ignore case&quot; option is particularly useful here when
+                    capitalization differences aren&apos;t important, such as when
                     comparing user-generated content or informal documents.
                   </p>
                 </div>
@@ -393,7 +393,7 @@ export default function TextDiffPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     This tool uses the Myers diff algorithm (developed by Eugene
                     W. Myers in 1986), which is the industry standard for
-                    computing differences between texts. It's the same algorithm
+                    computing differences between texts. It&apos;s the same algorithm
                     powering Git, Unix diff, and most modern version control
                     systems. The Myers algorithm efficiently finds the shortest
                     edit script (smallest set of changes) to transform one text
@@ -409,8 +409,8 @@ export default function TextDiffPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     The generated unified diff patch follows the standard format
                     used by Git and Unix patch tools. You can apply it using:
-                    "git apply patch.diff" for Git repositories, "patch &lt;
-                    patch.diff" for Unix patch command, or import it into
+                    &quot;git apply patch.diff&quot; for Git repositories, &quot;patch &lt;
+                    patch.diff&quot; for Unix patch command, or import it into
                     version control systems. The patch includes headers showing
                     old and new file names, line number ranges (@@), and all
                     changes with +/- markers, making it a portable way to share
@@ -425,8 +425,8 @@ export default function TextDiffPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Ignoring whitespace is crucial when comparing code because
                     formatting changes (indentation, spacing, line endings)
-                    don't affect functionality but can create hundreds of false
-                    "changes." This is especially important when: comparing code
+                    don&apos;t affect functionality but can create hundreds of false
+                    &quot;changes.&quot; This is especially important when: comparing code
                     formatted by different editors or linters, reviewing changes
                     after auto- formatting, working across different operating
                     systems (Windows vs Unix line endings), or when team members
@@ -437,16 +437,16 @@ export default function TextDiffPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between split and unified view?
+                    What&apos;s the difference between split and unified view?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Split view shows both texts side-by-side in parallel
                     columns, making it easier to see context and structure of
-                    both versions simultaneously. It's better for understanding
+                    both versions simultaneously. It&apos;s better for understanding
                     overall changes and seeing how modifications affect
                     surrounding code. Unified view combines both texts into a
                     single column with +/- markers, which is more compact and
-                    matches Git's output format. Use split view for detailed
+                    matches Git&apos;s output format. Use split view for detailed
                     review and context, unified view for quick scanning or when
                     familiar with Git patch format.
                   </p>
@@ -474,11 +474,11 @@ export default function TextDiffPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     While the tool can handle reasonably large files (several
                     megabytes), very large files may be slow to process or could
-                    crash your browser depending on your device's memory and
+                    crash your browser depending on your device&apos;s memory and
                     performance. For best results, keep files under 1-2MB. For
                     comparing very large files (10MB+), consider using
                     command-line tools like diff, git diff, or specialized diff
-                    utilities designed for large-scale comparisons that don't
+                    utilities designed for large-scale comparisons that don&apos;t
                     run in the browser.
                   </p>
                 </details>
@@ -525,25 +525,25 @@ export default function TextDiffPage() {
                     areas, or use the file upload buttons to load text files
                     from your computer. The tool supports any plain text file
                     format (.txt, .js, .py, .md, .json, .xml, .csv, etc.). After
-                    loading, files are read into the browser's memory and
+                    loading, files are read into the browser&apos;s memory and
                     compared locally—nothing is uploaded to any server. The
-                    "Swap" button lets you quickly reverse the comparison
+                    &quot;Swap&quot; button lets you quickly reverse the comparison
                     direction if needed.
                   </p>
                 </details>
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What does "ignore case" do?
+                    What does &quot;ignore case&quot; do?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    The "ignore case" option makes the comparison
+                    The &quot;ignore case&quot; option makes the comparison
                     case-insensitive, treating uppercase and lowercase letters
-                    as equivalent. For example, "Hello" and "hello" would be
+                    as equivalent. For example, &quot;Hello&quot; and &quot;hello&quot; would be
                     considered identical. This is useful when comparing:
                     user-generated content where capitalization varies,
                     case-insensitive programming languages, text where
-                    capitalization doesn't affect meaning, or when you want to
+                    capitalization doesn&apos;t affect meaning, or when you want to
                     focus on content changes rather than formatting. It works
                     with word and character comparison modes but not
                     line-by-line.
@@ -564,7 +564,7 @@ export default function TextDiffPage() {
                     line-by-line comparison in split view to get a quick
                     overview of changes. This helps you understand the scope and
                     type of modifications before diving into details. Once
-                    you've identified interesting sections, switch to word or
+                    you&apos;ve identified interesting sections, switch to word or
                     character mode for detailed analysis.
                   </p>
                   <p>
@@ -577,9 +577,9 @@ export default function TextDiffPage() {
                   </p>
                   <p>
                     <strong>Leverage view options strategically:</strong> Enable
-                    "ignore whitespace" when formatting changes obscure real
-                    content changes. Use "ignore case" for case-insensitive
-                    comparisons. Turn on "newlines as tokens" when paragraph
+                    &quot;ignore whitespace&quot; when formatting changes obscure real
+                    content changes. Use &quot;ignore case&quot; for case-insensitive
+                    comparisons. Turn on &quot;newlines as tokens&quot; when paragraph
                     structure changes are important. These options help you
                     focus on the changes that actually matter.
                   </p>
@@ -592,7 +592,7 @@ export default function TextDiffPage() {
                     patch tools.
                   </p>
                   <p>
-                    <strong>Use context to understand changes:</strong> Don't
+                    <strong>Use context to understand changes:</strong> Don&apos;t
                     just look at the highlighted changes—read the surrounding
                     unchanged lines to understand why changes were made. Context
                     helps you evaluate whether changes are correct, safe, and

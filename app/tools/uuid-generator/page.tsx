@@ -123,7 +123,7 @@ export default function UuidGeneratorPage() {
                     multiple nodes need to generate unique IDs without
                     coordination. Unlike auto-incrementing integers, UUIDs
                     prevent ID collisions when merging data from different
-                    sources and don't reveal record counts or creation order.
+                    sources and don&apos;t reveal record counts or creation order.
                   </p>
                 </div>
                 <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
@@ -209,9 +209,9 @@ export default function UuidGeneratorPage() {
                     MAC address of the generating machine) and a clock sequence
                     to prevent duplicates. This creates naturally sortable UUIDs
                     based on creation time. However, v1 UUIDs may expose network
-                    hardware information and aren't random, making them less
+                    hardware information and aren&apos;t random, making them less
                     suitable for security-sensitive contexts. Use v1 when you
-                    need chronological ordering and don't require complete
+                    need chronological ordering and don&apos;t require complete
                     randomness.
                   </p>
                 </div>
@@ -226,8 +226,8 @@ export default function UuidGeneratorPage() {
                     namespace and name, v3 always produces the same UUID. This
                     is perfect for creating consistent identifiers from URLs,
                     domain names, or other namespaced strings. While MD5 is
-                    cryptographically weak, it's sufficient here since UUIDs
-                    don't require cryptographic security— just uniqueness.
+                    cryptographically weak, it&apos;s sufficient here since UUIDs
+                    don&apos;t require cryptographic security— just uniqueness.
                     However, prefer v5 (SHA-1) for new applications.
                   </p>
                 </div>
@@ -242,7 +242,7 @@ export default function UuidGeneratorPage() {
                     version and variant markers). Modern implementations use
                     cryptographically secure random number generators, making
                     collisions astronomically unlikely. V4 is simple to
-                    generate, doesn't leak information about the system or time,
+                    generate, doesn&apos;t leak information about the system or time,
                     and works universally. Use v4 as your default choice unless
                     you specifically need ordering (v1/v7) or determinism
                     (v3/v5).
@@ -286,8 +286,8 @@ export default function UuidGeneratorPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     The NIL UUID (00000000-0000-0000-0000-000000000000) is a
-                    special reserved value representing "no UUID" or an absent
-                    identifier. It's used as a placeholder or default value in
+                    special reserved value representing &quot;no UUID&quot; or an absent
+                    identifier. It&apos;s used as a placeholder or default value in
                     situations where a UUID field is required but no meaningful
                     value exists yet. Never use NIL UUID as an actual identifier
                     for entities.
@@ -304,16 +304,16 @@ export default function UuidGeneratorPage() {
               <div className="space-y-6">
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between UUID and GUID?
+                    What&apos;s the difference between UUID and GUID?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     UUID (Universally Unique Identifier) and GUID (Globally
                     Unique Identifier) refer to the same thing—a 128-bit
-                    identifier standardized by RFC 4122. "UUID" is the official
+                    identifier standardized by RFC 4122. &quot;UUID&quot; is the official
                     standard term used in specifications and most programming
-                    languages. "GUID" is Microsoft's terminology used in
+                    languages. &quot;GUID&quot; is Microsoft&apos;s terminology used in
                     Windows, .NET, and SQL Server. The two terms are completely
-                    interchangeable, though "UUID" is more common in
+                    interchangeable, though &quot;UUID&quot; is more common in
                     cross-platform contexts.
                   </p>
                 </details>
@@ -324,7 +324,7 @@ export default function UuidGeneratorPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     For UUID v4 (random), the probability of collision is
-                    astronomically low. With 122 bits of randomness, you'd need
+                    astronomically low. With 122 bits of randomness, you&apos;d need
                     to generate about 2.71 quintillion (2.71 × 10¹⁸) UUIDs to
                     have a 50% chance of a single collision. To put this in
                     perspective: if you generated 1 billion UUIDs per second, it
@@ -339,7 +339,7 @@ export default function UuidGeneratorPage() {
                     Which UUID version should I use?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Use UUID v4 (random) as your default choice—it's simple,
+                    Use UUID v4 (random) as your default choice—it&apos;s simple,
                     secure, widely supported, and appropriate for most use
                     cases. Choose v1 or v7 if you need time-based sorting for
                     database indexing performance (v7 is preferable for
@@ -373,7 +373,7 @@ export default function UuidGeneratorPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     UUID v4 provides sufficient randomness for session
-                    identifiers and non-security-critical tokens, but shouldn't
+                    identifiers and non-security-critical tokens, but shouldn&apos;t
                     be used for cryptographic keys, password reset tokens, or
                     authentication secrets. For security-sensitive purposes, use
                     dedicated cryptographic token generation (like
@@ -394,7 +394,7 @@ export default function UuidGeneratorPage() {
                     Python has the uuid module (uuid.uuid4()), Java provides
                     java.util.UUID.randomUUID(), C# has Guid.NewGuid(), PHP
                     offers uniqid() or ramsey/uuid library, and Go has
-                    github.com/google/uuid. Always use your language's standard
+                    github.com/google/uuid. Always use your language&apos;s standard
                     library or well-maintained packages rather than implementing
                     UUID generation yourself.
                   </p>
@@ -426,9 +426,9 @@ export default function UuidGeneratorPage() {
                     standard namespaces: DNS (for domain names), URL (for URLs),
                     OID (for ISO OIDs), and X.500 (for X.500 DNs). For example,
                     generating a v5 UUID from the URL namespace and
-                    "https://example.com" always produces the same UUID. You can
+                    &quot;https://example.com&quot; always produces the same UUID. You can
                     also create custom namespaces by generating a UUID to serve
-                    as the namespace identifier for your application's
+                    as the namespace identifier for your application&apos;s
                     name-based UUIDs.
                   </p>
                 </details>
@@ -456,7 +456,7 @@ export default function UuidGeneratorPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     This tool generates RFC 4122 compliant UUIDs using your
-                    browser's cryptographically secure random number generator
+                    browser&apos;s cryptographically secure random number generator
                     (crypto.getRandomValues() or crypto.randomUUID()). The
                     generated UUIDs are suitable for production use. However,
                     for high-volume production systems, generate UUIDs
@@ -515,11 +515,11 @@ export default function UuidGeneratorPage() {
                     representations.
                   </p>
                   <p>
-                    <strong>Don't extract security from UUIDs:</strong> Never
+                    <strong>Don&apos;t extract security from UUIDs:</strong> Never
                     use UUIDs for access control, authentication, or
-                    authorization. They're identifiers, not security tokens.
-                    Don't parse v1 UUIDs to get timestamps for business
-                    logic—use proper timestamp fields. Don't rely on UUID
+                    authorization. They&apos;re identifiers, not security tokens.
+                    Don&apos;t parse v1 UUIDs to get timestamps for business
+                    logic—use proper timestamp fields. Don&apos;t rely on UUID
                     randomness for cryptographic operations—use dedicated crypto
                     libraries.
                   </p>
@@ -550,7 +550,7 @@ export default function UuidGeneratorPage() {
                     A UUID is 128 bits long, typically represented as 32
                     hexadecimal digits with hyphens:
                     xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx. The M position (4
-                    bits) indicates version (1-5, 7). The N position's first 2-3
+                    bits) indicates version (1-5, 7). The N position&apos;s first 2-3
                     bits indicate variant (10 for RFC 4122). This leaves 122
                     bits for data in v4 random UUIDs. The specific bit layout
                     varies by version—v1 encodes timestamp, clock sequence, and

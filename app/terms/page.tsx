@@ -4,7 +4,7 @@ import { SITE_NAME } from "@/lib/i18n/en";
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description:
-    "Terms and conditions for using Frontend Tools Hub. Understand your rights and responsibilities when using our free, client-side developer tools.",
+    `Terms and conditions for using ${SITE_NAME}. Understand your rights and responsibilities when using our free, client-side developer tools.`,
   keywords: [
     "terms and conditions",
     "terms of service",
@@ -15,20 +15,20 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Terms & Conditions | ${SITE_NAME}`,
     description:
-      "Terms and conditions for using Frontend Tools Hub's free, client-side developer utilities.",
+      `Terms and conditions for using ${SITE_NAME}'s free, client-side developer utilities.`,
     type: "website",
   },
   twitter: {
     card: "summary",
     title: `Terms & Conditions | ${SITE_NAME}`,
     description:
-      "Terms and conditions for using Frontend Tools Hub's free, client-side developer utilities.",
+      `Terms and conditions for using ${SITE_NAME}'s free, client-side developer utilities.`,
   },
 };
 
 export default function TermsPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-4xl">
         <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
           Legal
@@ -40,10 +40,10 @@ export default function TermsPage() {
         <div className="space-y-8 text-[var(--ink-soft)]">
           <section>
             <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
-              Welcome to Frontend Tools Hub
+              Welcome to {SITE_NAME}
             </h2>
             <p className="mb-4 leading-relaxed">
-              By accessing and using Frontend Tools Hub, you agree to be bound
+              By accessing and using {SITE_NAME}, you agree to be bound
               by these Terms and Conditions. If you do not agree with any part
               of these terms, please do not use our services.
             </p>
@@ -67,7 +67,7 @@ export default function TermsPage() {
             </h2>
             <p className="mb-4 leading-relaxed">
               These Terms and Conditions constitute a legally binding agreement
-              between you and Frontend Tools Hub. By accessing or using our
+              between you and {SITE_NAME}. By accessing or using our
               website and tools, you acknowledge that you have read, understood,
               and agree to be bound by these terms.
             </p>
@@ -78,7 +78,7 @@ export default function TermsPage() {
               2. Description of Service
             </h2>
             <p className="mb-4 leading-relaxed">
-              Frontend Tools Hub provides a collection of free, client-side
+              {SITE_NAME} provides a collection of free, client-side
               developer utilities and tools. All tools run entirely in your
               browser without server-side processing. We offer these tools for:
             </p>
@@ -127,7 +127,7 @@ export default function TermsPage() {
               4. Open Source
             </h2>
             <p className="mb-4 leading-relaxed">
-              Frontend Tools Hub is an open-source project. The source code is
+              {SITE_NAME} is an open-source project. The source code is
               available on GitHub and licensed under the MIT License. You are
               free to:
             </p>
@@ -149,7 +149,7 @@ export default function TermsPage() {
               5. Disclaimer of Warranties
             </h2>
             <p className="mb-4 leading-relaxed">
-              Frontend Tools Hub is provided &quot;AS IS&quot; and &quot;AS
+              {SITE_NAME} is provided &quot;AS IS&quot; and &quot;AS
               AVAILABLE&quot; without warranties of any kind, either express or
               implied, including but not limited to:
             </p>
@@ -174,7 +174,7 @@ export default function TermsPage() {
               6. Limitation of Liability
             </h2>
             <p className="mb-4 leading-relaxed">
-              To the maximum extent permitted by law, Frontend Tools Hub and its
+              To the maximum extent permitted by law, {SITE_NAME} and its
               contributors shall not be liable for any indirect, incidental,
               special, consequential, or punitive damages, including but not
               limited to:
@@ -242,7 +242,7 @@ export default function TermsPage() {
               9. Intellectual Property
             </h2>
             <p className="mb-4 leading-relaxed">
-              The Frontend Tools Hub website, including its design, layout,
+              The {SITE_NAME} website, including its design, layout,
               graphics, and original content, is protected by copyright and
               other intellectual property laws. While our source code is
               open-source (MIT License), certain trademarks, logos, and branding
@@ -256,7 +256,7 @@ export default function TermsPage() {
             </h2>
             <p className="mb-4 leading-relaxed">
               Our website may contain links to third-party websites or services
-              that are not owned or controlled by Frontend Tools Hub. We have no
+              that are not owned or controlled by {SITE_NAME}. We have no
               control over and assume no responsibility for the content, privacy
               policies, or practices of any third-party sites or services.
             </p>
@@ -283,7 +283,7 @@ export default function TermsPage() {
               We reserve the right to update or modify these Terms and
               Conditions at any time without prior notice. Changes will be
               effective immediately upon posting to this page. Your continued
-              use of Frontend Tools Hub after any changes constitutes acceptance
+              use of {SITE_NAME} after any changes constitutes acceptance
               of the new terms. We encourage you to review these terms
               periodically.
             </p>
@@ -338,6 +338,6 @@ export default function TermsPage() {
           </section>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

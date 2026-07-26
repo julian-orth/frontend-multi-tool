@@ -129,7 +129,7 @@ export default function UrlEncoderPage() {
                     Form Submissions
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    HTML forms with method="GET" automatically URL-encode form
+                    HTML forms with method=&quot;GET&quot; automatically URL-encode form
                     data before submitting. Understanding URL encoding is
                     essential for debugging form submissions, creating custom
                     query strings, or working with
@@ -144,7 +144,7 @@ export default function UrlEncoderPage() {
                     RESTful APIs often use URL parameters for filtering,
                     sorting, and pagination. Properly encoding these parameters
                     ensures that special characters in filter values, search
-                    terms, or identifiers don't break API requests or cause
+                    terms, or identifiers don&apos;t break API requests or cause
                     security vulnerabilities.
                   </p>
                 </div>
@@ -204,13 +204,13 @@ export default function UrlEncoderPage() {
                   </p>
                   <ul className="ml-6 list-disc space-y-2 text-gray-700 dark:text-gray-300">
                     <li>Alphanumeric characters: A-Z, a-z, 0-9</li>
-                    <li>Unreserved characters: - _ . ! ~ * ' ( )</li>
+                    <li>Unreserved characters: - _ . ! ~ * &apos; ( )</li>
                   </ul>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     <strong>Use this when:</strong> Encoding individual
                     parameter values, path segments, or any data that will be
                     inserted into a URL. This ensures that characters like &, =,
-                    ?, and / are encoded and won't be interpreted as URL
+                    ?, and / are encoded and won&apos;t be interpreted as URL
                     structure.
                   </p>
                   <div className="mt-4 rounded-lg bg-gray-100 p-4 font-mono text-sm dark:bg-gray-950">
@@ -218,10 +218,10 @@ export default function UrlEncoderPage() {
                       Example:
                     </div>
                     <div className="mt-2 text-gray-900 dark:text-gray-100">
-                      Input: "Hello World & Friends"
+                      Input: &quot;Hello World & Friends&quot;
                     </div>
                     <div className="mt-1 text-green-600 dark:text-green-400">
-                      Output: "Hello%20World%20%26%20Friends"
+                      Output: &quot;Hello%20World%20%26%20Friends&quot;
                     </div>
                   </div>
                 </div>
@@ -233,7 +233,7 @@ export default function UrlEncoderPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     This mode is designed for encoding complete URLs. It encodes
                     most characters but preserves those that have special
-                    meaning in URIs, including: : / ? # [ ] @ ! $ & ' ( ) * + ,
+                    meaning in URIs, including: : / ? # [ ] @ ! $ & &apos; ( ) * + ,
                     ; =
                   </p>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
@@ -247,10 +247,10 @@ export default function UrlEncoderPage() {
                       Example:
                     </div>
                     <div className="mt-2 text-gray-900 dark:text-gray-100">
-                      Input: "https://example.com/path with spaces"
+                      Input: &quot;https://example.com/path with spaces&quot;
                     </div>
                     <div className="mt-1 text-green-600 dark:text-green-400">
-                      Output: "https://example.com/path%20with%20spaces"
+                      Output: &quot;https://example.com/path%20with%20spaces&quot;
                     </div>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default function UrlEncoderPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     This encoding method is used by HTML forms with the default
-                    content type. It's similar to encodeURIComponent but with
+                    content type. It&apos;s similar to encodeURIComponent but with
                     one key difference: spaces are encoded as + instead of %20.
                     This format is the standard for POST request bodies and GET
                     query strings from HTML forms.
@@ -277,10 +277,10 @@ export default function UrlEncoderPage() {
                       Example:
                     </div>
                     <div className="mt-2 text-gray-900 dark:text-gray-100">
-                      Input: "first name"
+                      Input: &quot;first name&quot;
                     </div>
                     <div className="mt-1 text-green-600 dark:text-green-400">
-                      Output: "first+name"
+                      Output: &quot;first+name&quot;
                     </div>
                   </div>
                 </div>
@@ -292,9 +292,9 @@ export default function UrlEncoderPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     RFC3986 is the current standard for URI syntax. This mode
                     extends encodeURIComponent by also encoding the characters !
-                    ' ( ) *, which are technically reserved in the RFC3986
-                    specification even though JavaScript's built-in
-                    encodeURIComponent doesn't encode them.
+                    &apos; ( ) *, which are technically reserved in the RFC3986
+                    specification even though JavaScript&apos;s built-in
+                    encodeURIComponent doesn&apos;t encode them.
                   </p>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     <strong>Use this when:</strong> You need strict compliance
@@ -307,10 +307,10 @@ export default function UrlEncoderPage() {
                       Example:
                     </div>
                     <div className="mt-2 text-gray-900 dark:text-gray-100">
-                      Input: "user(name)"
+                      Input: &quot;user(name)&quot;
                     </div>
                     <div className="mt-1 text-green-600 dark:text-green-400">
-                      Output: "user%28name%29"
+                      Output: &quot;user%28name%29&quot;
                     </div>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ export default function UrlEncoderPage() {
               <div className="space-y-6">
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between encodeURI and
+                    What&apos;s the difference between encodeURI and
                     encodeURIComponent?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
@@ -363,7 +363,7 @@ export default function UrlEncoderPage() {
                     UTF-8 encoding. Characters like Chinese, Arabic, Cyrillic,
                     or emoji are first converted to their UTF-8 byte
                     representation, then each byte is percent-encoded. For
-                    example, "你好" becomes "%E4%BD%A0%E5%A5%BD". This is the
+                    example, &quot;你好&quot; becomes &quot;%E4%BD%A0%E5%A5%BD&quot;. This is the
                     standard way international domain names and multilingual
                     URLs work.
                   </p>
@@ -379,7 +379,7 @@ export default function UrlEncoderPage() {
                     using % followed by hexadecimal digits. HTML encoding uses
                     entities like &amp; and &lt; to display special characters
                     in HTML content. You need URL encoding for URLs and HTML
-                    encoding for displaying text in HTML. They're not
+                    encoding for displaying text in HTML. They&apos;re not
                     interchangeable.
                   </p>
                 </details>
@@ -390,9 +390,9 @@ export default function UrlEncoderPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Double encoding occurs when already-encoded data is encoded
-                    again. For example, encoding "hello world" gives
-                    "hello%20world", but encoding that again gives
-                    "hello%2520world" (where %20 becomes %2520). This usually
+                    again. For example, encoding &quot;hello world&quot; gives
+                    &quot;hello%20world&quot;, but encoding that again gives
+                    &quot;hello%2520world&quot; (where %20 becomes %2520). This usually
                     happens due to programming errors where data is encoded
                     multiple times. Always ensure you only encode raw data once
                     before adding it to a URL.
@@ -417,12 +417,12 @@ export default function UrlEncoderPage() {
                     What characters need to be URL encoded?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Any character that's not an unreserved character should be
+                    Any character that&apos;s not an unreserved character should be
                     encoded. Unreserved characters are: A-Z, a-z, 0-9, hyphen
                     (-), underscore (_), period (.), and tilde (~). Everything
                     else, including spaces, special characters, and non-ASCII
                     characters, should be percent-encoded. Reserved characters
-                    like ?, &, =, #, / should always be encoded when they're
+                    like ?, &, =, #, / should always be encoded when they&apos;re
                     part of data, not URL structure.
                   </p>
                 </details>
@@ -433,8 +433,8 @@ export default function UrlEncoderPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Malformed URLs can occur from invalid percent sequences
-                    (like %2G where G isn't a hex digit) or incomplete encoding.
-                    Our tool will display an error message if the URL can't be
+                    (like %2G where G isn&apos;t a hex digit) or incomplete encoding.
+                    Our tool will display an error message if the URL can&apos;t be
                     decoded. Common issues include: missing the second hex digit
                     after %, using lowercase hex digits inconsistently, or
                     having actual % characters that should be encoded as %25.
@@ -450,10 +450,10 @@ export default function UrlEncoderPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Yes! OAuth redirect URIs must be properly URL-encoded when
                     passed as parameters to authorization endpoints. Use the
-                    "Component" encoding mode to encode your redirect URI before
+                    &quot;Component&quot; encoding mode to encode your redirect URI before
                     adding it to the authorization URL. This ensures that query
-                    parameters in your redirect URI don't interfere with the
-                    authorization server's parameters.
+                    parameters in your redirect URI don&apos;t interfere with the
+                    authorization server&apos;s parameters.
                   </p>
                 </details>
 
@@ -513,7 +513,7 @@ export default function UrlEncoderPage() {
                   <ul className="mt-2 ml-6 list-disc space-y-2">
                     <li>Space: %20 (or + in form data)</li>
                     <li>Exclamation mark (!): %21</li>
-                    <li>Double quote ("): %22</li>
+                    <li>Double quote (&quot;): %22</li>
                     <li>Percent sign (%): %25</li>
                     <li>Ampersand (&): %26</li>
                     <li>Plus (+): %2B</li>

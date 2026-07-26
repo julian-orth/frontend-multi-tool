@@ -37,17 +37,6 @@ export function Base64UI() {
   const [copied, setCopied] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  // Live mode processing
-  useEffect(() => {
-    if (liveMode && input) {
-      handleProcess();
-    } else if (!input) {
-      setOutput("");
-      setResult(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [input, liveMode, mode, urlSafe, lineByLine, splitLines]);
-
   const handleProcess = useCallback(() => {
     let processResult: Base64Result;
 
@@ -71,6 +60,20 @@ export function Base64UI() {
     setResult(processResult);
     setOutput(processResult.output);
   }, [input, mode, urlSafe, lineByLine, splitLines]);
+
+  // Live mode processing: intentionally re-syncs output to input on every
+  // change while the user has live mode on (an explicit opt-in toggle, not
+  // the default), as opposed to the manual "Process" button flow below.
+  useEffect(() => {
+    if (liveMode && input) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      handleProcess();
+    } else if (!input) {
+      setOutput("");
+      setResult(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input, liveMode, mode, urlSafe, lineByLine, splitLines]);
 
   const handleClear = useCallback(() => {
     setInput("");
@@ -381,7 +384,7 @@ export function Base64UI() {
                 </code>
               </pre>
             ) : (
-              <div className="flex h-[400px] items-center justify-center text-gray-400 dark:text-gray-600">
+              <div className="flex h-[400px] items-center justify-center text-gray-500 dark:text-gray-400">
                 <p className="text-sm">
                   {liveMode
                     ? "Start typing to see live results..."
@@ -420,7 +423,7 @@ export function Base64UI() {
         <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
           <p>
             Base64 is a binary-to-text encoding scheme that represents binary
-            data in an ASCII string format. It's commonly used to encode data
+            data in an ASCII string format. It&apos;s commonly used to encode data
             for transmission over media designed to handle text.
           </p>
           <ul className="mt-2 ml-5 list-disc space-y-1">

@@ -218,7 +218,7 @@ export function JWTDecoderUI() {
                   Security Warning
                 </p>
                 <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
-                  This JWT uses the "none" algorithm, which provides no
+                  This JWT uses the &quot;none&quot; algorithm, which provides no
                   cryptographic protection. This is highly insecure and should
                   never be used in production.
                 </p>
@@ -415,7 +415,7 @@ export function JWTDecoderUI() {
               </div>
               <p className="mt-3 text-xs text-gray-600 dark:text-gray-400">
                 The signature is used to verify that the sender of the JWT is
-                who it claims to be and that the message wasn't changed along
+                who it claims to be and that the message wasn&apos;t changed along
                 the way. To verify the signature, you need the secret key or
                 public key (depending on the algorithm used).
               </p>
@@ -445,7 +445,7 @@ export function JWTDecoderUI() {
               the user and additional metadata)
             </li>
             <li>
-              <strong>Signature:</strong> Used to verify the token's integrity
+              <strong>Signature:</strong> Used to verify the token&apos;s integrity
               and authenticity
             </li>
           </ul>

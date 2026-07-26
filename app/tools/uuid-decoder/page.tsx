@@ -90,7 +90,7 @@ export default function UuidDecoderPage() {
                   generation, investigating event ordering, and validating that
                   systems are producing the expected UUID versions. For example,
                   if your API is supposed to generate v4 random UUIDs but you
-                  discover it's actually generating v1 UUIDs, this could have
+                  discover it&apos;s actually generating v1 UUIDs, this could have
                   privacy implications since v1 may expose machine information.
                 </p>
                 <p>
@@ -166,7 +166,7 @@ export default function UuidDecoderPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Decode UUIDs from legacy databases or systems to understand
-                    how they were generated, determine if they're time-based or
+                    how they were generated, determine if they&apos;re time-based or
                     random, and plan migration strategies. Knowing the UUID
                     version helps when integrating old and new systems or
                     standardizing identifier generation.
@@ -204,7 +204,7 @@ export default function UuidDecoderPage() {
                     these bits to identify the UUID type. Version indicates the
                     generation algorithm (1=time- based, 3=MD5 hash, 4=random,
                     5=SHA-1 hash, 7=time-ordered). Variant indicates the UUID
-                    layout specification (RFC 4122 uses variant "10").
+                    layout specification (RFC 4122 uses variant &quot;10&quot;).
                   </p>
                 </div>
 
@@ -231,7 +231,7 @@ export default function UuidDecoderPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Version 1 UUIDs include a 48-bit node identifier in the last
                     12 hex digits. Originally this was the IEEE 802 MAC address
-                    of the generating machine's network interface. Modern
+                    of the generating machine&apos;s network interface. Modern
                     implementations often use random node IDs or hash-based
                     identifiers instead of real MAC addresses for privacy. The
                     decoder extracts this field and indicates whether it appears
@@ -247,7 +247,7 @@ export default function UuidDecoderPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Version 4 UUIDs are purely random except for version and
                     variant bits. The decoder identifies v4 UUIDs and confirms
-                    there's no embedded timestamp or node information. All other
+                    there&apos;s no embedded timestamp or node information. All other
                     bits (122 bits) are cryptographically random, providing no
                     extractable metadata. This makes v4 UUIDs the most
                     privacy-preserving option.
@@ -290,7 +290,7 @@ export default function UuidDecoderPage() {
                     debugging and approximate ordering, but rely on explicit
                     timestamp fields in your data model for business logic and
                     accurate time tracking. The precision is there, but accuracy
-                    depends on the generating system's clock.
+                    depends on the generating system&apos;s clock.
                   </p>
                 </details>
 
@@ -302,9 +302,9 @@ export default function UuidDecoderPage() {
                     Historically yes, but modern implementations typically use
                     random node identifiers instead. RFC 4122 allows using
                     random values for the node field with the multicast bit set
-                    to indicate it's not a real MAC address. Check the decoded
+                    to indicate it&apos;s not a real MAC address. Check the decoded
                     node identifier—if the least significant bit of the first
-                    octet is 1, it's multicast (random). If 0, it could be a
+                    octet is 1, it&apos;s multicast (random). If 0, it could be a
                     real unicast MAC address. Most modern UUID libraries use
                     random node IDs for privacy.
                   </p>
@@ -347,10 +347,10 @@ export default function UuidDecoderPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     The variant field indicates which UUID layout specification
-                    is used. RFC 4122 defines variant "10" (binary), which is
+                    is used. RFC 4122 defines variant &quot;10&quot; (binary), which is
                     what almost all modern UUIDs use. There are historical
                     variants from older specifications (NCS, Microsoft,
-                    reserved) that used different bit layouts. If a UUID doesn't
+                    reserved) that used different bit layouts. If a UUID doesn&apos;t
                     have RFC 4122 variant, it may not decode correctly or may be
                     from a legacy system. The decoder identifies the variant to
                     help validate UUID conformance.
@@ -394,9 +394,9 @@ export default function UuidDecoderPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     This tool is designed for analyzing individual UUIDs. For
                     bulk decoding, consider using programming libraries in your
-                    language of choice. Python's uuid module, JavaScript uuid
+                    language of choice. Python&apos;s uuid module, JavaScript uuid
                     libraries, or command-line tools can process large datasets.
-                    You could also write a simple script using this tool's
+                    You could also write a simple script using this tool&apos;s
                     decoding logic adapted to your needs for batch processing of
                     UUID datasets.
                   </p>
@@ -404,16 +404,16 @@ export default function UuidDecoderPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the clock sequence in v1 UUIDs?
+                    What&apos;s the clock sequence in v1 UUIDs?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     The clock sequence is a 14-bit counter in v1 UUIDs used to
                     prevent duplicates when the system clock moves backward,
-                    changes, or when the node identifier changes. It's
+                    changes, or when the node identifier changes. It&apos;s
                     incremented whenever the clock appears to have gone backward
                     relative to the last UUID generated. This ensures uniqueness
                     even with clock adjustments. The decoded clock sequence
-                    value itself isn't particularly useful—it's mainly an
+                    value itself isn&apos;t particularly useful—it&apos;s mainly an
                     internal mechanism for collision avoidance.
                   </p>
                 </details>
@@ -428,7 +428,7 @@ export default function UuidDecoderPage() {
               <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                 <div className="space-y-4 text-gray-700 dark:text-gray-300">
                   <p>
-                    <strong>Use decoded data for debugging only:</strong> Don't
+                    <strong>Use decoded data for debugging only:</strong> Don&apos;t
                     rely on decoded timestamps or node identifiers for business
                     logic. Extracted timestamps are approximate and
                     clock-dependent. Node IDs may be random or real MAC
@@ -439,7 +439,7 @@ export default function UuidDecoderPage() {
                   <p>
                     <strong>Verify UUID versions in production:</strong>{" "}
                     Regularly decode sample UUIDs from your production systems
-                    to ensure they're generating the expected versions. If you
+                    to ensure they&apos;re generating the expected versions. If you
                     expect v4 random UUIDs but discover v1, investigate
                     immediately—this could have privacy or performance
                     implications. Set up monitoring to alert on unexpected UUID
@@ -457,13 +457,13 @@ export default function UuidDecoderPage() {
                   <p>
                     <strong>Understand version limitations:</strong> Know which
                     UUID versions contain extractable data (v1 and v7 have
-                    timestamps, v1 has node IDs) and which don't (v3, v4, v5 are
-                    opaque). Don't attempt to extract timestamps from v4 random
-                    UUIDs—there's nothing to extract. Check the version first to
+                    timestamps, v1 has node IDs) and which don&apos;t (v3, v4, v5 are
+                    opaque). Don&apos;t attempt to extract timestamps from v4 random
+                    UUIDs—there&apos;s nothing to extract. Check the version first to
                     understand what decoding will reveal.
                   </p>
                   <p>
-                    <strong>Validate before assuming:</strong> Don't assume all
+                    <strong>Validate before assuming:</strong> Don&apos;t assume all
                     UUIDs in your system follow RFC 4122. Legacy systems,
                     third-party integrations, or manual test data might use
                     non-standard formats. Always validate variant and version

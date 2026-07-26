@@ -4,12 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { NAV_ITEMS, TOOLS } from "@/lib/i18n/en";
-import { useTheme } from "@/lib/contexts/theme-context";
 
 export function Footer() {
   const pathname = usePathname();
   const isToolPage = pathname.startsWith("/tools/");
-  const { theme } = useTheme();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -23,11 +21,18 @@ export function Footer() {
           <div className="lg:col-span-2">
             <div className="mb-4">
               <Image
-                src={theme === "dark" ? "/logo-darkmode.svg" : "/logo.svg"}
+                src="/logo.svg"
                 alt="DeveloperUtilityTools"
                 width={250}
                 height={38}
-                className="h-10 w-auto"
+                className="h-10 w-auto dark:hidden"
+              />
+              <Image
+                src="/logo-darkmode.svg"
+                alt="DeveloperUtilityTools"
+                width={250}
+                height={38}
+                className="hidden h-10 w-auto dark:block"
               />
             </div>
             <p className="mb-4 max-w-md text-sm leading-relaxed text-gray-700 dark:text-gray-400">
@@ -116,17 +121,6 @@ export function Footer() {
                 aria-current={pathname === "/terms" ? "page" : undefined}
               >
                 Terms &amp; Conditions
-              </Link>
-              <Link
-                href="/contact"
-                className={`transition-colors ${
-                  pathname === "/contact"
-                    ? "font-semibold text-[var(--ink)]"
-                    : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
-                }`}
-                aria-current={pathname === "/contact" ? "page" : undefined}
-              >
-                Contact
               </Link>
             </div>
           </div>

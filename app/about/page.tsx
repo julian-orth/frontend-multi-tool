@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-8 pb-16 sm:px-6">
       <div className="mb-8">
         <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
           About
@@ -195,11 +195,17 @@ export default function AboutPage() {
             Contact
           </h2>
           <p className="text-[var(--ink-soft)]">
-            For feedback, collaboration requests, or bug reports, use the
-            contact page.
+            For feedback, collaboration requests, or bug reports, reach out at{" "}
+            <a
+              href={`mailto:${SITE_CONFIG.email}`}
+              className="text-[var(--ink)] underline hover:no-underline"
+            >
+              {SITE_CONFIG.email}
+            </a>
+            .
           </p>
         </section>
       </div>
-    </main>
+    </div>
   );
 }

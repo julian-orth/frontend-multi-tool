@@ -12,16 +12,18 @@ export function GeneratorUI() {
   >("v4");
 
   useEffect(() => {
+    // Reads the URL on the client only, to keep server and initial client
+    // render identical and avoid a hydration mismatch.
     try {
       const params = new URLSearchParams(window.location.search);
       const v = params.get("version");
       if (v && ["v1", "v3", "v4", "v5", "v7", "nil"].includes(v)) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setVersion(v as any);
       }
     } catch (e) {
       // noop
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Generate once on first client render so users see a UUID immediately
@@ -29,7 +31,6 @@ export function GeneratorUI() {
     // call handleGenerate on mount but avoid triggering the button "generating"
     // animation/state. We pass `{ animate: false }` so the initial value is
     // produced silently.
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     handleGenerate({ animate: false });
     // We intentionally run this only once on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps

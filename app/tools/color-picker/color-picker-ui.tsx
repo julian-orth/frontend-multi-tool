@@ -36,19 +36,17 @@ export function ColorPickerUI() {
   const [isDragging, setIsDragging] = useState(false);
   const colorBoxRef = React.useRef<HTMLDivElement>(null);
 
-  // Parse and update color when input changes
-  useEffect(() => {
-    const parsed = parseColor(inputValue);
-    if (parsed) {
-      const hex = normalizeHex(inputValue);
-      setColor(hex);
-    }
-  }, [inputValue]);
-
   const handleColorInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setInputValue(value);
+
+      // Only commit as the active color once it parses to a valid one;
+      // otherwise keep the last valid color while the user keeps typing.
+      const parsed = parseColor(value);
+      if (parsed) {
+        setColor(normalizeHex(value));
+      }
     },
     []
   );
@@ -115,8 +113,12 @@ export function ColorPickerUI() {
     : { h: 217, s: 91, l: 60 };
   const [hue, setHue] = useState(currentHsl.h);
 
-  // Update hue when color changes externally
+  // Re-sync the hue slider whenever the active color changes from any
+  // other source (hex input, native picker, random color) — hue can't be
+  // derived inline here since dragging the slider itself needs to hold an
+  // in-progress value independent of color's saturation/lightness.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHue(currentHsl.h);
   }, [currentHsl.h]);
 
@@ -233,11 +235,15 @@ export function ColorPickerUI() {
 
           {/* Hue Slider */}
           <div>
-            <label className="mb-2 flex items-center justify-between text-xs font-medium text-gray-600 dark:text-gray-400">
+            <label
+              htmlFor="hue-slider"
+              className="mb-2 flex items-center justify-between text-xs font-medium text-gray-600 dark:text-gray-400"
+            >
               <span>Hue</span>
               <span className="font-mono">{hue}°</span>
             </label>
             <input
+              id="hue-slider"
               type="range"
               min="0"
               max="360"
@@ -284,13 +290,17 @@ export function ColorPickerUI() {
 
           {/* Alpha slider */}
           <div>
-            <label className="mb-2 flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label
+              htmlFor="opacity-slider"
+              className="mb-2 flex items-center justify-between text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
               <span>Opacity</span>
               <span className="font-mono text-xs text-gray-500 dark:text-gray-400">
                 {Math.round(alpha * 100)}%
               </span>
             </label>
             <input
+              id="opacity-slider"
               type="range"
               min="0"
               max="1"

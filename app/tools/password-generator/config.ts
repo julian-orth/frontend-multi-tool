@@ -8,7 +8,7 @@ export const PasswordGeneratorToolConfig: Tool = {
   href: "/tools/password-generator",
   group: "Security",
   groupColor: "indigo",
-  groupIcon: "key-round",
+  groupIcon: "shield",
   keywords: [
     "password generator",
     "secure password",

@@ -84,7 +84,7 @@ export default function TimestampConverterPage() {
                   seconds. It counts the number of seconds that have elapsed
                   since the Unix Epoch: January 1, 1970 at 00:00:00 UTC
                   (Coordinated Universal Time). This specific moment is also
-                  known as the "birth of Unix time" and serves as the reference
+                  known as the &quot;birth of Unix time&quot; and serves as the reference
                   point for all Unix timestamp calculations.
                 </p>
                 <p>
@@ -99,7 +99,7 @@ export default function TimestampConverterPage() {
                 <p>
                   Unlike human-readable date formats that vary by locale,
                   language, and timezone, Unix timestamps are completely
-                  unambiguous and universal. Whether you're in New York, Tokyo,
+                  unambiguous and universal. Whether you&apos;re in New York, Tokyo,
                   or Sydney, the Unix timestamp 1701388800 represents exactly
                   the same moment in time for everyone. This universality makes
                   Unix timestamps essential for distributed systems,
@@ -108,8 +108,8 @@ export default function TimestampConverterPage() {
                 </p>
                 <p>
                   One important characteristic of Unix timestamps is that they
-                  don't account for leap seconds—small adjustments made to keep
-                  atomic time synchronized with Earth's rotation. This means
+                  don&apos;t account for leap seconds—small adjustments made to keep
+                  atomic time synchronized with Earth&apos;s rotation. This means
                   Unix time assumes every day has exactly 86,400 seconds, which
                   simplifies calculations but means Unix time can drift slightly
                   from actual solar time over long periods.
@@ -142,7 +142,7 @@ export default function TimestampConverterPage() {
                     Milliseconds (13 digits)
                   </h3>
                   <p className="mb-3 text-gray-700 dark:text-gray-300">
-                    JavaScript's native timestamp format, counting milliseconds
+                    JavaScript&apos;s native timestamp format, counting milliseconds
                     since the Unix Epoch. Used extensively in web development,
                     Node.js, and any JavaScript-based applications. Provides
                     millisecond precision.
@@ -194,7 +194,7 @@ export default function TimestampConverterPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Databases use Unix timestamps to store date and time
-                    information efficiently. They're perfect for sorting
+                    information efficiently. They&apos;re perfect for sorting
                     chronological records, calculating time differences, and
                     performing date-based queries. Most SQL databases (MySQL,
                     PostgreSQL, SQLite) and NoSQL databases (MongoDB, Redis)
@@ -212,7 +212,7 @@ export default function TimestampConverterPage() {
                     frequently use Unix timestamps to represent dates. They
                     eliminate timezone confusion and ambiguity in international
                     applications. Since Unix timestamps are just integers,
-                    they're easy to serialize, deserialize, and validate across
+                    they&apos;re easy to serialize, deserialize, and validate across
                     different systems and programming languages.
                   </p>
                 </div>
@@ -253,7 +253,7 @@ export default function TimestampConverterPage() {
                     Task schedulers, cron jobs, and background workers use Unix
                     timestamps to schedule future execution, track last run
                     times, and calculate intervals between executions. Whether
-                    you're scheduling email campaigns, database backups, or
+                    you&apos;re scheduling email campaigns, database backups, or
                     automated reports, Unix timestamps provide reliable
                     scheduling across different timezones.
                   </p>
@@ -414,7 +414,7 @@ export default function TimestampConverterPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     A 13-digit timestamp represents milliseconds since the Unix
-                    Epoch, which is the native format used by JavaScript's Date
+                    Epoch, which is the native format used by JavaScript&apos;s Date
                     object. The standard Unix timestamp has 10 digits (seconds).
                     To convert milliseconds to seconds, divide by 1000. To
                     convert seconds to milliseconds, multiply by 1000. Our tool
@@ -429,13 +429,13 @@ export default function TimestampConverterPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     No, Unix timestamps are always in UTC (Coordinated Universal
-                    Time) and don't store timezone information. They represent
-                    an absolute point in time that's the same everywhere in the
+                    Time) and don&apos;t store timezone information. They represent
+                    an absolute point in time that&apos;s the same everywhere in the
                     world. When converting to human-readable dates, you need to
                     specify the timezone for display purposes. This is why
                     1701388800 represents the exact same moment for everyone,
-                    but might display as "Dec 1, 2023 00:00:00" in UTC, "Nov 30,
-                    2023 19:00:00" in New York (EST), or "Dec 1, 2023 09:00:00"
+                    but might display as &quot;Dec 1, 2023 00:00:00&quot; in UTC, &quot;Nov 30,
+                    2023 19:00:00&quot; in New York (EST), or &quot;Dec 1, 2023 09:00:00&quot;
                     in Tokyo (JST).
                   </p>
                 </details>
@@ -474,7 +474,7 @@ export default function TimestampConverterPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between Unix time and UTC time?
+                    What&apos;s the difference between Unix time and UTC time?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Unix time is a numeric representation (seconds since Epoch),
@@ -493,11 +493,11 @@ export default function TimestampConverterPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Common reasons include: (1) The number is too large or too
-                    small to represent a valid date, (2) You're using the wrong
+                    small to represent a valid date, (2) You&apos;re using the wrong
                     format (seconds vs milliseconds), (3) The timestamp
                     represents a date outside the supported range (typically
                     1970-2100), (4) There are non-numeric characters in the
-                    input, or (5) The date string format isn't recognized. Try
+                    input, or (5) The date string format isn&apos;t recognized. Try
                     checking if you need to divide or multiply by 1000 to
                     convert between seconds and milliseconds.
                   </p>
@@ -510,8 +510,8 @@ export default function TimestampConverterPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     No, Unix time does not account for leap seconds. It assumes
                     every day has exactly 86,400 seconds. When a leap second
-                    occurs (added to keep atomic time synchronized with Earth's
-                    rotation), Unix time essentially "repeats" a second or
+                    occurs (added to keep atomic time synchronized with Earth&apos;s
+                    rotation), Unix time essentially &quot;repeats&quot; a second or
                     pauses briefly. This design decision was made to keep Unix
                     time calculations simple and predictable. For applications
                     requiring precise astronomical time, you need specialized
@@ -544,7 +544,7 @@ export default function TimestampConverterPage() {
                     (12/1/2024, 12-1-2024), European format (1/12/2024,
                     1.12.2024), written format (December 1, 2024, Dec 1 2024, 1
                     Dec 2024), and combined formats with time (2024-12-01
-                    12:00:00, Dec 1, 2024 12:00 PM). The tool uses JavaScript's
+                    12:00:00, Dec 1, 2024 12:00 PM). The tool uses JavaScript&apos;s
                     Date.parse() which is very flexible, but for best results
                     use ISO 8601 format (YYYY-MM-DD).
                   </p>

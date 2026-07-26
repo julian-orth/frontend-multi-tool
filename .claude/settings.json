@@ -1,0 +1,9 @@
+{
+  "allowedTools": [
+    "Bash(cd *)",
+    "Bash(grep *)",
+    "Bash(ls *)",
+    "Bash(git status*)",
+    "Bash(git diff*)"
+  ]
+}

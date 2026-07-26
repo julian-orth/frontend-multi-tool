@@ -1,5 +1,37 @@
-import * as LucideIcons from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import {
+  Binary,
+  Braces,
+  Clock,
+  FileCode,
+  FileText,
+  Fingerprint,
+  KeyRound,
+  Palette,
+  QrCode,
+  Regex,
+  Shield,
+  ShieldCheck,
+  Zap,
+  type LucideIcon,
+} from "lucide-react";
+
+// Every value a tool config's `groupIcon` field can take (see
+// app/tools/*/config.ts). Named imports keep the icon set tree-shakeable
+// instead of bundling all of lucide-react's ~4,000 icons on every page.
+const TOOL_ICONS: Record<string, LucideIcon> = {
+  binary: Binary,
+  braces: Braces,
+  clock: Clock,
+  "file-code": FileCode,
+  "file-text": FileText,
+  fingerprint: Fingerprint,
+  "key-round": KeyRound,
+  palette: Palette,
+  "qr-code": QrCode,
+  regex: Regex,
+  shield: Shield,
+  "shield-check": ShieldCheck,
+};
 
 export const GROUP_COLOR_CLASSES: Record<string, string> = {
   blue: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
@@ -18,20 +50,7 @@ export const GROUP_COLOR_CLASSES: Record<string, string> = {
     "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400",
 };
 
-function toPascalCaseIconName(iconName: string): string {
-  return iconName
-    .replace(/-([a-z])/g, (_, char) => char.toUpperCase())
-    .replace(/^\w/, (char) => char.toUpperCase());
-}
-
 export function resolveToolIcon(iconName?: string): LucideIcon {
-  const fallback = LucideIcons.Zap;
-  if (!iconName) return fallback;
-
-  const normalizedName = toPascalCaseIconName(iconName);
-  const icon =
-    (LucideIcons as unknown as Record<string, LucideIcon | undefined>)[
-      normalizedName
-    ];
-  return icon || fallback;
+  if (!iconName) return Zap;
+  return TOOL_ICONS[iconName] || Zap;
 }

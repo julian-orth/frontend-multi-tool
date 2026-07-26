@@ -43,10 +43,7 @@ export default function Breadcrumb() {
       // Add Tools > Group > Tool Name
       crumbs.push(
         { name: "Tools", href: "/tools" },
-        {
-          name: `${tool.group} Tools`,
-          href: `/tools#${tool.group.toLowerCase().replace(/\s+/g, "-")}`,
-        },
+        { name: `${tool.group} Tools`, href: "/tools" },
         { name: tool.name, href: pathname }
       );
     } else {

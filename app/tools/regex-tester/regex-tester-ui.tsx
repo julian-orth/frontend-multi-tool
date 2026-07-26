@@ -416,7 +416,7 @@ export function RegexTesterUI() {
                     setSelectedMatch(selectedMatch === idx ? null : idx);
                   }}
                 >
-                  Match #{idx + 1}: "{match.match}" (position {match.index})
+                  Match #{idx + 1}: &quot;{match.match}&quot; (position {match.index})
                 </summary>
                 <div className="mt-3 space-y-2 border-t border-red-100 pt-3 text-sm dark:border-red-900">
                   <div className="flex">

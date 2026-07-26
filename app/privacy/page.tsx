@@ -4,7 +4,7 @@ import { SITE_NAME } from "@/lib/i18n/en";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy policy for Frontend Tools Hub. Learn how we protect your data and respect your privacy while you use our client-side developer tools.",
+    `Privacy policy for ${SITE_NAME}. Learn how we protect your data and respect your privacy while you use our client-side developer tools.`,
   keywords: [
     "privacy policy",
     "data protection",
@@ -15,20 +15,20 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Privacy Policy | ${SITE_NAME}`,
     description:
-      "Learn how Frontend Tools Hub protects your privacy with client-side-only tools and no data collection.",
+      `Learn how ${SITE_NAME} protects your privacy with client-side-only tools and no data collection.`,
     type: "website",
   },
   twitter: {
     card: "summary",
     title: `Privacy Policy | ${SITE_NAME}`,
     description:
-      "Learn how Frontend Tools Hub protects your privacy with client-side-only tools and no data collection.",
+      `Learn how ${SITE_NAME} protects your privacy with client-side-only tools and no data collection.`,
   },
 };
 
 export default function PrivacyPage() {
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-4xl">
         <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] uppercase tracking-[0.12em] text-[var(--ink-soft)] shadow-[0_1px_0_var(--line)]">
           Legal
@@ -43,7 +43,7 @@ export default function PrivacyPage() {
               Your Privacy Matters
             </h2>
             <p className="mb-4 leading-relaxed">
-              At Frontend Tools Hub, we take your privacy seriously. This page
+              At {SITE_NAME}, we take your privacy seriously. This page
               explains how we handle (or rather, don&apos;t handle) your data.
               The short version:{" "}
               <strong>
@@ -69,7 +69,7 @@ export default function PrivacyPage() {
               How Our Tools Work
             </h2>
             <p className="mb-4 leading-relaxed">
-              All tools on Frontend Tools Hub run entirely in your browser. This
+              All tools on {SITE_NAME} run entirely in your browser. This
               means:
             </p>
             <ul className="mb-4 list-inside list-disc space-y-2 pl-4">
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
               Third-Party Services
             </h2>
             <p className="mb-4 leading-relaxed">
-              Frontend Tools Hub is a static website. We don&apos;t integrate
+              {SITE_NAME} is a static website. We don&apos;t integrate
               with third-party services that track you or collect your data. The
               website is hosted on a content delivery network (CDN), which may
               collect standard server logs (IP addresses, access times) for
@@ -195,7 +195,7 @@ export default function PrivacyPage() {
               Open Source
             </h2>
             <p className="mb-4 leading-relaxed">
-              Frontend Tools Hub is open source. You can review our code on
+              {SITE_NAME} is open source. You can review our code on
               GitHub to verify that we handle your data as described in this
               policy.
             </p>
@@ -229,6 +229,6 @@ export default function PrivacyPage() {
           </section>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

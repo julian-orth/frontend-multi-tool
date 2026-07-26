@@ -100,7 +100,7 @@ export default function UuidValidatorPage() {
                   common problems: incorrect length, non-hexadecimal characters,
                   wrong hyphen placement, invalid version numbers, and non-RFC
                   4122 variants. The validator provides clear feedback about
-                  what's wrong with invalid UUIDs, making it easy to
+                  what&apos;s wrong with invalid UUIDs, making it easy to
                   troubleshoot UUID generation or parsing issues.
                 </p>
               </div>
@@ -206,7 +206,7 @@ export default function UuidValidatorPage() {
                     Checks that all characters are valid hexadecimal (0-9, a-f,
                     A-F). Accepts both uppercase and lowercase. Rejects strings
                     that are too short, too long, have hyphens in wrong
-                    positions, or contain non-hex characters like 'g', 'z', or
+                    positions, or contain non-hex characters like &apos;g&apos;, &apos;z&apos;, or
                     special symbols.
                   </p>
                 </div>
@@ -232,7 +232,7 @@ export default function UuidValidatorPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     Validates the variant bits (2-3 bits at position 17) to
                     ensure the UUID follows RFC 4122 specification. The variant
-                    should be "10" in binary (decimal 8-11 in the relevant hex
+                    should be &quot;10&quot; in binary (decimal 8-11 in the relevant hex
                     digit position). Flags UUIDs with variants from older
                     specifications (NCS, Microsoft reserved, future reserved)
                     that use different bit layouts and may not be compatible
@@ -246,9 +246,9 @@ export default function UuidValidatorPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Recognizes the special NIL UUID (00000000-0000-0000-0000-
-                    000000000000), a reserved value representing "no UUID" or an
+                    000000000000), a reserved value representing &quot;no UUID&quot; or an
                     absent identifier. While technically valid in structure, the
-                    validator notes when you're checking the NIL UUID, as it
+                    validator notes when you&apos;re checking the NIL UUID, as it
                     should only be used as a placeholder value, never as an
                     actual entity identifier.
                   </p>
@@ -301,7 +301,7 @@ export default function UuidValidatorPage() {
                     Yes, especially at API boundaries and input points. Validate
                     UUIDs from user input, external APIs, file uploads, or any
                     untrusted source. However, skip validation for UUIDs your
-                    own code generates— that's redundant if you trust your
+                    own code generates— that&apos;s redundant if you trust your
                     generation library. Balance performance and security:
                     validate at entry points, trust internal data after
                     validation, and use fast regex or built-in validation
@@ -341,7 +341,7 @@ export default function UuidValidatorPage() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between format and RFC compliance?
+                    What&apos;s the difference between format and RFC compliance?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Format validation checks string structure: length,
@@ -350,7 +350,7 @@ export default function UuidValidatorPage() {
                     are set correctly according to the specification. A UUID can
                     have valid format but fail RFC compliance if version/variant
                     bits are wrong. Always validate both for true UUID
-                    compliance—format alone isn't enough.
+                    compliance—format alone isn&apos;t enough.
                   </p>
                 </details>
 
@@ -361,7 +361,7 @@ export default function UuidValidatorPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     First, query for invalid UUIDs using validation logic in
                     your database. For malformed UUIDs, regenerate them if
-                    they're not referenced elsewhere, or update references if
+                    they&apos;re not referenced elsewhere, or update references if
                     they are. For UUIDs with wrong format (e.g., missing
                     hyphens), normalize them. For corrupted data, check backups
                     or source systems. Prevention is key: add validation
@@ -438,8 +438,8 @@ export default function UuidValidatorPage() {
                     public APIs, validate format, version, and variant. For
                     internal services where you control generation, lighter
                     validation may suffice. Balance security/reliability with
-                    performance. Don't re-validate UUIDs that have already
-                    passed validation at entry points unless there's a security
+                    performance. Don&apos;t re-validate UUIDs that have already
+                    passed validation at entry points unless there&apos;s a security
                     boundary.
                   </p>
                   <p>
@@ -452,10 +452,10 @@ export default function UuidValidatorPage() {
                   </p>
                   <p>
                     <strong>Provide helpful error messages:</strong> When
-                    validation fails, return specific error messages: "UUID too
-                    short", "Invalid character 'Z' at position 15", "Invalid
-                    version 6". This helps developers debug integration issues
-                    quickly. Generic "Invalid UUID" errors waste time.
+                    validation fails, return specific error messages: &quot;UUID too
+                    short&quot;, &quot;Invalid character &apos;Z&apos; at position 15&quot;, &quot;Invalid
+                    version 6&quot;. This helps developers debug integration issues
+                    quickly. Generic &quot;Invalid UUID&quot; errors waste time.
                   </p>
                   <p>
                     <strong>Consider version requirements:</strong> Some
@@ -469,7 +469,7 @@ export default function UuidValidatorPage() {
                     include edge cases: NIL UUID, uppercase vs lowercase, with
                     and without hyphens, almost-valid UUIDs (31 or 33
                     characters), non-hex characters that look hexadecimal (like
-                    'g'), and UUIDs with valid format but invalid
+                    &apos;g&apos;), and UUIDs with valid format but invalid
                     version/variant bits.
                   </p>
                 </div>

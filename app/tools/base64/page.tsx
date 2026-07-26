@@ -80,7 +80,7 @@ export default function Base64Page() {
                 <p>
                   Base64 is a binary-to-text encoding scheme that converts
                   binary data into an ASCII string format using a set of 64
-                  printable characters. The name "Base64" comes from the fact
+                  printable characters. The name &quot;Base64&quot; comes from the fact
                   that it uses 64 different characters to represent data:
                   uppercase letters (A-Z), lowercase letters (a-z), digits
                   (0-9), plus (+), and forward slash (/).
@@ -137,7 +137,7 @@ export default function Base64Page() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     Basic HTTP authentication uses Base64 to encode username and
-                    password credentials. While not secure on its own, it's
+                    password credentials. While not secure on its own, it&apos;s
                     commonly used over HTTPS connections for simple
                     authentication schemes.
                   </p>
@@ -232,7 +232,7 @@ export default function Base64Page() {
                     than 76 characters. This feature automatically formats your
                     encoded output to comply with MIME standards, making it
                     suitable for email attachments and other MIME-compliant
-                    applications. The line breaks are purely cosmetic and don't
+                    applications. The line breaks are purely cosmetic and don&apos;t
                     affect the decoded output.
                   </p>
                 </div>
@@ -265,7 +265,7 @@ export default function Base64Page() {
                     Is Base64 encoding the same as encryption?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    No, Base64 is not encryption. It's simply an encoding scheme
+                    No, Base64 is not encryption. It&apos;s simply an encoding scheme
                     that converts binary data to ASCII text. Anyone can decode
                     Base64 data without needing a key or password. Base64
                     provides no security or confidentiality—it only ensures data
@@ -296,7 +296,7 @@ export default function Base64Page() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     The equals sign (=) is used as padding when the input data
-                    length isn't divisible by 3. Since Base64 converts 3-byte
+                    length isn&apos;t divisible by 3. Since Base64 converts 3-byte
                     groups into 4-character groups, padding ensures the output
                     length is always a multiple of 4. One or two equals signs
                     may appear at the end: one = means the last group had 2
@@ -338,7 +338,7 @@ export default function Base64Page() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What's the difference between Base64 and Base64URL?
+                    What&apos;s the difference between Base64 and Base64URL?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Base64URL (also called URL-safe Base64) is a variant
@@ -348,21 +348,21 @@ export default function Base64Page() {
                     in URLs, while Base64URL replaces them with - and _
                     respectively. Additionally, Base64URL typically omits the
                     padding = characters. Both can be decoded to the same
-                    original data—they're just different representations
+                    original data—they&apos;re just different representations
                     optimized for different use cases.
                   </p>
                 </details>
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Why am I getting an "Invalid Base64" error?
+                    Why am I getting an &quot;Invalid Base64&quot; error?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     This error occurs when the input string contains invalid
                     Base64 characters or has incorrect formatting. Common causes
                     include: using characters outside the Base64 alphabet (A-Z,
                     a-z, 0-9, +, /, =), incorrect padding, or trying to decode
-                    regular text that isn't Base64-encoded. Make sure you're
+                    regular text that isn&apos;t Base64-encoded. Make sure you&apos;re
                     decoding actual Base64 data. If you encoded data with
                     URL-safe mode, decode it with URL-safe mode enabled as well.
                   </p>
@@ -377,10 +377,10 @@ export default function Base64Page() {
                     encoding before converting to Base64. This means you can
                     encode text in any language (Chinese, Arabic, emoji, etc.)
                     and it will work correctly. When decoding, the tool expects
-                    UTF-8 encoded text. If you're working with other character
+                    UTF-8 encoded text. If you&apos;re working with other character
                     encodings, you may need to convert your data to UTF-8 first.
                     Most modern applications use UTF-8 by default, so this
-                    typically isn't an issue.
+                    typically isn&apos;t an issue.
                   </p>
                 </details>
 

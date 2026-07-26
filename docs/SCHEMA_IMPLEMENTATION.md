@@ -167,7 +167,7 @@ The component generates the following JSON-LD structure:
   },
   "creator": {
     "@type": "Organization",
-    "name": "Frontend Tools Hub"
+    "name": "DeveloperUtilityTools"
   }
 }
 ```

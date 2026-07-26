@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useCallback, useEffect } from "react";
+import DOMPurify from "dompurify";
 import {
   Copy,
   Check,
@@ -14,6 +15,7 @@ import {
 import PrimaryButton from "@/components/primary-button";
 import { Checkbox } from "@/components/checkbox";
 import { parseMarkdown, type MarkdownOptions } from "./utils";
+import { useDebouncedValue } from "@/lib/hooks/use-debounced-value";
 import "./markdown-preview.css";
 
 type ViewMode = "split" | "edit" | "preview";
@@ -28,24 +30,29 @@ export function MarkdownPreviewerUI() {
   const [copiedHTML, setCopiedHTML] = useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  // Live preview rendering
+  const renderMarkdown = useCallback(
+    (text: string) => {
+      const options: MarkdownOptions = { gfm: enableGFM, breaks: enableGFM };
+      setHtml(DOMPurify.sanitize(parseMarkdown(text, options)));
+    },
+    [enableGFM]
+  );
+
+  // Live preview rendering, debounced so large documents don't re-parse on
+  // every keystroke.
+  const debouncedMarkdown = useDebouncedValue(markdown, 200);
   useEffect(() => {
-    if (livePreview && markdown) {
-      handleRender();
-    } else if (!markdown) {
+    if (livePreview && debouncedMarkdown) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      renderMarkdown(debouncedMarkdown);
+    } else if (!debouncedMarkdown) {
       setHtml("");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [markdown, livePreview, enableGFM]);
+  }, [debouncedMarkdown, livePreview, renderMarkdown]);
 
   const handleRender = useCallback(() => {
-    const options: MarkdownOptions = {
-      gfm: enableGFM,
-      breaks: enableGFM,
-    };
-    const rendered = parseMarkdown(markdown, options);
-    setHtml(rendered);
-  }, [markdown, enableGFM]);
+    renderMarkdown(markdown);
+  }, [markdown, renderMarkdown]);
 
   const handleClear = useCallback(() => {
     setMarkdown("");
@@ -499,7 +506,7 @@ Press the 'Load sample' button to see examples."
                   dangerouslySetInnerHTML={{ __html: html }}
                 />
               ) : (
-                <div className="flex min-h-[500px] items-center justify-center text-gray-400 dark:text-gray-600">
+                <div className="flex min-h-[500px] items-center justify-center text-gray-500 dark:text-gray-400">
                   <p className="text-sm">
                     {livePreview
                       ? "Start typing to see live preview..."

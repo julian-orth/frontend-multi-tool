@@ -7,35 +7,10 @@ import { TOOLS } from "@/lib/i18n/en";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import * as Icons from "lucide-react";
-import { useTheme } from "@/lib/contexts/theme-context";
-
-function getToolIcon(iconName: string) {
-  const LucideIcon =
-    (Icons as any)[
-      iconName
-        ?.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-        ?.replace(/^\w/, (c: string) => c.toUpperCase())
-    ] || Icons.Zap;
-  return LucideIcon;
-}
-
-const GROUP_COLORS: Record<string, string> = {
-  blue: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
-  purple:
-    "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
-  green: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
-  orange:
-    "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
-  pink: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400",
-  red: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
-  indigo:
-    "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
-  cyan: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
-  teal: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
-  yellow:
-    "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400",
-};
+import {
+  resolveToolIcon,
+  GROUP_COLOR_CLASSES,
+} from "@/lib/tools/icon-resolver";
 
 export function MobileNavButton() {
   const { open } = useMobileNav();
@@ -55,20 +30,49 @@ export default function MobileNav() {
   const { isOpen, close } = useMobileNav();
   const dialogRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const { theme } = useTheme();
 
-  // Trap focus when open
+  // Trap focus when open, and restore it to whatever triggered the menu
+  // when it closes.
   useEffect(() => {
     if (!isOpen) return;
-    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-    );
-    focusable?.[0]?.focus();
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+
+    const getFocusable = () =>
+      dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      ) ?? [];
+
+    getFocusable()[0]?.focus();
+
     function handleKey(e: KeyboardEvent) {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") {
+        close();
+        return;
+      }
+
+      if (e.key !== "Tab") return;
+
+      const focusable = Array.from(getFocusable());
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
+
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      previouslyFocused?.focus();
+    };
   }, [isOpen, close]);
 
   // Prevent body scroll when menu is open
@@ -117,12 +121,18 @@ export default function MobileNav() {
               aria-label="DeveloperUtilityTools Home"
             >
               <Image
-                src={theme === "dark" ? "/logo-darkmode.svg" : "/logo.svg"}
+                src="/logo.svg"
                 alt="DeveloperUtilityTools"
                 width={200}
                 height={30}
-                className="h-8 w-auto"
-                priority
+                className="h-8 w-auto dark:hidden"
+              />
+              <Image
+                src="/logo-darkmode.svg"
+                alt="DeveloperUtilityTools"
+                width={200}
+                height={30}
+                className="hidden h-8 w-auto dark:block"
               />
             </Link>
             <button
@@ -143,9 +153,10 @@ export default function MobileNav() {
                   </h2>
                   <ul className="space-y-1">
                     {tools.map((tool) => {
-                      const Icon = getToolIcon(tool.groupIcon || "Zap");
+                      const Icon = resolveToolIcon(tool.groupIcon);
                       const badgeColor =
-                        GROUP_COLORS[tool.groupColor] || GROUP_COLORS.blue;
+                        GROUP_COLOR_CLASSES[tool.groupColor] ||
+                        GROUP_COLOR_CLASSES.blue;
                       const isActive = pathname === tool.href;
                       return (
                         <li key={tool.id}>

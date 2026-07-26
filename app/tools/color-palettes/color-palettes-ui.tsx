@@ -385,15 +385,15 @@ export function ColorPalettesUI() {
         </h3>
         <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
           <p>
-            <strong>Generate:</strong> Click a palette type button or "Generate
-            New" to create a new color scheme.
+            <strong>Generate:</strong> Click a palette type button or &quot;Generate
+            New&quot; to create a new color scheme.
           </p>
           <p>
             <strong>Lock Colors:</strong> Click the lock icon on any color to
             keep it when generating new palettes.
           </p>
           <p>
-            <strong>Copy:</strong> Click on a color swatch or the "Copy HEX"
+            <strong>Copy:</strong> Click on a color swatch or the &quot;Copy HEX&quot;
             button to copy it to your clipboard.
           </p>
           <p>
