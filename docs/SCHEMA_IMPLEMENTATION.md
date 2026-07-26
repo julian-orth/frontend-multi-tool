@@ -17,9 +17,9 @@ The following tools have full Schema.org structured data:
 5. **QR Code Generator** - `/tools/qr-code-generator`
 6. **Hash Generator** - `/tools/hash-generator`
 
-### 📋 Remaining Tools (14 tools)
+### 📋 Remaining Tools (8 tools)
 
-To add Schema.org to the remaining 14 tools, follow the guide below.
+To add Schema.org to the remaining 8 tools, follow the guide below.
 
 ## Component: `ToolSchema`
 
@@ -214,20 +214,14 @@ The component generates the following JSON-LD structure:
 
 | Tool                  | URL                            | Priority |
 | --------------------- | ------------------------------ | -------- |
-| URL Encoder           | `/tools/url-encoder`           | High     |
 | JWT Decoder           | `/tools/jwt-decoder`           | High     |
 | Regex Tester          | `/tools/regex-tester`          | High     |
 | Color Picker          | `/tools/color-picker`          | Medium   |
 | Color Palettes        | `/tools/color-palettes`        | Medium   |
 | Gradient Generator    | `/tools/gradient-generator`    | Medium   |
 | Markdown Previewer    | `/tools/markdown-previewer`    | Medium   |
-| Lorem Ipsum           | `/tools/lorem-ipsum`           | Low      |
 | Text Diff             | `/tools/text-diff`             | Low      |
 | Timestamp Converter   | `/tools/timestamp-converter`   | Low      |
-| HTML Encoder          | `/tools/html-encoder`          | Low      |
-| UUID Validator        | `/tools/uuid-validator`        | Low      |
-| UUID Decoder          | `/tools/uuid-decoder`          | Low      |
-| UUID Format Converter | `/tools/uuid-format-converter` | Low      |
 
 ## Best Practices
 

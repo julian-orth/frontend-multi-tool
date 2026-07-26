@@ -8,7 +8,7 @@ A modern, privacy-first web application built with Next.js 16 that provides a co
 
 ## 🚀 Features
 
-- **20 Developer Tools** including JSON Formatter, UUID Suite, Base64 Encoder/Decoder, and more
+- **15 Developer Tools** including JSON Formatter, UUID Generator/Validator/Decoder, Base64/URL/HTML Encoder, and more
 - **Next.js 16 App Router** with React 19 and TypeScript
 - **Tailwind CSS 4** for modern, responsive styling
 - **SEO Optimized** with structured data, sitemap, metadata, and robots.txt
@@ -23,10 +23,7 @@ A modern, privacy-first web application built with Next.js 16 that provides a co
 
 ### UUID Tools
 
-- **UUID Generator** - Generate RFC 4122 compliant UUIDs (v1, v3, v4, v5, v7, NIL)
-- **UUID Validator** - Validate UUID format and structure
-- **UUID Decoder & Analyzer** - Extract timestamp, version, and node information
-- **UUID Format Converter** - Convert between different UUID formats
+- **UUID Generator** - Generate RFC 4122 compliant UUIDs (v1, v3, v4, v5, v7, NIL), validate existing UUIDs, decode their embedded metadata (version, variant, v1 timestamp), and convert between formats
 
 ### JSON Tools
 
@@ -34,14 +31,11 @@ A modern, privacy-first web application built with Next.js 16 that provides a co
 
 ### Encoding Tools
 
-- **Base64 Encoder/Decoder** - Encode and decode Base64 strings
-- **URL Encoder/Decoder** - Percent-encode URLs for safe transmission
-- **HTML Encoder/Decoder** - Convert special characters to HTML entities
+- **Base64 / URL / HTML Encoder & Decoder** - Encode and decode Base64 strings, percent-encode URLs, and convert special characters to HTML entities
 
 ### Text Tools
 
 - **Text Diff** - Compare text differences with highlighting
-- **Lorem Ipsum Generator** - Generate placeholder text
 - **Markdown Previewer** - Live markdown editor with GitHub-flavored markdown
 
 ### Color Tools
@@ -123,7 +117,7 @@ frontend-toolkit/
 │       │   ├── page.tsx            # Server component with metadata
 │       │   ├── formatter-ui.tsx    # Client component with UI
 │       │   └── utils.ts            # Tool logic
-│       └── ...21+ tools
+│       └── ...15 tools
 ├── components/              # Reusable React components
 │   ├── layout-client.tsx    # Header & Footer (client components)
 │   ├── breadcrumb.tsx       # Navigation breadcrumbs
@@ -133,7 +127,7 @@ frontend-toolkit/
 ├── lib/
 │   ├── site-config.ts       # Central site configuration
 │   ├── tools/
-│   │   ├── registry.ts      # Central tool registry (21+ tools)
+│   │   ├── registry.ts      # Central tool registry (15 tools)
 │   │   └── validator.ts     # Validation functions
 │   ├── types/
 │   │   ├── tool.ts          # Tool TypeScript interfaces

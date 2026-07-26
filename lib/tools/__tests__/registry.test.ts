@@ -101,11 +101,11 @@ describe("Tool Registry", () => {
       expect(tools.length).toBe(0);
     });
 
-    it("should return multiple tools for UUID group", () => {
-      const tools = getToolsByGroup("UUID");
+    it("should return multiple tools for Color group", () => {
+      const tools = getToolsByGroup("Color");
       expect(tools.length).toBeGreaterThan(1);
       tools.forEach((tool) => {
-        expect(tool.group).toBe("UUID");
+        expect(tool.group).toBe("Color");
       });
     });
 
@@ -121,8 +121,8 @@ describe("Tool Registry", () => {
 
     it("should return different tools for different groups", () => {
       const jsonTools = getToolsByGroup("JSON");
-      const uuidTools = getToolsByGroup("UUID");
-      expect(jsonTools).not.toEqual(uuidTools);
+      const colorTools = getToolsByGroup("Color");
+      expect(jsonTools).not.toEqual(colorTools);
     });
   });
 

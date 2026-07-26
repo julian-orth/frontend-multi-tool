@@ -3,7 +3,7 @@ import type { Tool } from "@/lib/types/tool";
 export const UuidGeneratorToolConfig: Tool = {
   id: "uuid-generator",
   name: "UUID Generator",
-  description: "Generate RFC 4122 compliant UUIDs in multiple versions (v1, v3, v4, v5, v7, NIL) for databases, APIs, and distributed systems",
+  description: "Generate, validate, decode, and reformat RFC 4122 compliant UUIDs in multiple versions (v1, v3, v4, v5, v7, NIL) for databases, APIs, and distributed systems",
   href: "/tools/uuid-generator",
   group: "UUID",
   groupColor: "purple",
@@ -12,12 +12,14 @@ export const UuidGeneratorToolConfig: Tool = {
     "uuid",
     "guid",
     "unique identifier",
-    "generator"
+    "generator",
+    "validator",
+    "decoder",
+    "format converter"
   ],
   relatedTools: [
-    "uuid-validator",
-    "uuid-decoder",
-    "uuid-format-converter"
+    "timestamp-converter",
+    "hash-generator"
   ]
 };
 

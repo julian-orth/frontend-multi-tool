@@ -11,17 +11,6 @@ export function RelatedToolsSection() {
       </p>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <a
-          href="/tools/url-encoder"
-          className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-green-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-green-700"
-        >
-          <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-green-600 dark:text-gray-50 dark:group-hover:text-green-400">
-            URL Encoder/Decoder
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Encode URLs before adding to QR codes for proper formatting
-          </p>
-        </a>
-        <a
           href="/tools/base64"
           className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-green-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-green-700"
         >

@@ -25,7 +25,7 @@ import {
   buildQueryString,
   type UrlEncodeResult,
   type EncodingMode,
-} from "./utils";
+} from "./url-utils";
 
 type Mode = "encode" | "decode";
 

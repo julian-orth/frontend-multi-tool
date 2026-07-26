@@ -579,17 +579,6 @@ export default function JsonFormatterPage() {
                     Decode and format JSON payloads from JWT tokens
                   </p>
                 </a>
-                <a
-                  href="/tools/url-encoder"
-                  className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-orange-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-orange-700"
-                >
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-orange-600 dark:text-gray-50 dark:group-hover:text-orange-400">
-                    URL Encoder/Decoder
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    URL-encode JSON for API query parameters
-                  </p>
-                </a>
               </div>
             </section>
           </div>

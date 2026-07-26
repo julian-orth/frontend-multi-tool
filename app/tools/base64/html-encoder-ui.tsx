@@ -22,7 +22,7 @@ import {
   containsHtmlEntities,
   countHtmlEntities,
   type HtmlResult,
-} from "./utils";
+} from "./html-utils";
 
 type Mode = "encode" | "decode";
 

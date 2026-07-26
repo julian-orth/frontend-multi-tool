@@ -21,7 +21,7 @@ import {
   splitIntoChunks,
   isValidBase64,
   type Base64Result,
-} from "./utils";
+} from "./base64-utils";
 
 type Mode = "encode" | "decode";
 

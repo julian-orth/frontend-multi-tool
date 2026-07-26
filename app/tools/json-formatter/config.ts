@@ -18,8 +18,7 @@ export const JsonFormatterToolConfig: Tool = {
   ],
   relatedTools: [
     "base64",
-    "jwt-decoder",
-    "url-encoder"
+    "jwt-decoder"
   ]
 };
 

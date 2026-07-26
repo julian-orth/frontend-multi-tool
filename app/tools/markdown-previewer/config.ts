@@ -20,8 +20,7 @@ export const MarkdownPreviewerToolConfig: Tool = {
     "documentation"
   ],
   relatedTools: [
-    "text-diff",
-    "lorem-ipsum"
+    "text-diff"
   ]
 };
 

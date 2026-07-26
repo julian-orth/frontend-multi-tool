@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
 import { UuidGeneratorClient } from "./client";
-import UuidLinks from "@/components/uuid-links";
 import Breadcrumb from "@/components/breadcrumb";
 import { ToolSchema } from "@/components/tool-schema";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "UUID (GUID) Generator",
+  title: "UUID (GUID) Generator, Validator, Decoder & Format Converter",
   description:
-    "Generate RFC-compliant UUIDs (GUIDs) (v1, v3, v4, v5, v7, NIL) with options and examples — shareable links via ?version=",
+    "Generate, validate, decode, and reformat RFC 4122 compliant UUIDs (GUIDs) — v1, v3, v4, v5, v7, NIL — with shareable links via ?tab= and ?version=",
   keywords: [
     "uuid",
     "guid",
     "unique identifier",
     "generator",
+    "validator",
+    "decoder",
+    "format converter",
     "v1",
     "v3",
     "v4",
@@ -21,17 +23,17 @@ export const metadata: Metadata = {
     "v7",
   ],
   openGraph: {
-    title: "UUID (GUID) Generator — Generate v1, v3, v4, v5, v7",
+    title: "UUID (GUID) Generator, Validator, Decoder & Format Converter",
     description:
-      "Generate RFC 4122 compliant UUIDs (GUIDs) instantly. Choose version, namespace and name for namespaced UUIDs, and copy shareable links (use `?version=v1`).",
+      "Generate RFC 4122 compliant UUIDs (GUIDs) instantly, validate existing ones, decode their metadata, and convert between formats — all in one tool.",
     url: `${SITE_CONFIG.domain}/tools/uuid-generator`,
     siteName: SITE_CONFIG.name,
   },
   twitter: {
     card: "summary",
-    title: `UUID (GUID) Generator — ${SITE_CONFIG.name}`,
+    title: `UUID (GUID) Generator, Validator, Decoder & Format Converter — ${SITE_CONFIG.name}`,
     description:
-      "Generate v1, v3, v4, v5, v7 UUIDs (GUIDs) in-browser. Share links using `?version=` to preselect the generator.",
+      "Generate, validate, decode, and reformat v1, v3, v4, v5, v7 UUIDs (GUIDs) in-browser. Share links using `?tab=` and `?version=`.",
   },
   alternates: {
     canonical: `${SITE_CONFIG.domain}/tools/uuid-generator`,
@@ -43,11 +45,13 @@ export default function UuidGeneratorPage() {
     <>
       <ToolSchema
         name="UUID Generator"
-        description="Generate RFC 4122 compliant UUIDs (GUIDs) in multiple versions (v1, v3, v4, v5, v7, NIL) for databases, APIs, and distributed systems"
+        description="Generate, validate, decode, and reformat RFC 4122 compliant UUIDs (GUIDs) in multiple versions (v1, v3, v4, v5, v7, NIL) for databases, APIs, and distributed systems"
         url="/tools/uuid-generator"
         keywords={[
           "uuid generator",
           "guid generator",
+          "uuid validator",
+          "uuid decoder",
           "unique identifier",
           "uuid v4",
           "uuid v7",
@@ -62,7 +66,8 @@ export default function UuidGeneratorPage() {
             </h1>
             <p className="text-lg text-gray-700 dark:text-gray-300">
               Generate RFC 4122 compliant UUIDs (GUIDs — Microsoft term)
-              instantly for use in databases, APIs, and applications
+              instantly, then validate, decode, or reformat them — all in one
+              place.
             </p>
           </div>
 
@@ -99,10 +104,10 @@ export default function UuidGeneratorPage() {
                   UUIDs come in multiple versions (v1, v3, v4, v5, v7, and NIL),
                   each designed for different use cases. Some are time-based and
                   sortable (v1, v7), some are completely random (v4), and others
-                  are deterministic based on namespace and name (v3, v5).
-                  Understanding which version to use depends on your specific
-                  requirements for randomness, ordering, determinism, and
-                  collision resistance.
+                  are deterministic based on namespace and name (v3, v5). This
+                  tool covers the full lifecycle of a UUID: generating new ones,
+                  validating ones you receive, decoding their embedded metadata,
+                  and converting between display formats.
                 </p>
               </div>
             </section>
@@ -110,7 +115,7 @@ export default function UuidGeneratorPage() {
             {/* Common Use Cases */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                Common Use Cases for UUID Generation
+                Common Use Cases
               </h2>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
@@ -135,8 +140,7 @@ export default function UuidGeneratorPage() {
                     (e.g., /api/users/550e8400-e29b-41d4-a716-446655440000).
                     UUIDs are URL-safe, non-sequential (preventing enumeration
                     attacks), and can be generated client-side without server
-                    round-trips. This improves security and scalability in
-                    microservices architectures.
+                    round-trips.
                   </p>
                 </div>
                 <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
@@ -147,9 +151,7 @@ export default function UuidGeneratorPage() {
                     Web applications use UUIDs for session identifiers, tracking
                     tokens, request IDs for distributed tracing, and transaction
                     identifiers. Their randomness and length make them resistant
-                    to guessing attacks, while their uniqueness ensures no two
-                    sessions or transactions share the same ID across your
-                    entire system.
+                    to guessing attacks.
                   </p>
                 </div>
                 <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
@@ -160,34 +162,39 @@ export default function UuidGeneratorPage() {
                     Offline-first and mobile applications generate UUIDs locally
                     when creating records without network connectivity. When the
                     device reconnects, these locally-generated IDs sync to the
-                    server without conflicts. This pattern enables robust
-                    offline functionality in Progressive Web Apps (PWAs) and
-                    native mobile apps.
+                    server without conflicts.
                   </p>
                 </div>
-                <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
+                <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-6 dark:border-blue-800 dark:bg-blue-950/20">
                   <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    Deterministic Content Addressing
+                    Validating Incoming API UUIDs
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Name-based UUIDs (v3/v5) generate consistent IDs from
-                    namespace and name inputs, enabling content-addressable
-                    storage, idempotency keys for API operations, cache keys
-                    that remain consistent across servers, and deduplication by
-                    hashing content to a deterministic identifier.
+                    Before trusting a UUID passed in a request path or payload,
+                    check it&apos;s a well-formed, RFC 4122 compliant value. The
+                    Validate tab checks structure, version, and variant, and
+                    explains exactly why a malformed value fails.
                   </p>
                 </div>
-                <div className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
+                <div className="rounded-xl border border-yellow-200 bg-yellow-50/50 p-6 dark:border-yellow-800 dark:bg-yellow-950/20">
                   <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    File and Asset Management
+                    Extracting Creation Time from v1 IDs
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Cloud storage systems, CDNs, and content management systems
-                    use UUIDs as filenames to prevent naming conflicts, organize
-                    assets without filesystem limitations, and enable
-                    distributed storage across multiple servers without central
-                    coordination. UUIDs also prevent information disclosure
-                    through predictable filenames.
+                    Version 1 UUIDs embed a timestamp. The Decode tab extracts
+                    it (along with version and variant) so you can inspect when
+                    a v1 UUID was generated for debugging or auditing.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-purple-200 bg-purple-50/50 p-6 dark:border-purple-800 dark:bg-purple-950/20">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Normalizing UUID Format Before Storage
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Different systems expect different UUID formats — with or
+                    without hyphens, upper- or lowercase, braced, or as a URN.
+                    The Format tab converts between them so you can normalize
+                    values before writing them to your database.
                   </p>
                 </div>
               </div>
@@ -210,9 +217,7 @@ export default function UuidGeneratorPage() {
                     to prevent duplicates. This creates naturally sortable UUIDs
                     based on creation time. However, v1 UUIDs may expose network
                     hardware information and aren&apos;t random, making them less
-                    suitable for security-sensitive contexts. Use v1 when you
-                    need chronological ordering and don&apos;t require complete
-                    randomness.
+                    suitable for security-sensitive contexts.
                   </p>
                 </div>
 
@@ -225,10 +230,7 @@ export default function UuidGeneratorPage() {
                     UUID and a name using the MD5 algorithm. Given the same
                     namespace and name, v3 always produces the same UUID. This
                     is perfect for creating consistent identifiers from URLs,
-                    domain names, or other namespaced strings. While MD5 is
-                    cryptographically weak, it&apos;s sufficient here since UUIDs
-                    don&apos;t require cryptographic security— just uniqueness.
-                    However, prefer v5 (SHA-1) for new applications.
+                    domain names, or other namespaced strings.
                   </p>
                 </div>
 
@@ -241,11 +243,9 @@ export default function UuidGeneratorPage() {
                     from 122 bits of random data (with 6 bits reserved for
                     version and variant markers). Modern implementations use
                     cryptographically secure random number generators, making
-                    collisions astronomically unlikely. V4 is simple to
-                    generate, doesn&apos;t leak information about the system or time,
-                    and works universally. Use v4 as your default choice unless
-                    you specifically need ordering (v1/v7) or determinism
-                    (v3/v5).
+                    collisions astronomically unlikely. Use v4 as your default
+                    choice unless you specifically need ordering (v1/v7) or
+                    determinism (v3/v5).
                   </p>
                 </div>
 
@@ -255,12 +255,9 @@ export default function UuidGeneratorPage() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     UUID v5 works identically to v3 but uses SHA-1 instead of
-                    MD5 for hashing the namespace and name. SHA-1 is
-                    cryptographically stronger than MD5 (though also deprecated
-                    for cryptographic purposes), making v5 the preferred choice
-                    for name-based UUIDs in modern applications. Use v5 when you
-                    need deterministic IDs from URLs, email addresses, DNS
-                    names, or any namespaced identifier.
+                    MD5 for hashing the namespace and name, making v5 the
+                    preferred choice for name-based UUIDs in modern
+                    applications.
                   </p>
                 </div>
 
@@ -269,14 +266,12 @@ export default function UuidGeneratorPage() {
                     Version 7 (Time-Ordered with Random Data)
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    UUID v7 is a modern format (proposed in the RFC 4122 update)
-                    that places a Unix timestamp in milliseconds at the
-                    beginning, followed by random data. This creates UUIDs that
-                    are naturally sortable by creation time while maintaining
-                    high randomness and collision resistance. V7 combines the
-                    benefits of v1 (time-ordering for database indexing
-                    performance) with v4 (randomness and privacy). Use v7 for
-                    high-performance databases where insertion order matters.
+                    UUID v7 is a modern format that places a Unix timestamp in
+                    milliseconds at the beginning, followed by random data. This
+                    creates UUIDs that are naturally sortable by creation time
+                    while maintaining high randomness and collision resistance.
+                    Use v7 for high-performance databases where insertion order
+                    matters.
                   </p>
                 </div>
 
@@ -287,10 +282,130 @@ export default function UuidGeneratorPage() {
                   <p className="text-gray-700 dark:text-gray-300">
                     The NIL UUID (00000000-0000-0000-0000-000000000000) is a
                     special reserved value representing &quot;no UUID&quot; or an absent
-                    identifier. It&apos;s used as a placeholder or default value in
-                    situations where a UUID field is required but no meaningful
-                    value exists yet. Never use NIL UUID as an actual identifier
-                    for entities.
+                    identifier. Never use NIL UUID as an actual identifier for
+                    entities.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Format Types Explained */}
+            <section>
+              <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
+                UUID Format Types Explained
+              </h2>
+              <div className="space-y-6">
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Canonical (Hyphenated Lowercase)
+                  </h3>
+                  <p className="mb-2 text-gray-700 dark:text-gray-300">
+                    The RFC 4122 standard format: 8-4-4-4-12 groups of lowercase
+                    hexadecimal digits separated by hyphens. This is the most
+                    widely used and recommended format.
+                  </p>
+                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                    <code>550e8400-e29b-41d4-a716-446655440000</code>
+                  </pre>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Compact (No Hyphens)
+                  </h3>
+                  <p className="mb-2 text-gray-700 dark:text-gray-300">
+                    32 hexadecimal digits with no separators. More
+                    space-efficient but less readable. Used when storage space
+                    or URL length matters.
+                  </p>
+                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                    <code>550e8400e29b41d4a716446655440000</code>
+                  </pre>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    URN (Uniform Resource Name)
+                  </h3>
+                  <p className="mb-2 text-gray-700 dark:text-gray-300">
+                    Canonical format prefixed with &quot;urn:uuid:&quot; to create a valid
+                    URN. Used in semantic web, XML namespaces, and formal
+                    specifications.
+                  </p>
+                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                    <code>urn:uuid:550e8400-e29b-41d4-a716-446655440000</code>
+                  </pre>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Braced (Microsoft Format)
+                  </h3>
+                  <p className="mb-2 text-gray-700 dark:text-gray-300">
+                    Canonical format wrapped in curly braces. Traditional
+                    Microsoft GUID representation, especially in Windows APIs
+                    and older .NET code.
+                  </p>
+                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                    <code>{`{550e8400-e29b-41d4-a716-446655440000}`}</code>
+                  </pre>
+                </div>
+              </div>
+            </section>
+
+            {/* Validation & Decoding */}
+            <section>
+              <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
+                How Validation and Decoding Work
+              </h2>
+              <div className="space-y-6">
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Format and Structure
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Verifies the UUID has exactly 32 hexadecimal digits,
+                    optionally separated by 4 hyphens in the pattern 8-4-4-4-12.
+                    Rejects strings that are too short, too long, have hyphens
+                    in wrong positions, or contain non-hex characters.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Version and Variant Extraction
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Every UUID encodes its version in 4 bits at a specific
+                    position (the M in xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx) and
+                    variant in 2-3 bits (the N position). The decoder and
+                    validator both parse these bits to identify the UUID type
+                    and confirm RFC 4122 compliance.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Decoding Version 1 Timestamps
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Version 1 UUIDs encode a 60-bit timestamp representing
+                    100-nanosecond intervals since October 15, 1582 (UUID
+                    epoch). The decoder reassembles these fields, converts the
+                    UUID epoch timestamp to Unix epoch, and displays a
+                    human-readable date and time.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Analyzing Random UUIDs (v4)
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Version 4 UUIDs are purely random except for version and
+                    variant bits. The decoder identifies v4 UUIDs and confirms
+                    there&apos;s no embedded timestamp or node information — all
+                    other bits are cryptographically random.
                   </p>
                 </div>
               </div>
@@ -312,9 +427,7 @@ export default function UuidGeneratorPage() {
                     identifier standardized by RFC 4122. &quot;UUID&quot; is the official
                     standard term used in specifications and most programming
                     languages. &quot;GUID&quot; is Microsoft&apos;s terminology used in
-                    Windows, .NET, and SQL Server. The two terms are completely
-                    interchangeable, though &quot;UUID&quot; is more common in
-                    cross-platform contexts.
+                    Windows, .NET, and SQL Server.
                   </p>
                 </details>
 
@@ -326,11 +439,7 @@ export default function UuidGeneratorPage() {
                     For UUID v4 (random), the probability of collision is
                     astronomically low. With 122 bits of randomness, you&apos;d need
                     to generate about 2.71 quintillion (2.71 × 10¹⁸) UUIDs to
-                    have a 50% chance of a single collision. To put this in
-                    perspective: if you generated 1 billion UUIDs per second, it
-                    would take about 86 years to reach a 50% collision
-                    probability. In practice, UUID collisions are not a concern
-                    for any real-world application.
+                    have a 50% chance of a single collision.
                   </p>
                 </details>
 
@@ -344,9 +453,7 @@ export default function UuidGeneratorPage() {
                     cases. Choose v1 or v7 if you need time-based sorting for
                     database indexing performance (v7 is preferable for
                     privacy). Use v3 or v5 (prefer v5) when you need
-                    deterministic IDs generated from namespaced names, like
-                    creating consistent IDs from URLs or email addresses. Avoid
-                    v1 if exposing MAC addresses is a privacy concern.
+                    deterministic IDs generated from namespaced names.
                   </p>
                 </details>
 
@@ -356,14 +463,12 @@ export default function UuidGeneratorPage() {
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Yes, UUIDs are excellent primary keys for distributed
-                    systems, though there are trade-offs. Benefits include:
-                    generation without database round-trips, no collision risk
-                    when merging datasets, non-sequential IDs that prevent
-                    enumeration attacks, and easy sharding. Downsides include:
-                    larger index size (16 bytes vs 4-8 for integers), potential
-                    indexing performance issues with random UUIDs (use v1/v7 for
-                    better locality), and less human-readable. Most modern
-                    databases handle UUID primary keys efficiently.
+                    systems, though there are trade-offs. Benefits include
+                    generation without database round-trips and no collision
+                    risk when merging datasets. Downsides include larger index
+                    size (16 bytes vs 4-8 for integers) and potential indexing
+                    performance issues with random UUIDs (use v1/v7 for better
+                    locality).
                   </p>
                 </details>
 
@@ -375,28 +480,8 @@ export default function UuidGeneratorPage() {
                     UUID v4 provides sufficient randomness for session
                     identifiers and non-security-critical tokens, but shouldn&apos;t
                     be used for cryptographic keys, password reset tokens, or
-                    authentication secrets. For security-sensitive purposes, use
-                    dedicated cryptographic token generation (like
-                    crypto.randomBytes() with 32+ bytes). UUIDs were designed
-                    for uniqueness, not cryptographic security, though
-                    properly-generated v4 UUIDs are resistant to guessing
-                    attacks.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    How do I generate UUIDs in my programming language?
-                  </summary>
-                  <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Most modern programming languages have built-in UUID
-                    generation: JavaScript/Node.js uses crypto.randomUUID(),
-                    Python has the uuid module (uuid.uuid4()), Java provides
-                    java.util.UUID.randomUUID(), C# has Guid.NewGuid(), PHP
-                    offers uniqid() or ramsey/uuid library, and Go has
-                    github.com/google/uuid. Always use your language&apos;s standard
-                    library or well-maintained packages rather than implementing
-                    UUID generation yourself.
+                    authentication secrets. UUIDs were designed for uniqueness,
+                    not cryptographic security.
                   </p>
                 </details>
 
@@ -405,14 +490,12 @@ export default function UuidGeneratorPage() {
                     Can UUIDs be decoded to extract information?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    It depends on the version. UUID v1 embeds a timestamp and
-                    node identifier (potentially MAC address) that can be
-                    extracted, revealing when and where the UUID was generated.
+                    It depends on the version. UUID v1 embeds a timestamp that
+                    can be extracted, revealing when the UUID was generated.
                     UUID v3 and v5 are hashes, so the original namespace and
                     name cannot be reversed. UUID v4 is random data with no
-                    embedded information. UUID v7 embeds a timestamp but not
-                    machine information. Only decode v1 and v7 for timestamp
-                    extraction; never rely on UUIDs as secure storage of data.
+                    embedded information. Use the Decode tab above for v1
+                    UUIDs; never rely on UUIDs as secure storage of data.
                   </p>
                 </details>
 
@@ -424,29 +507,48 @@ export default function UuidGeneratorPage() {
                     UUID namespaces partition the UUID space to avoid collisions
                     between different naming authorities. RFC 4122 defines
                     standard namespaces: DNS (for domain names), URL (for URLs),
-                    OID (for ISO OIDs), and X.500 (for X.500 DNs). For example,
-                    generating a v5 UUID from the URL namespace and
-                    &quot;https://example.com&quot; always produces the same UUID. You can
-                    also create custom namespaces by generating a UUID to serve
-                    as the namespace identifier for your application&apos;s
-                    name-based UUIDs.
+                    OID (for ISO OIDs), and X.500 (for X.500 DNs).
                   </p>
                 </details>
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Should UUIDs be stored with or without hyphens?
+                    What format should I store UUIDs in?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     Store UUIDs in whatever format your database optimizes for.
-                    PostgreSQL has a native UUID type (stores 16 bytes
-                    efficiently), MySQL can use BINARY(16) for compact storage
-                    or CHAR(36) for hyphenated strings, and MongoDB supports
-                    storing as Binary UUID subtype. The hyphenated canonical
-                    format (36 characters) is human-readable and widely
-                    compatible, while the compact format (32 hex digits) saves
-                    space. Most modern databases handle both efficiently with
-                    proper indexing.
+                    PostgreSQL has a native UUID type, MySQL can use BINARY(16)
+                    for compact storage or CHAR(36) for hyphenated strings. The
+                    canonical hyphenated format is human-readable and widely
+                    compatible; use the Format tab to convert between
+                    representations before writing to storage.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    Why is my UUID marked invalid?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    The most common reasons are: wrong character count (not 32
+                    hex digits), hyphens in the wrong positions, non-hex
+                    characters (e.g. &apos;g&apos;, &apos;z&apos;, or symbols), an unsupported
+                    version number, or a variant that doesn&apos;t match RFC 4122
+                    (&quot;10&quot; in binary). The Validate tab lists the specific reason
+                    for any input that fails.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    How do I generate UUIDs in my programming language?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    Most modern programming languages have built-in UUID
+                    generation: JavaScript/Node.js uses crypto.randomUUID(),
+                    Python has the uuid module (uuid.uuid4()), Java provides
+                    java.util.UUID.randomUUID(), C# has Guid.NewGuid(), and Go
+                    has github.com/google/uuid.
                   </p>
                 </details>
 
@@ -457,13 +559,10 @@ export default function UuidGeneratorPage() {
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
                     This tool generates RFC 4122 compliant UUIDs using your
                     browser&apos;s cryptographically secure random number generator
-                    (crypto.getRandomValues() or crypto.randomUUID()). The
-                    generated UUIDs are suitable for production use. However,
-                    for high-volume production systems, generate UUIDs
-                    server-side or in your application code rather than manually
-                    copying from a web tool. This tool is perfect for testing,
-                    prototyping, or generating a few UUIDs for configuration or
-                    database seeding.
+                    and runs entirely client-side — nothing you type or
+                    generate is sent to a server. For high-volume production
+                    systems, generate UUIDs server-side or in your application
+                    code rather than manually copying from a web tool.
                   </p>
                 </details>
               </div>
@@ -489,48 +588,34 @@ export default function UuidGeneratorPage() {
                     <strong>Understand storage implications:</strong> UUIDs are
                     128 bits (16 bytes), larger than integer IDs. Use native
                     UUID types when available (PostgreSQL UUID, SQL Server
-                    UNIQUEIDENTIFIER) for optimal storage and indexing. For
-                    databases without native support, store as BINARY(16) for
-                    space efficiency or CHAR(36) for compatibility. Consider the
-                    trade-off between random UUIDs (better security) and ordered
-                    UUIDs (better indexing locality).
+                    UNIQUEIDENTIFIER) for optimal storage and indexing.
                   </p>
                   <p>
                     <strong>Generate UUIDs at the right layer:</strong>{" "}
                     Client-side generation (JavaScript, mobile apps) enables
                     offline functionality and reduces server round-trips.
                     Server-side generation ensures consistent generation quality
-                    and reduces client-side code. Database-side generation
-                    (using UUID functions) centralizes ID creation but couples
-                    your data layer to the database. Choose based on your
-                    architecture and offline requirements.
+                    and reduces client-side code.
                   </p>
                   <p>
                     <strong>Use consistent formatting:</strong> Stick to the
                     canonical lowercase hyphenated format (8-4-4-4-12) for
                     storage, APIs, and display unless you have specific reasons
-                    to use compact format. Consistent formatting prevents bugs
-                    and makes debugging easier. Always validate and normalize
-                    UUID input to your chosen format to handle different client
+                    to use another format. Validate and normalize UUID input to
+                    your chosen format to handle different client
                     representations.
                   </p>
                   <p>
                     <strong>Don&apos;t extract security from UUIDs:</strong> Never
                     use UUIDs for access control, authentication, or
                     authorization. They&apos;re identifiers, not security tokens.
-                    Don&apos;t parse v1 UUIDs to get timestamps for business
-                    logic—use proper timestamp fields. Don&apos;t rely on UUID
-                    randomness for cryptographic operations—use dedicated crypto
-                    libraries.
                   </p>
                   <p>
                     <strong>Index strategically for performance:</strong> When
                     using random UUIDs (v4) as primary keys in high-write
                     databases, consider clustering or partitioning strategies to
                     mitigate index fragmentation. Time-ordered UUIDs (v7, v1)
-                    have better locality for B-tree indexes. Monitor database
-                    performance and consider using UUIDs as alternate keys with
-                    integer primary keys if UUID indexing becomes a bottleneck.
+                    have better locality for B-tree indexes.
                   </p>
                 </div>
               </div>
@@ -551,11 +636,7 @@ export default function UuidGeneratorPage() {
                     hexadecimal digits with hyphens:
                     xxxxxxxx-xxxx-Mxxx-Nxxx-xxxxxxxxxxxx. The M position (4
                     bits) indicates version (1-5, 7). The N position&apos;s first 2-3
-                    bits indicate variant (10 for RFC 4122). This leaves 122
-                    bits for data in v4 random UUIDs. The specific bit layout
-                    varies by version—v1 encodes timestamp, clock sequence, and
-                    node ID in specific positions, while v4 uses random bits
-                    throughout except version and variant markers.
+                    bits indicate variant (10 for RFC 4122).
                   </p>
                 </div>
 
@@ -568,9 +649,7 @@ export default function UuidGeneratorPage() {
                     v4 UUIDs with 122 random bits, the probability of at least
                     one collision after generating n UUIDs is approximately:
                     P(collision) ≈ 1 - e^(-n²/2^123). To reach a 50% collision
-                    probability requires n ≈ 2.71 × 10¹⁸ UUIDs. Even generating
-                    1 trillion UUIDs gives only a 0.0000000000005% collision
-                    chance—negligible for any practical application.
+                    probability requires n ≈ 2.71 × 10¹⁸ UUIDs.
                   </p>
                 </div>
 
@@ -579,13 +658,12 @@ export default function UuidGeneratorPage() {
                     Shareable Links Feature
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    This generator supports pre-selecting UUID versions via URL
-                    query parameters: ?version=v1, ?version=v3, ?version=v4,
-                    ?version=v5, ?version=v7, or ?version=nil. This enables
-                    sharing direct links to specific UUID generation modes for
-                    documentation, tutorials, or team workflows. The selected
-                    version persists in the browser until changed, making it
-                    easy to generate multiple UUIDs of the same type.
+                    This tool supports pre-selecting a tab via ?tab=validate,
+                    ?tab=decode, or ?tab=format (generate is the default), and
+                    pre-selecting a UUID version on the Generate tab via
+                    ?version=v1, ?version=v3, ?version=v4, ?version=v5,
+                    ?version=v7, or ?version=nil. This enables sharing direct
+                    links for documentation, tutorials, or team workflows.
                   </p>
                 </div>
               </div>
@@ -594,53 +672,36 @@ export default function UuidGeneratorPage() {
             {/* Related Tools */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                Related UUID Tools
+                Related Tools
               </h2>
-              <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Explore our complete suite of UUID tools for generation,
-                validation, decoding, and format conversion:
-              </p>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-4 md:grid-cols-2">
                 <a
-                  href="/tools/uuid-decoder"
+                  href="/tools/timestamp-converter"
                   className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-indigo-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700"
                 >
                   <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-indigo-600 dark:text-gray-50 dark:group-hover:text-indigo-400">
-                    UUID Decoder
+                    Timestamp Converter
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Decode and analyze UUIDs to extract version, variant,
-                    timestamps, and node information
+                    Convert the Unix timestamp decoded from a v1 UUID into a
+                    human-readable date
                   </p>
                 </a>
                 <a
-                  href="/tools/uuid-validator"
+                  href="/tools/hash-generator"
                   className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-indigo-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700"
                 >
                   <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-indigo-600 dark:text-gray-50 dark:group-hover:text-indigo-400">
-                    UUID Validator
+                    Hash Generator
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Validate UUID format and RFC 4122 compliance
-                  </p>
-                </a>
-                <a
-                  href="/tools/uuid-format-converter"
-                  className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-indigo-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-indigo-700"
-                >
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-indigo-600 dark:text-gray-50 dark:group-hover:text-indigo-400">
-                    UUID Format Converter
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Convert between UUID formats: hyphenated, compact,
-                    uppercase, URN, and braced
+                    Generate MD5, SHA-1, and SHA-256 hashes for checksums and
+                    data integrity
                   </p>
                 </a>
               </div>
             </section>
           </div>
-
-          <UuidLinks />
         </div>
       </div>
     </>

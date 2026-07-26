@@ -1,35 +1,38 @@
 import Breadcrumb from "@/components/breadcrumb";
-import { Base64UI } from "./base64-ui";
+import { EncoderTabs } from "./encoder-tabs";
 import type { Metadata } from "next";
 import { ToolSchema } from "@/components/tool-schema";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Base64 Encoder/Decoder - Free Online Base64 Tool",
+  title: "Base64 / URL / HTML Encoder & Decoder - Free Online Tool",
   description:
-    "Encode and decode Base64 strings with support for URL-safe format, line-by-line processing, and MIME chunks. Free online Base64 tool with live mode.",
+    "Encode and decode Base64, URL, and HTML entities in one tool. URL-safe Base64, MIME chunks, 4 URL encoding modes, named/numeric HTML entities, and live mode.",
   keywords: [
     "base64",
+    "url encoder",
+    "html encoder",
     "encoder",
     "decoder",
     "encode",
     "decode",
     "url safe",
     "mime",
+    "html entities",
     "converter",
   ],
   openGraph: {
-    title: "Base64 Encoder/Decoder — Encode & Decode Base64 Online",
+    title: "Base64 / URL / HTML Encoder & Decoder",
     description:
-      "Free Base64 encoder/decoder with URL-safe format, MIME chunks, and line-by-line processing. All processing in your browser for complete privacy.",
+      "Free Base64, URL, and HTML encoder/decoder with URL-safe format, MIME chunks, query string parsing, and named/numeric HTML entities. All processing in your browser.",
     url: `${SITE_CONFIG.domain}/tools/base64`,
     siteName: SITE_CONFIG.name,
   },
   twitter: {
     card: "summary",
-    title: `Base64 Encoder/Decoder — ${SITE_CONFIG.name}`,
+    title: `Base64 / URL / HTML Encoder & Decoder — ${SITE_CONFIG.name}`,
     description:
-      "Encode and decode Base64 strings with URL-safe format and MIME support. Free online tool.",
+      "Encode and decode Base64, URL, and HTML entities. Free online tool.",
   },
   alternates: {
     canonical: `${SITE_CONFIG.domain}/tools/base64`,
@@ -40,13 +43,14 @@ export default function Base64Page() {
   return (
     <>
       <ToolSchema
-        name="Base64 Encoder/Decoder"
-        description="Encode and decode Base64 strings with URL-safe format support for data transmission and APIs"
+        name="Base64 / URL / HTML Encoder & Decoder"
+        description="Encode and decode Base64, URL, and HTML entities with URL-safe format support for data transmission and APIs"
         url="/tools/base64"
         keywords={[
           "base64 encoder",
           "base64 decoder",
-          "base64 converter",
+          "url encoder",
+          "html encoder",
           "encode base64",
           "decode base64",
         ]}
@@ -56,49 +60,49 @@ export default function Base64Page() {
           <div className="mb-8">
             <Breadcrumb />
             <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              Base64 Encoder/Decoder
+              Base64 / URL / HTML Encoder & Decoder
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Encode and decode Base64 strings with URL-safe format,
-              line-by-line processing, and MIME chunk support. All processing
-              happens in your browser for complete privacy.
+              Encode and decode Base64, URL, and HTML entities — with
+              URL-safe format, MIME chunking, four URL encoding modes, and
+              named or numeric HTML entities. All processing happens in your
+              browser for complete privacy.
             </p>
           </div>
 
           <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-            <Base64UI />
+            <EncoderTabs />
           </div>
 
           {/* SEO Content Sections */}
           <div className="mt-16 space-y-12">
-            {/* What is Base64 */}
+            {/* What is this */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                What is Base64 Encoding?
+                What Are Base64, URL, and HTML Encoding?
               </h2>
               <div className="space-y-4 text-gray-700 dark:text-gray-300">
                 <p>
-                  Base64 is a binary-to-text encoding scheme that converts
-                  binary data into an ASCII string format using a set of 64
-                  printable characters. The name &quot;Base64&quot; comes from the fact
-                  that it uses 64 different characters to represent data:
-                  uppercase letters (A-Z), lowercase letters (a-z), digits
-                  (0-9), plus (+), and forward slash (/).
+                  These are three of the most common text-transformation
+                  schemes on the web, and they solve different problems.{" "}
+                  <strong>Base64</strong> is a binary-to-text encoding that
+                  converts arbitrary binary data into a 64-character ASCII
+                  alphabet, so it survives transmission through systems built
+                  for text (email, JSON, data URLs).{" "}
+                  <strong>URL (percent) encoding</strong> escapes characters
+                  that would otherwise be misinterpreted as URL syntax — like
+                  spaces, &amp;, and ? — so text can safely appear in a query
+                  string or path segment. <strong>HTML entity encoding</strong>{" "}
+                  replaces characters that have special meaning in HTML — like{" "}
+                  &lt;, &gt;, and &amp; — with named or numeric entities, which
+                  is essential for rendering user-supplied text safely and
+                  preventing XSS.
                 </p>
                 <p>
-                  Originally developed for MIME (Multipurpose Internet Mail
-                  Extensions), Base64 encoding ensures that binary data remains
-                  intact when transmitted across systems that are designed to
-                  handle only text data. This is particularly important for
-                  email systems, URLs, and data storage in text formats like
-                  JSON or XML.
-                </p>
-                <p>
-                  The encoding process takes every 3 bytes of binary data and
-                  converts them into 4 ASCII characters. This results in an
-                  approximately 33% increase in data size, which is the
-                  trade-off for ensuring compatibility across text-based
-                  systems.
+                  None of these are encryption — they&apos;re all reversible,
+                  publicly-documented transformations, not security measures.
+                  Use the tabs above to switch between the three; each keeps
+                  its own input, output, and mode-specific options.
                 </p>
               </div>
             </section>
@@ -106,40 +110,17 @@ export default function Base64Page() {
             {/* Common Use Cases */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                Common Use Cases for Base64
+                Common Use Cases
               </h2>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="rounded-xl border border-green-200 bg-green-50/50 p-6 dark:border-green-800 dark:bg-green-950/20">
                   <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    Email Attachments
+                    Email Attachments &amp; Data URLs
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    MIME uses Base64 to encode email attachments, ensuring that
-                    binary files like images, documents, and executables can be
-                    safely transmitted through email systems that only support
-                    7-bit ASCII text.
-                  </p>
-                </div>
-                <div className="rounded-xl border border-green-200 bg-green-50/50 p-6 dark:border-green-800 dark:bg-green-950/20">
-                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    Data URLs
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Base64 encoding allows embedding small images, fonts, or
-                    other files directly into HTML, CSS, or JavaScript using
-                    data URLs (e.g., data:image/png;base64,...), reducing HTTP
-                    requests and improving page load times.
-                  </p>
-                </div>
-                <div className="rounded-xl border border-green-200 bg-green-50/50 p-6 dark:border-green-800 dark:bg-green-950/20">
-                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    API Authentication
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Basic HTTP authentication uses Base64 to encode username and
-                    password credentials. While not secure on its own, it&apos;s
-                    commonly used over HTTPS connections for simple
-                    authentication schemes.
+                    MIME uses Base64 to encode email attachments, and web pages
+                    embed small images or fonts directly via data URLs (e.g.,
+                    data:image/png;base64,...), reducing HTTP requests.
                   </p>
                 </div>
                 <div className="rounded-xl border border-green-200 bg-green-50/50 p-6 dark:border-green-800 dark:bg-green-950/20">
@@ -148,93 +129,244 @@ export default function Base64Page() {
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
                     JWTs use URL-safe Base64 encoding for their header and
-                    payload sections, making them safe to transmit in URLs, HTTP
-                    headers, and HTML form parameters without special escaping.
+                    payload sections, making them safe to transmit in URLs,
+                    HTTP headers, and HTML form parameters.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-6 dark:border-blue-800 dark:bg-blue-950/20">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Query Parameters &amp; Form Submissions
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    URL encoding lets arbitrary text — spaces, symbols,
+                    non-ASCII characters — travel safely inside a query string
+                    or POST body without breaking URL syntax.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-6 dark:border-blue-800 dark:bg-blue-950/20">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Building &amp; Debugging Full URLs
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Full-URI encoding preserves structural characters (: / ? #)
+                    while still escaping spaces and non-ASCII text, useful when
+                    encoding an entire link rather than a single parameter.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-orange-200 bg-orange-50/50 p-6 dark:border-orange-800 dark:bg-orange-950/20">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Safe HTML Rendering &amp; XSS Prevention
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Encoding user-supplied text before inserting it into HTML
+                    prevents characters like &lt; and &amp; from being parsed
+                    as markup, closing off a common cross-site-scripting
+                    attack vector.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-orange-200 bg-orange-50/50 p-6 dark:border-orange-800 dark:bg-orange-950/20">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    Displaying Code Snippets &amp; Special Symbols
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    Entity-encode source code samples so tags render as
+                    visible text instead of being interpreted, and use named
+                    entities for typographic symbols like ©, ™, or currency
+                    signs.
                   </p>
                 </div>
                 <div className="rounded-xl border border-green-200 bg-green-50/50 p-6 dark:border-green-800 dark:bg-green-950/20">
                   <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    Data Storage
+                    API Authentication &amp; Cryptographic Data
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Binary data can be stored in text-based formats like XML,
-                    JSON, or configuration files using Base64 encoding, making
-                    it easier to manage and transfer without worrying about
-                    binary data corruption.
-                  </p>
-                </div>
-                <div className="rounded-xl border border-green-200 bg-green-50/50 p-6 dark:border-green-800 dark:bg-green-950/20">
-                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    Cryptographic Applications
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    Public keys, certificates, encrypted data, and digital
-                    signatures are often Base64-encoded for easy transmission
-                    and storage in text files, as seen in PEM certificate
-                    formats.
+                    Basic HTTP auth encodes credentials in Base64, and public
+                    keys, certificates, and signatures are commonly
+                    Base64-encoded for storage in text files (as in PEM
+                    format).
                   </p>
                 </div>
               </div>
             </section>
 
-            {/* Features Explanation */}
+            {/* Advanced Features */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                Advanced Features
+                Advanced Features &amp; Reference
               </h2>
               <div className="space-y-6">
                 <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    URL-Safe Base64 Encoding
+                    Base64: URL-Safe, Line-by-Line, and MIME Chunks
                   </h3>
                   <p className="mb-3 text-gray-700 dark:text-gray-300">
-                    Standard Base64 encoding uses characters (+, /, =) that have
-                    special meanings in URLs and must be percent-encoded.
-                    URL-safe Base64 (also called Base64URL) addresses this by:
+                    <strong>URL-safe (RFC 4648):</strong> replaces + with -, /
+                    with _, and drops padding = characters, so the result can
+                    be used directly in URLs, filenames, or JWTs.
                   </p>
+                  <p className="mb-3 text-gray-700 dark:text-gray-300">
+                    <strong>Line-by-line:</strong> encodes or decodes each line
+                    independently — useful for batches of tokens or
+                    credentials.
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <strong>MIME chunks (RFC 2045):</strong> wraps encoded
+                    output at 76 characters per line, matching the format
+                    email attachments require.
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                    URL Encoding: Four Modes
+                  </h3>
                   <ul className="ml-6 list-disc space-y-2 text-gray-700 dark:text-gray-300">
-                    <li>Replacing + with - (hyphen)</li>
-                    <li>Replacing / with _ (underscore)</li>
-                    <li>Removing padding = characters</li>
+                    <li>
+                      <strong>Component</strong> (encodeURIComponent) — encode
+                      a single parameter value; escapes &amp;, =, ?, / so they
+                      can&apos;t be mistaken for URL structure.
+                    </li>
+                    <li>
+                      <strong>Full URI</strong> (encodeURI) — encode an entire
+                      URL while preserving structural characters like : / ? #.
+                    </li>
+                    <li>
+                      <strong>Form data</strong>{" "}
+                      (application/x-www-form-urlencoded) — like Component,
+                      but spaces become + instead of %20, matching HTML form
+                      submissions.
+                    </li>
+                    <li>
+                      <strong>RFC 3986 strict</strong> — extends Component by
+                      also escaping ! &apos; ( ) *, for maximum compatibility
+                      with strict URI parsers.
+                    </li>
                   </ul>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    This variant is defined in RFC 4648 and is commonly used in
-                    JWTs, URLs, filenames, and anywhere the encoded data needs
-                    to be transmitted without additional encoding.
+                    Decoding also parses the result into a key/value table when
+                    the input looks like a query string.
                   </p>
                 </div>
 
                 <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    Line-by-Line Processing
+                    HTML Entities: Named vs. Numeric
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    This feature allows you to encode or decode multiple
-                    independent text entries simultaneously, with each line
-                    processed separately. This is particularly useful when
-                    working with:
+                    Named entities (&amp;lt;, &amp;amp;, &amp;copy;) are more
+                    readable; numeric entities (&amp;#60;, &amp;#38;,
+                    &amp;#169;) work even for characters without a named
+                    equivalent. &quot;Encode all&quot; converts every character
+                    rather than just the handful with special HTML meaning —
+                    useful for maximizing compatibility with older parsers.
                   </p>
-                  <ul className="mt-3 ml-6 list-disc space-y-2 text-gray-700 dark:text-gray-300">
-                    <li>Lists of passwords or credentials</li>
-                    <li>Multiple API keys or tokens</li>
-                    <li>Batch processing of data entries</li>
-                    <li>Converting multiple strings in one operation</li>
-                  </ul>
                 </div>
 
-                <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                  <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                    MIME Format (76-Character Chunks)
-                  </h3>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    According to RFC 2045 (MIME specification), Base64-encoded
-                    data in email messages should be split into lines no longer
-                    than 76 characters. This feature automatically formats your
-                    encoded output to comply with MIME standards, making it
-                    suitable for email attachments and other MIME-compliant
-                    applications. The line breaks are purely cosmetic and don&apos;t
-                    affect the decoded output.
-                  </p>
+                <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-800">
+                  <table className="w-full text-sm">
+                    <thead className="bg-gray-50 dark:bg-gray-900">
+                      <tr>
+                        <th className="border-b border-gray-200 px-6 py-3 text-left font-semibold text-gray-900 dark:border-gray-800 dark:text-gray-50">
+                          Character
+                        </th>
+                        <th className="border-b border-gray-200 px-6 py-3 text-left font-semibold text-gray-900 dark:border-gray-800 dark:text-gray-50">
+                          Named
+                        </th>
+                        <th className="border-b border-gray-200 px-6 py-3 text-left font-semibold text-gray-900 dark:border-gray-800 dark:text-gray-50">
+                          Numeric
+                        </th>
+                        <th className="border-b border-gray-200 px-6 py-3 text-left font-semibold text-gray-900 dark:border-gray-800 dark:text-gray-50">
+                          Description
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-800 dark:bg-gray-900">
+                      <tr>
+                        <td className="px-6 py-4 font-mono text-gray-900 dark:text-gray-100">
+                          &lt;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-orange-600 dark:text-orange-400">
+                          &amp;lt;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-600 dark:text-gray-400">
+                          &amp;#60;
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                          Less than sign
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-mono text-gray-900 dark:text-gray-100">
+                          &gt;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-orange-600 dark:text-orange-400">
+                          &amp;gt;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-600 dark:text-gray-400">
+                          &amp;#62;
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                          Greater than sign
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-mono text-gray-900 dark:text-gray-100">
+                          &amp;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-orange-600 dark:text-orange-400">
+                          &amp;amp;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-600 dark:text-gray-400">
+                          &amp;#38;
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                          Ampersand
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-mono text-gray-900 dark:text-gray-100">
+                          &quot;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-orange-600 dark:text-orange-400">
+                          &amp;quot;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-600 dark:text-gray-400">
+                          &amp;#34;
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                          Double quotation mark
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-mono text-gray-900 dark:text-gray-100">
+                          &copy;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-orange-600 dark:text-orange-400">
+                          &amp;copy;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-600 dark:text-gray-400">
+                          &amp;#169;
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                          Copyright symbol
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="px-6 py-4 font-mono text-gray-900 dark:text-gray-100">
+                          &euro;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-orange-600 dark:text-orange-400">
+                          &amp;euro;
+                        </td>
+                        <td className="px-6 py-4 font-mono text-gray-600 dark:text-gray-400">
+                          &amp;#8364;
+                        </td>
+                        <td className="px-6 py-4 text-gray-700 dark:text-gray-300">
+                          Euro currency symbol
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
 
                 <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
@@ -242,13 +374,9 @@ export default function Base64Page() {
                     Live Mode
                   </h3>
                   <p className="text-gray-700 dark:text-gray-300">
-                    Enable live mode for instant encoding or decoding as you
-                    type. All processing happens directly in your browser using
-                    JavaScript, with no data sent to any server. This provides
-                    immediate feedback and is perfect for learning, testing, or
-                    quick conversions. Live mode supports UTF-8 character
-                    encoding and all other features including URL-safe encoding
-                    and line-by-line processing.
+                    Every tab supports live mode for instant results as you
+                    type. All processing happens directly in your browser
+                    using JavaScript, with no data sent to any server.
                   </p>
                 </div>
               </div>
@@ -262,16 +390,13 @@ export default function Base64Page() {
               <div className="space-y-6">
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Is Base64 encoding the same as encryption?
+                    Is Base64/URL/HTML encoding the same as encryption?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    No, Base64 is not encryption. It&apos;s simply an encoding scheme
-                    that converts binary data to ASCII text. Anyone can decode
-                    Base64 data without needing a key or password. Base64
-                    provides no security or confidentiality—it only ensures data
-                    integrity during transmission through text-based systems.
-                    For security, you need actual encryption algorithms like
-                    AES, RSA, or use it over secure channels like HTTPS.
+                    No. All three are reversible, publicly-documented encoding
+                    schemes, not encryption. Anyone can decode the output
+                    without a key or password. For confidentiality, use actual
+                    encryption (AES, RSA) or a secure channel like HTTPS.
                   </p>
                 </details>
 
@@ -280,11 +405,8 @@ export default function Base64Page() {
                     Why does Base64 encoding increase file size?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Base64 encoding increases data size by approximately 33%
-                    (more precisely, 4/3 or 133% of the original size). This
-                    happens because Base64 converts every 3 bytes (24 bits) of
-                    data into 4 ASCII characters. Each ASCII character uses 8
-                    bits, so 3 bytes become 4 bytes. This size increase is the
+                    Base64 converts every 3 bytes (24 bits) of input into 4
+                    ASCII characters, an approximately 33% size increase — the
                     trade-off for making binary data safely transmittable as
                     text.
                   </p>
@@ -292,32 +414,92 @@ export default function Base64Page() {
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What are the padding characters (=) at the end?
+                    What are the padding characters (=) at the end of Base64?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    The equals sign (=) is used as padding when the input data
-                    length isn&apos;t divisible by 3. Since Base64 converts 3-byte
-                    groups into 4-character groups, padding ensures the output
-                    length is always a multiple of 4. One or two equals signs
-                    may appear at the end: one = means the last group had 2
-                    bytes, and two == means it had 1 byte. In URL-safe Base64,
-                    padding is often omitted as it can be inferred from the data
+                    The equals sign is padding used when the input length
+                    isn&apos;t divisible by 3, ensuring the output length is
+                    always a multiple of 4. In URL-safe Base64, padding is
+                    typically omitted since it can be inferred from the data
                     length.
                   </p>
                 </details>
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Can I encode binary files like images or PDFs?
+                    What&apos;s the difference between Component and Full URI
+                    encoding?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Yes, Base64 can encode any type of binary file including
-                    images (JPEG, PNG, GIF), documents (PDF, Word), executables,
-                    or any other file format. However, for large files, the
-                    encoding process may take time and the resulting text will
-                    be significantly larger. Our tool works best with text data
-                    and smaller binary files. For very large files, consider
-                    using specialized tools or server-side processing.
+                    Component encoding (encodeURIComponent) escapes everything
+                    except unreserved characters — use it for a single
+                    parameter value. Full URI encoding (encodeURI) preserves
+                    structural characters like : / ? # so you can encode an
+                    entire URL without breaking it.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    Why do spaces become + instead of %20?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    That&apos;s Form Data encoding (application/x-www-form-urlencoded),
+                    the format HTML forms submit by default. Both %20 and +
+                    are correctly interpreted as a space when decoding; use
+                    Component or Full URI mode if you specifically need %20.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    Should I use named or numeric HTML entities?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    Named entities (&amp;lt;, &amp;copy;) are more readable in
+                    source code. Numeric entities (&amp;#60;, &amp;#169;) work
+                    for any character, including ones without a named
+                    equivalent, and are unambiguous across parsers. Both
+                    render identically in the browser.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    How does HTML encoding prevent XSS?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    Encoding characters like &lt;, &gt;, and &amp; before
+                    inserting user-supplied text into HTML stops the browser
+                    from interpreting that text as markup or script tags. This
+                    is one layer of defense against cross-site scripting —
+                    always encode untrusted input at the point it&apos;s
+                    rendered.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    Why am I getting an &quot;Invalid&quot; error when decoding?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    For Base64, this means the input contains characters
+                    outside the Base64 alphabet or has incorrect padding —
+                    make sure you decode with the same URL-safe setting used
+                    to encode. For URL decoding, it means the input contains a
+                    malformed percent-escape sequence.
+                  </p>
+                </details>
+
+                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    Can I encode Unicode text and special characters?
+                  </summary>
+                  <p className="mt-3 text-gray-700 dark:text-gray-300">
+                    Yes. Base64 encoding uses UTF-8 before converting to
+                    Base64, so any language (Chinese, Arabic, emoji) works
+                    correctly. URL and HTML encoding handle non-ASCII
+                    characters natively as well.
                   </p>
                 </details>
 
@@ -326,90 +508,23 @@ export default function Base64Page() {
                     Is my data safe when using this tool?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Absolutely. All encoding and decoding operations happen
-                    entirely in your browser using JavaScript. No data is ever
-                    sent to our servers or any third party. You can even use
-                    this tool offline once the page is loaded. Your privacy and
-                    data security are completely protected. However, remember
-                    that Base64 is not encryption—anyone with access to the
-                    encoded data can easily decode it.
+                    Yes. All encoding and decoding happens entirely in your
+                    browser using JavaScript — nothing is ever sent to a
+                    server. Remember, though, that none of these are
+                    encryption: anyone with access to the encoded data can
+                    decode it.
                   </p>
                 </details>
 
                 <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                   <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What&apos;s the difference between Base64 and Base64URL?
+                    Can I encode binary files like images or PDFs?
                   </summary>
                   <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Base64URL (also called URL-safe Base64) is a variant
-                    designed for use in URLs, filenames, and other contexts
-                    where certain characters are problematic. The differences
-                    are: standard Base64 uses + and / which have special meaning
-                    in URLs, while Base64URL replaces them with - and _
-                    respectively. Additionally, Base64URL typically omits the
-                    padding = characters. Both can be decoded to the same
-                    original data—they&apos;re just different representations
-                    optimized for different use cases.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Why am I getting an &quot;Invalid Base64&quot; error?
-                  </summary>
-                  <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    This error occurs when the input string contains invalid
-                    Base64 characters or has incorrect formatting. Common causes
-                    include: using characters outside the Base64 alphabet (A-Z,
-                    a-z, 0-9, +, /, =), incorrect padding, or trying to decode
-                    regular text that isn&apos;t Base64-encoded. Make sure you&apos;re
-                    decoding actual Base64 data. If you encoded data with
-                    URL-safe mode, decode it with URL-safe mode enabled as well.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    How do I encode special characters or Unicode text?
-                  </summary>
-                  <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Our tool automatically handles Unicode text using UTF-8
-                    encoding before converting to Base64. This means you can
-                    encode text in any language (Chinese, Arabic, emoji, etc.)
-                    and it will work correctly. When decoding, the tool expects
-                    UTF-8 encoded text. If you&apos;re working with other character
-                    encodings, you may need to convert your data to UTF-8 first.
-                    Most modern applications use UTF-8 by default, so this
-                    typically isn&apos;t an issue.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    Can I use this tool for commercial projects?
-                  </summary>
-                  <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    Yes, this Base64 encoder/decoder tool is completely free to
-                    use for any purpose, including commercial projects. There
-                    are no usage limits, registration requirements, or fees.
-                    Since all processing happens in your browser, you can use it
-                    as often as needed without any restrictions. We only ask
-                    that you bookmark and share the tool if you find it useful!
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-                  <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
-                    What browsers are supported?
-                  </summary>
-                  <p className="mt-3 text-gray-700 dark:text-gray-300">
-                    This tool works in all modern browsers including Chrome,
-                    Firefox, Safari, Edge, and Opera. It requires JavaScript to
-                    be enabled and uses standard Web APIs (btoa/atob for Base64
-                    encoding/decoding, TextEncoder/TextDecoder for UTF-8
-                    handling). These APIs have been supported in all major
-                    browsers for many years. The tool is also fully responsive
-                    and works on mobile devices, tablets, and desktop computers.
+                    Base64 can encode any binary file format, but for large
+                    files the resulting text will be significantly larger and
+                    slower to process in a browser tab. This tool works best
+                    with text data and smaller files.
                   </p>
                 </details>
               </div>
@@ -422,46 +537,35 @@ export default function Base64Page() {
               </h2>
               <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                 <div className="space-y-4 text-gray-700 dark:text-gray-300">
-                  <p>
-                    Base64 encoding is standardized in several RFCs (Request for
-                    Comments):
-                  </p>
                   <ul className="ml-6 list-disc space-y-2">
                     <li>
-                      <strong>RFC 4648:</strong> The main Base64 specification,
-                      defining standard Base64, Base64URL, Base32, and Base16
-                      encoding schemes
+                      <strong>RFC 4648:</strong> Base64, Base64URL, Base32, and
+                      Base16 encoding schemes
                     </li>
                     <li>
-                      <strong>RFC 2045:</strong> MIME Part One, which specifies
-                      Base64 for email attachments and the 76-character line
-                      length requirement
+                      <strong>RFC 2045:</strong> MIME, defining the
+                      76-character line length for Base64 in email
                     </li>
                     <li>
-                      <strong>RFC 7515:</strong> JSON Web Signature (JWS), which
-                      uses Base64URL encoding for JWT tokens
+                      <strong>RFC 3986:</strong> URI generic syntax and the
+                      reserved/unreserved character sets that URL encoding is
+                      built around
+                    </li>
+                    <li>
+                      <strong>RFC 7515:</strong> JSON Web Signature (JWS),
+                      which uses Base64URL encoding for JWT tokens
+                    </li>
+                    <li>
+                      <strong>HTML5 / WHATWG:</strong> the named character
+                      reference table this tool&apos;s HTML entity encoder is
+                      built from
                     </li>
                   </ul>
-                  <p className="mt-4">
-                    The Base64 alphabet consists of 64 ASCII characters selected
-                    to be universally supported across different systems:
-                  </p>
-                  <ul className="mt-2 ml-6 list-disc space-y-2">
-                    <li>Uppercase letters: A-Z (values 0-25)</li>
-                    <li>Lowercase letters: a-z (values 26-51)</li>
-                    <li>Digits: 0-9 (values 52-61)</li>
-                    <li>Special characters: + (value 62) and / (value 63)</li>
-                    <li>
-                      Padding character: = (used to make output length a
-                      multiple of 4)
-                    </li>
-                  </ul>
-                  <p className="mt-4">
-                    Each Base64 character represents exactly 6 bits of data.
-                    When encoding, the input is divided into 6-bit groups, and
-                    each group is mapped to its corresponding Base64 character.
-                    This is why 3 bytes (24 bits) of input become 4 Base64
-                    characters (4 × 6 bits = 24 bits).
+                  <p>
+                    Each Base64 character represents exactly 6 bits of data —
+                    3 bytes (24 bits) of input become 4 Base64 characters (4 ×
+                    6 bits = 24 bits), which is why the encoded output is
+                    always about a third larger than the input.
                   </p>
                 </div>
               </div>
@@ -472,22 +576,7 @@ export default function Base64Page() {
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
                 Related Tools
               </h2>
-              <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Explore other encoding and developer tools to streamline your
-                workflow:
-              </p>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                <a
-                  href="/tools/url-encoder"
-                  className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-green-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-green-700"
-                >
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-green-600 dark:text-gray-50 dark:group-hover:text-green-400">
-                    URL Encoder/Decoder
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Encode and decode URL parameters and query strings
-                  </p>
-                </a>
                 <a
                   href="/tools/json-formatter"
                   className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-blue-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-700"

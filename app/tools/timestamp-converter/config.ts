@@ -16,7 +16,7 @@ export const TimestampConverterToolConfig: Tool = {
     "converter"
   ],
   relatedTools: [
-    "uuid-decoder"
+    "uuid-generator"
   ]
 };
 

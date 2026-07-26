@@ -529,17 +529,6 @@ export default function MarkdownPreviewerPage() {
                     Compare text differences side-by-side
                   </p>
                 </a>
-                <a
-                  href="/tools/lorem-ipsum"
-                  className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-yellow-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-yellow-700"
-                >
-                  <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-yellow-600 dark:text-gray-50 dark:group-hover:text-yellow-400">
-                    Lorem Ipsum Generator
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Generate placeholder text for your content
-                  </p>
-                </a>
               </div>
             </section>
           </div>

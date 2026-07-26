@@ -21,7 +21,6 @@ export const QrCodeGeneratorToolConfig: Tool = {
     "custom qr"
   ],
   relatedTools: [
-    "url-encoder",
     "base64"
   ]
 };

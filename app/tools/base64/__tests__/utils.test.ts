@@ -6,7 +6,7 @@ import {
   decodeLineByLine,
   splitIntoChunks,
   isValidBase64,
-} from "../utils";
+} from "../base64-utils";
 
 describe("Base64 Encoder/Decoder Utils", () => {
   describe("encodeToBase64", () => {
