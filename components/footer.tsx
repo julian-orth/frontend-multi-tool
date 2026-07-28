@@ -22,14 +22,14 @@ export function Footer() {
             <div className="mb-4">
               <Image
                 src="/logo.svg"
-                alt="DeveloperUtilityTools"
+                alt="Frontend Multitool"
                 width={250}
                 height={38}
                 className="h-10 w-auto dark:hidden"
               />
               <Image
                 src="/logo-darkmode.svg"
-                alt="DeveloperUtilityTools"
+                alt="Frontend Multitool"
                 width={250}
                 height={38}
                 className="hidden h-10 w-auto dark:block"
@@ -97,7 +97,7 @@ export function Footer() {
         <div className="mt-12 border-t border-[var(--line)] pt-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              © {currentYear} DeveloperUtilityTools.com. All rights reserved.
+              © {currentYear} Frontend Multitool. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
               <Link

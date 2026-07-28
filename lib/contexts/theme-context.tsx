@@ -60,14 +60,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const toggleTheme = useCallback(() => {
     setTheme((current) => {
       const newTheme = current === "light" ? "dark" : "light";
-      const root = document.documentElement;
 
-      // Enable the crossfade only for this explicit, user-triggered switch.
-      root.classList.add("theme-transition");
-      window.setTimeout(() => root.classList.remove("theme-transition"), 300);
+      const commit = () => {
+        localStorage.setItem("theme", newTheme);
+        applyTheme(newTheme);
+      };
 
-      localStorage.setItem("theme", newTheme);
-      applyTheme(newTheme);
+      // Cross-fade a snapshot of the whole page rather than letting every
+      // element interpolate its own color — animating background/text/border
+      // colors individually made everything pass through a muddy gray
+      // mid-tone at once. Falls back to an instant switch where unsupported.
+      if (document.startViewTransition) {
+        document.startViewTransition(commit);
+      } else {
+        commit();
+      }
+
       return newTheme;
     });
   }, []);

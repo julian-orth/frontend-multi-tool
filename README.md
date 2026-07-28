@@ -1,8 +1,8 @@
-# DeveloperUtilityTools
+# Frontend Multitool
 
 A modern, privacy-first web application built with Next.js 16 that provides a comprehensive collection of free online developer tools. All tools run entirely client-side in your browser, ensuring your data never leaves your device.
 
-![DeveloperUtilityTools Screenshot](/public/images/screenshot/developertools_screenshot2.png)
+![Frontend Multitool Screenshot](/public/images/screenshot/developertools_screenshot2.png)
 
 ⭐ **[Live Demo](https://frontend-toolkit-vercel.vercel.app/)** ⭐
 
@@ -294,4 +294,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**DeveloperUtilityTools** - Built with Next.js 15, React 19, and Tailwind CSS 4
+**Frontend Multitool** - Built with Next.js 15, React 19, and Tailwind CSS 4

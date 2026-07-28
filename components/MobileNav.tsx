@@ -118,18 +118,18 @@ export default function MobileNav() {
               href="/"
               className="group flex items-center transition-opacity hover:opacity-80"
               onClick={close}
-              aria-label="DeveloperUtilityTools Home"
+              aria-label="Frontend Multitool Home"
             >
               <Image
                 src="/logo.svg"
-                alt="DeveloperUtilityTools"
+                alt="Frontend Multitool"
                 width={200}
                 height={30}
                 className="h-8 w-auto dark:hidden"
               />
               <Image
                 src="/logo-darkmode.svg"
-                alt="DeveloperUtilityTools"
+                alt="Frontend Multitool"
                 width={200}
                 height={30}
                 className="hidden h-8 w-auto dark:block"

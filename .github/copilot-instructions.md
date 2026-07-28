@@ -1,4 +1,4 @@
-# DeveloperUtilityTools - AI Coding Agent Instructions
+# Frontend Multitool - AI Coding Agent Instructions
 
 ## Project Overview
 
