@@ -1,6 +1,6 @@
 {
-  "name": "DeveloperUtilityTools",
-  "short_name": "DevTools",
+  "name": "Frontend Multitool",
+  "short_name": "Multitool",
   "description": "Privacy-first developer tools running entirely in your browser",
   "start_url": "/",
   "display": "browser",

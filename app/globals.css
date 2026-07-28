@@ -77,15 +77,25 @@ body {
   color: var(--paper);
 }
 
-/* Only animate the light/dark crossfade for an explicit user toggle, never
-   on initial page load (the theme-bootstrap script in layout.tsx already
-   resolves the correct class before first paint, so animating that would
-   just reintroduce the flash it's meant to prevent). */
-.theme-transition,
-.theme-transition body {
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+/* Theme toggle crossfade via the View Transitions API (see toggleTheme in
+   theme-context.tsx). This animates a snapshot of the whole page rather than
+   interpolating every element's color individually — interpolating text/
+   border/background colors together on every element made everything pass
+   through a muddy gray mid-tone at once, which read as a washed-out flash
+   rather than a smooth switch. Never triggered on initial load (the
+   theme-bootstrap script in layout.tsx already resolves the correct class
+   before first paint), only on an explicit user toggle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+  animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms;
+  }
 }
 
 /* Custom scrollbar styling */

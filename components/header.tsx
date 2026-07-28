@@ -29,11 +29,11 @@ export function Header() {
           href="/"
           onClick={handleLogoClick}
           className="group flex items-center transition-opacity hover:opacity-80"
-          aria-label="DeveloperUtilityTools Home"
+          aria-label="Frontend Multitool Home"
         >
           <Image
             src="/logo.svg"
-            alt="DeveloperUtilityTools"
+            alt="Frontend Multitool"
             width={320}
             height={48}
             className="h-10 w-auto dark:hidden"
@@ -41,7 +41,7 @@ export function Header() {
           />
           <Image
             src="/logo-darkmode.svg"
-            alt="DeveloperUtilityTools"
+            alt="Frontend Multitool"
             width={320}
             height={48}
             className="hidden h-10 w-auto dark:block"

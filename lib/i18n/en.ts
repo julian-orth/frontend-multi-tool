@@ -6,7 +6,7 @@
  * import { TOOLS } from "@/lib/tools/registry"
  */
 
-export const SITE_NAME = "DeveloperUtilityTools";
+export const SITE_NAME = "Frontend Multitool";
 export const SITE_DESCRIPTION =
   "Free online developer utilities and tools for everyday coding tasks";
 

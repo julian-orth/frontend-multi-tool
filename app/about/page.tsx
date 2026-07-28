@@ -5,7 +5,7 @@ import { Shield, Code, Zap, Heart } from "lucide-react";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about DeveloperUtilityTools - a free, privacy-focused collection of developer utilities that run entirely in your browser.",
+    "Learn about Frontend Multitool - a free, privacy-focused collection of developer utilities that run entirely in your browser.",
   keywords: [
     "about",
     "developer tools",
@@ -54,7 +54,7 @@ export default function AboutPage() {
             Project Goal
           </h2>
           <p className="mb-4 text-[var(--ink-soft)]">
-            DeveloperUtilityTools was built as a focused utility hub for common
+            Frontend Multitool was built as a focused utility hub for common
             engineering tasks like formatting, encoding, UUID work, and text
             processing. The objective is to provide clean UX, fast interaction,
             and reliable behavior across devices.

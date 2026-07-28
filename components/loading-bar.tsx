@@ -3,13 +3,33 @@
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
 
+// Staged targets rather than a continuous formula: each stage eases toward
+// its target over its own CSS transition, so the bar shows real motion
+// within ~150ms even when navigation resolves almost instantly, while
+// still having headroom to keep crawling on slower loads.
+const STAGES = [
+  { target: 28, duration: 200 },
+  { target: 56, duration: 350 },
+  { target: 76, duration: 600 },
+  { target: 90, duration: 1200 },
+] as const;
+
+const COMPLETE_DURATION = 200;
+const FADE_DURATION = 200;
+
 export function LoadingBar() {
   const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
-  const startTimeRef = useRef<number>(0);
-  const animationFrameRef = useRef<number | null>(null);
+  const isLoadingRef = useRef(false);
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const isToolPage = pathname.startsWith("/tools/");
+
+  const clearTimers = () => {
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+  };
 
   useEffect(() => {
     // Handle navigation start by listening for link clicks
@@ -17,42 +37,36 @@ export function LoadingBar() {
       const target = e.target as HTMLElement;
       const link = target.closest("a");
 
-      if (link && link.href && !link.target && !link.download) {
-        const url = new URL(link.href);
-        const currentUrl = new URL(window.location.href);
+      if (!link || !link.href || link.target || link.download) return;
 
-        // Check if it's an internal navigation to a different page
-        if (
-          url.origin === currentUrl.origin &&
-          url.pathname !== currentUrl.pathname
-        ) {
-          // Cancel any existing animation
-          if (animationFrameRef.current) {
-            cancelAnimationFrame(animationFrameRef.current);
-          }
+      const url = new URL(link.href);
+      const currentUrl = new URL(window.location.href);
 
-          setIsLoading(true);
-          setProgress(0);
-          startTimeRef.current = Date.now();
-
-          // Smooth animation using requestAnimationFrame
-          const animate = () => {
-            const elapsed = Date.now() - startTimeRef.current;
-
-            // Exponential easing: fast start, then slows down
-            // Approaches 90% asymptotically
-            const newProgress = 90 * (1 - Math.exp(-elapsed / 2000));
-
-            setProgress(Math.min(newProgress, 90));
-
-            if (newProgress < 90) {
-              animationFrameRef.current = requestAnimationFrame(animate);
-            }
-          };
-
-          animationFrameRef.current = requestAnimationFrame(animate);
-        }
+      // Only internal navigations to a different path start the bar
+      if (
+        url.origin !== currentUrl.origin ||
+        url.pathname === currentUrl.pathname
+      ) {
+        return;
       }
+
+      clearTimers();
+      isLoadingRef.current = true;
+      setIsLoading(true);
+      setVisible(true);
+      setProgress(0);
+
+      // Kick off on the next frame so the 0% state actually paints before
+      // the first stage transition starts, otherwise the browser can
+      // coalesce them and skip the initial animation entirely.
+      requestAnimationFrame(() => {
+        let elapsed = 0;
+        for (const stage of STAGES) {
+          const timer = setTimeout(() => setProgress(stage.target), elapsed);
+          timeoutsRef.current.push(timer);
+          elapsed += stage.duration;
+        }
+      });
     };
 
     document.addEventListener("click", handleClick, true);
@@ -61,37 +75,30 @@ export function LoadingBar() {
 
   // Complete loading when pathname changes — this is genuinely syncing to
   // an external event (the Next.js router finishing navigation), not a
-  // derived value.
+  // derived value. Gating on isLoadingRef (kept in sync with isLoading)
+  // keeps this effect pathname-only, so starting a new navigation doesn't
+  // itself re-trigger completion and cut the animation short.
   useEffect(() => {
-    if (isLoading) {
-      // Cancel animation
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
+    if (!isLoadingRef.current) return;
 
-      // Jump to 100%
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setProgress(100);
+    clearTimers();
+    setProgress(100);
 
-      // Hide after animation completes
-      const timer = setTimeout(() => {
+    const fadeTimer = setTimeout(() => setVisible(false), COMPLETE_DURATION);
+    const resetTimer = setTimeout(
+      () => {
+        isLoadingRef.current = false;
         setIsLoading(false);
         setProgress(0);
-      }, 400);
+      },
+      COMPLETE_DURATION + FADE_DURATION,
+    );
 
-      return () => clearTimeout(timer);
-    }
-  }, [pathname, isLoading]);
+    timeoutsRef.current.push(fadeTimer, resetTimer);
+  }, [pathname]);
 
-  // Cleanup animation on unmount
-  useEffect(() => {
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-    };
-  }, []);
+  // Cleanup pending timers on unmount
+  useEffect(() => clearTimers, []);
 
   if (!isLoading) {
     return null;
@@ -99,10 +106,12 @@ export function LoadingBar() {
 
   return (
     <div
-      className={`fixed top-[73px] right-0 z-50 h-1 overflow-hidden bg-transparent transition-all ${isToolPage ? "left-0 md:left-72" : "left-0"}`}
+      className={`fixed top-[73px] right-0 z-50 h-[3px] overflow-hidden bg-transparent transition-opacity ease-out ${
+        visible ? "opacity-100 duration-150" : "opacity-0 duration-200"
+      } ${isToolPage ? "left-0 md:left-72" : "left-0"}`}
     >
       <div
-        className="h-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 shadow-lg shadow-blue-500/50 transition-all duration-150 ease-linear"
+        className="h-full bg-blue-600 shadow-[0_0_6px] shadow-blue-500/40 transition-[width] duration-300 ease-out dark:bg-blue-500 dark:shadow-blue-400/30"
         style={{ width: `${progress}%` }}
       />
     </div>

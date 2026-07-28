@@ -4,7 +4,7 @@
  */
 
 export const SITE_CONFIG = {
-  name: "DeveloperUtilityTools",
+  name: "Frontend Multitool",
   domain: "https://developerutilitytools.com",
   description:
     "Free online developer utilities and tools for everyday coding tasks. All tools run client-side ensuring your data never leaves your browser.",

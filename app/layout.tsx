@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { SITE_NAME } from "@/lib/i18n/en";
 import { SITE_CONFIG } from "@/lib/site-config";
@@ -31,6 +30,11 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  // Lets the browser paint its default canvas (and form controls, scrollbars)
+  // in the OS-preferred scheme immediately, before any CSS or JS runs — this
+  // is what actually prevents the white flash for the split second before
+  // the theme-bootstrap script below executes.
+  colorScheme: "dark light",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
@@ -119,9 +123,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script id="theme-bootstrap" strategy="beforeInteractive">
-          {themeBootstrapScript}
-        </Script>
+        {/* Raw inline script (not next/script) placed as the very first
+            thing in <head> so the browser is forced to execute it before
+            parsing continues into <body> — guaranteeing the correct theme
+            class is applied before any content can paint. */}
+        <script
+          id="theme-bootstrap"
+          dangerouslySetInnerHTML={{ __html: themeBootstrapScript }}
+        />
       </head>
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} flex min-h-screen flex-col text-gray-900 dark:text-gray-50`}
