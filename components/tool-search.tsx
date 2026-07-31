@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { ToolGroupIcon } from "@/components/tool-group-icons";
 import type { Tool, ToolGroup } from "@/lib/types/tool";
 
@@ -95,6 +95,16 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
+        {query && (
+          <button
+            type="button"
+            onClick={() => setQuery("")}
+            className="cursor-pointer rounded p-0.5 text-[var(--ink-soft)] transition hover:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
+            aria-label="Clear search"
+          >
+            <X className="h-4 w-4" aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       {filtered.length === 0 ? (
@@ -121,7 +131,6 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
                   <span className="font-[IBM_Plex_Mono] text-xs text-[var(--ink-soft)]">
                     {groupTools.length} Tool{groupTools.length !== 1 ? "s" : ""}
                   </span>
-                  <span className="h-px flex-1 bg-[var(--line)]" />
                 </div>
                 <p className="mb-3 text-sm text-[var(--ink-soft)]">
                   {section.description}
@@ -134,9 +143,6 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
                       className="group relative rounded-md border border-[var(--line)] bg-[var(--card)] px-4 py-4 text-left shadow-[0_1px_0_var(--line-soft)] transition duration-150 hover:-translate-y-0.5 hover:border-[var(--ink-soft)] hover:shadow-[0_8px_18px_-12px_rgba(22,35,58,0.35)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
                       aria-label={`Open ${tool.name}`}
                     >
-                      <span className="absolute right-3 top-2 font-[IBM_Plex_Mono] text-[9px] text-[var(--line)]">
-                        #{tool.id}
-                      </span>
                       <span className="mb-3 inline-flex h-9 w-9 items-center justify-center rounded border border-[var(--line)] bg-[var(--paper-2)]">
                         <ToolGroupIcon
                           icon={tool.groupIcon}

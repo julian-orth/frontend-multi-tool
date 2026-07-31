@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { NAV_ITEMS, TOOLS } from "@/lib/i18n/en";
+import { TOOLS } from "@/lib/i18n/en";
 
 export function Footer() {
   const pathname = usePathname();
@@ -12,64 +12,37 @@ export function Footer() {
 
   return (
     <footer
-      className={`relative border-t border-[var(--line)] bg-[var(--paper)] py-16 ${isToolPage ? "md:ml-72" : ""}`}
+      className={`relative border-t border-[var(--line)] bg-[var(--paper)] py-8 ${isToolPage ? "md:ml-72" : ""}`}
     >
       <div
         className={`px-4 sm:px-6 ${isToolPage ? "max-w-full" : "mx-auto max-w-7xl"}`}
       >
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-2">
-            <div className="mb-4">
+        <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
+          <div className="max-w-md">
+            <div className="mb-3">
               <Image
                 src="/logo.svg"
                 alt="Frontend Multitool"
                 width={250}
                 height={38}
-                className="h-10 w-auto dark:hidden"
+                className="h-9 w-auto dark:hidden"
               />
               <Image
                 src="/logo-darkmode.svg"
                 alt="Frontend Multitool"
                 width={250}
                 height={38}
-                className="hidden h-10 w-auto dark:block"
+                className="hidden h-9 w-auto dark:block"
               />
             </div>
-            <p className="mb-4 max-w-md text-sm leading-relaxed text-gray-700 dark:text-gray-400">
+            <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-400">
               Your go-to collection of powerful, privacy-focused developer
               utilities. All tools run client-side in your browser—no data ever
               leaves your device.
             </p>
           </div>
           <div>
-            <h4 className="mb-4 text-sm font-bold tracking-wider text-gray-900 uppercase dark:text-white">
-              Quick Links
-            </h4>
-            <ul className="space-y-2 text-sm">
-              {NAV_ITEMS.map((item) => {
-                const isActive =
-                  pathname === item.href ||
-                  pathname.startsWith(item.href + "/");
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={`transition-colors ${
-                        isActive
-                          ? "font-semibold text-[var(--ink)]"
-                          : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
-                      }`}
-                      aria-current={isActive ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-          <div>
-            <h4 className="mb-4 text-sm font-bold tracking-wider text-gray-900 uppercase dark:text-white">
+            <h4 className="mb-3 text-sm font-bold tracking-wider text-gray-900 uppercase dark:text-white">
               Popular Tools
             </h4>
             <ul className="space-y-2 text-sm">
@@ -94,7 +67,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-[var(--line)] pt-8">
+        <div className="mt-8 border-t border-[var(--line)] pt-6">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-700 dark:text-gray-400">
               © {currentYear} Frontend Multitool. All rights reserved.

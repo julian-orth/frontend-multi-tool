@@ -109,9 +109,9 @@ frontend-toolkit/
 │   ├── globals.css          # Global styles and CSS variables
 │   ├── sitemap.ts           # Dynamic sitemap generation
 │   ├── robots.ts            # SEO robots configuration
-│   ├── blog/                # Blog posts and articles
 │   ├── about/               # About page
-│   ├── contact/             # Contact page
+│   ├── privacy/              # Privacy policy
+│   ├── terms/                # Terms and conditions
 │   └── tools/               # Tool pages (each tool has own folder)
 │       ├── json-formatter/
 │       │   ├── page.tsx            # Server component with metadata
@@ -257,7 +257,7 @@ Theme persists to `localStorage` and uses Tailwind's class-based dark mode.
 ## Recruiter-Friendly Release Checklist
 
 - [ ] `npm run check:release` runs successfully
-- [ ] Contact and About pages reflect real project context (no placeholder personas)
+- [ ] About page reflects real project context (no placeholder personas)
 - [ ] Metadata, sitemap and robots are up to date
 - [ ] README stack versions and tool count are accurate
 - [ ] At least one meaningful UI test exists for critical user flow

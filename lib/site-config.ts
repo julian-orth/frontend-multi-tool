@@ -9,7 +9,6 @@ export const SITE_CONFIG = {
   description:
     "Free online developer utilities and tools for everyday coding tasks. All tools run client-side ensuring your data never leaves your browser.",
   tagline: "Privacy-First Developer Tools",
-  email: "contact@developerutilitytools.com",
 } as const;
 
 // Helper functions for consistent URL generation

@@ -1,41 +1,19 @@
-<svg width="270" height="48" viewBox="0 0 270 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Font definition with bold weight embedded -->
-  <defs>
-    <style type="text/css">
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&amp;display=swap');
-    </style>
-    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#c4b5fd;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#fbcfe8;stop-opacity:1" />
-    </linearGradient>
-  </defs>
+<svg width="252" height="48" viewBox="0 0 252 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon: three category-colored tabs fanned from a shared pivot -->
+  <rect width="48" height="48" rx="11" fill="#16233A"/>
+  <rect x="20" y="17" width="8" height="22" rx="4" fill="#B5652C" transform="rotate(-25 24 39)"/>
+  <rect x="20" y="17" width="8" height="22" rx="4" fill="#3D5A99"/>
+  <rect x="20" y="17" width="8" height="22" rx="4" fill="#2E6B5E" transform="rotate(25 24 39)"/>
 
-  <!-- Logo Icon (48x48 area) -->
-  <g>
-    <!-- Background rounded square border with gradient -->
-    <rect x="2" y="2" width="44" height="44" rx="12" fill="none" stroke="url(#logoGradient)" stroke-width="3"/>
-    
-    <!-- Code icon centered and scaled larger -->
-    <g transform="translate(9, 9) scale(1.25)">
-      <path d="M1.293,11.293l4-4A1,1,0,1,1,6.707,8.707L3.414,12l3.293,3.293a1,1,0,1,1-1.414,1.414l-4-4A1,1,0,0,1,1.293,11.293Zm17.414-4a1,1,0,1,0-1.414,1.414L20.586,12l-3.293,3.293a1,1,0,1,0,1.414,1.414l4-4a1,1,0,0,0,0-1.414ZM13.039,4.726l-4,14a1,1,0,0,0,.686,1.236A1.053,1.053,0,0,0,10,20a1,1,0,0,0,.961-.726l4-14a1,1,0,1,0-1.922-.548Z" fill="black"/>
-    </g>
-  </g>
-
-  <!-- Text -->
-  <text 
-    x="56" 
-    y="33" 
-    font-family="Inter, system-ui, -apple-system, sans-serif" 
-    font-size="22" 
+  <text
+    x="58"
+    y="32"
+    font-family="'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-size="21"
     font-weight="700"
-    fill="black"
+    fill="#16233A"
     letter-spacing="-0.02em"
   >
-    DeveloperUtilityTools
+    Frontend Multitool
   </text>
 </svg>
