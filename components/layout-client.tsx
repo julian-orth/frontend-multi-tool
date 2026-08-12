@@ -4,6 +4,8 @@ import { usePathname } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import SidebarNav from "@/components/SidebarNav";
+import { LiteralLocalizer } from "@/components/literal-localizer";
+import { stripLocalePrefix } from "@/lib/i18n/locale";
 
 export function ClientLayoutWrapper({
   children,
@@ -11,13 +13,13 @@ export function ClientLayoutWrapper({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isToolPage = pathname.startsWith("/tools/");
+  const isToolPage = stripLocalePrefix(pathname).startsWith("/tools/");
 
   return (
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-[var(--card)] focus:px-4 focus:py-2 focus:text-[var(--ink)] focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-[var(--focus)]"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-[var(--card)] focus:px-4 focus:py-2 focus:text-[var(--ink)] focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-[var(--focus)]"
       >
         Skip to content
       </a>
@@ -31,6 +33,7 @@ export function ClientLayoutWrapper({
           {children}
         </main>
       </div>
+      <LiteralLocalizer />
       <Footer />
     </>
   );

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { stripLocalePrefix } from "@/lib/i18n/locale";
 
 // Staged targets rather than a continuous formula: each stage eases toward
 // its target over its own CSS transition, so the bar shows real motion
@@ -24,7 +25,7 @@ export function LoadingBar() {
   const [progress, setProgress] = useState(0);
   const isLoadingRef = useRef(false);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const isToolPage = pathname.startsWith("/tools/");
+  const isToolPage = stripLocalePrefix(pathname).startsWith("/tools/");
 
   const clearTimers = () => {
     timeoutsRef.current.forEach(clearTimeout);
@@ -85,14 +86,11 @@ export function LoadingBar() {
     setProgress(100);
 
     const fadeTimer = setTimeout(() => setVisible(false), COMPLETE_DURATION);
-    const resetTimer = setTimeout(
-      () => {
-        isLoadingRef.current = false;
-        setIsLoading(false);
-        setProgress(0);
-      },
-      COMPLETE_DURATION + FADE_DURATION,
-    );
+    const resetTimer = setTimeout(() => {
+      isLoadingRef.current = false;
+      setIsLoading(false);
+      setProgress(0);
+    }, COMPLETE_DURATION + FADE_DURATION);
 
     timeoutsRef.current.push(fadeTimer, resetTimer);
   }, [pathname]);

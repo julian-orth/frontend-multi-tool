@@ -6,6 +6,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -14,16 +15,31 @@ type Theme = "light" | "dark";
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  isTransitioning: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   toggleTheme: () => {},
+  isTransitioning: false,
 });
 
 function applyTheme(nextTheme: Theme) {
   document.documentElement.classList.toggle("dark", nextTheme === "dark");
   document.documentElement.style.colorScheme = nextTheme;
+}
+
+function withThemeSwitchLock(callback: () => void) {
+  const root = document.documentElement;
+  root.classList.add("theme-switching");
+
+  callback();
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      root.classList.remove("theme-switching");
+    });
+  });
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -33,6 +49,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       ? "dark"
       : "light";
   });
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const transitionLockRef = useRef(false);
 
   // The initial theme is already resolved before hydration by the
   // theme-bootstrap script (see app/layout.tsx) and picked up above via the
@@ -58,29 +76,49 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleTheme = useCallback(() => {
-    setTheme((current) => {
-      const newTheme = current === "light" ? "dark" : "light";
+    if (transitionLockRef.current) return;
 
-      const commit = () => {
-        localStorage.setItem("theme", newTheme);
-        applyTheme(newTheme);
-      };
+    transitionLockRef.current = true;
+    setIsTransitioning(true);
 
-      // Cross-fade a snapshot of the whole page rather than letting every
-      // element interpolate its own color — animating background/text/border
-      // colors individually made everything pass through a muddy gray
-      // mid-tone at once. Falls back to an instant switch where unsupported.
-      if (document.startViewTransition) {
-        document.startViewTransition(commit);
-      } else {
-        commit();
+    const nextTheme: Theme = theme === "light" ? "dark" : "light";
+
+    const commit = () => {
+      localStorage.setItem("theme", nextTheme);
+      applyTheme(nextTheme);
+    };
+
+    setTheme(nextTheme);
+
+    // Keep the switch atomic: disable CSS transitions briefly while applying
+    // the root theme class, then animate via View Transitions when available.
+    if (document.startViewTransition) {
+      try {
+        const transition = document.startViewTransition(() => {
+          withThemeSwitchLock(commit);
+        });
+
+        void transition.finished.finally(() => {
+          transitionLockRef.current = false;
+          setIsTransitioning(false);
+        });
+      } catch {
+        withThemeSwitchLock(commit);
+        transitionLockRef.current = false;
+        setIsTransitioning(false);
       }
+      return;
+    }
 
-      return newTheme;
-    });
-  }, []);
+    withThemeSwitchLock(commit);
+    transitionLockRef.current = false;
+    setIsTransitioning(false);
+  }, [theme]);
 
-  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+  const value = useMemo(
+    () => ({ theme, toggleTheme, isTransitioning }),
+    [isTransitioning, theme, toggleTheme]
+  );
 
   return (
     <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

@@ -1,0 +1,80 @@
+{
+  "site": {
+    "name": "Frontend Multitool"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About"
+  },
+  "language": {
+    "label": "Language",
+    "de": "DE",
+    "en": "EN",
+    "switchTo": "Switch language to {language}"
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "mobile": {
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "openTool": "Open {name} tool"
+  },
+  "sidebar": {
+    "searchPlaceholder": "Search {count} tools…",
+    "search": "Search tools",
+    "clearSearch": "Clear search",
+    "noToolsFound": "No tools found."
+  },
+  "home": {
+    "kicker": "Local-first toolkit · {count} tools",
+    "subtitle": "Practical browser tools for everyday frontend work: fast to open, easy to scan, and built without backend noise.",
+    "searchPlaceholder": "Search tools, e.g. json, uuid, color...",
+    "noToolsFound": "No tools found for \"{query}\".",
+    "openTool": "Open {name}"
+  },
+  "categories": {
+    "ESSENTIALS": {
+      "label": "Core Tools",
+      "description": "Encode, validate, inspect, and debug development data."
+    },
+    "DESIGN": {
+      "label": "UI & Color",
+      "description": "Design helpers for color, CSS, and visual output."
+    },
+    "CONTENT": {
+      "label": "Text & Content",
+      "description": "Write, format, compare, and transform content quickly."
+    }
+  },
+  "footer": {
+    "description": "Your go-to collection of powerful, privacy-focused developer utilities. All tools run client-side in your browser, no data ever leaves your device.",
+    "popularTools": "Popular Tools",
+    "copyright": "© {year} Frontend Multitool. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  },
+  "notFound": {
+    "alt": "Error page icon",
+    "title": "Page Not Found",
+    "description": "Oops! The page you're looking for seems to have wandered off into the digital void. Let's get you back on track.",
+    "goHome": "Go Home",
+    "goBack": "Go Back",
+    "goHomeAria": "Go to homepage",
+    "goBackAria": "Go back to previous page",
+    "code": "Error code: 404 • Page not found"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "description": "An unexpected error occurred while rendering this page. You can try again, or head back to the homepage.",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home",
+    "goHomeAria": "Go to homepage"
+  },
+  "common": {
+    "clear": "Clear",
+    "tool": "Tool",
+    "tools": "Tools",
+    "legal": "Legal"
+  }
+}

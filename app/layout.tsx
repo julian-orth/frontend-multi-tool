@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { SITE_NAME } from "@/lib/i18n/en";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { ThemeProvider } from "@/lib/contexts/theme-context";
 import { MobileNavProvider } from "@/lib/contexts/mobile-nav-context";
+import { LocaleProvider } from "@/lib/contexts/locale-context";
 import { ClientLayoutWrapper } from "@/components/layout-client";
 import { LoadingBar } from "@/components/loading-bar";
 import MobileNav from "@/components/MobileNav";
@@ -123,12 +124,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Raw inline script (not next/script) placed as the very first
-            thing in <head> so the browser is forced to execute it before
-            parsing continues into <body> — guaranteeing the correct theme
-            class is applied before any content can paint. */}
-        <script
+        {/* Next.js-safe early execution in app layout without rendering a raw
+            script element from a React component. */}
+        <Script
           id="theme-bootstrap"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeBootstrapScript }}
         />
       </head>
@@ -136,13 +136,15 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} flex min-h-screen flex-col text-gray-900 dark:text-gray-50`}
         suppressHydrationWarning
       >
-        <ThemeProvider>
-          <MobileNavProvider>
-            <MobileNav />
-            <LoadingBar />
-            <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-          </MobileNavProvider>
-        </ThemeProvider>
+        <LocaleProvider>
+          <ThemeProvider>
+            <MobileNavProvider>
+              <MobileNav />
+              <LoadingBar />
+              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+            </MobileNavProvider>
+          </ThemeProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

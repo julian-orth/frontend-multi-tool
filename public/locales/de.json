@@ -1,0 +1,80 @@
+{
+  "site": {
+    "name": "Frontend Multitool"
+  },
+  "nav": {
+    "home": "Startseite",
+    "about": "Über"
+  },
+  "language": {
+    "label": "Sprache",
+    "de": "DE",
+    "en": "EN",
+    "switchTo": "Sprache wechseln zu {language}"
+  },
+  "theme": {
+    "toggle": "Theme wechseln"
+  },
+  "mobile": {
+    "openMenu": "Navigationsmenü öffnen",
+    "closeMenu": "Navigationsmenü schließen",
+    "openTool": "Tool {name} öffnen"
+  },
+  "sidebar": {
+    "searchPlaceholder": "{count} Tools durchsuchen…",
+    "search": "Tools durchsuchen",
+    "clearSearch": "Suche löschen",
+    "noToolsFound": "Keine Tools gefunden."
+  },
+  "home": {
+    "kicker": "Lokales Toolkit · {count} Tools",
+    "subtitle": "Praktische Browser-Tools für den Frontend-Alltag: schnell geöffnet, klar strukturiert und ohne Backend-Lärm.",
+    "searchPlaceholder": "Tools suchen, z. B. json, uuid, color...",
+    "noToolsFound": "Keine Tools gefunden für \"{query}\".",
+    "openTool": "{name} öffnen"
+  },
+  "categories": {
+    "ESSENTIALS": {
+      "label": "Core Tools",
+      "description": "Kodieren, validieren, analysieren und Entwicklungsdaten debuggen."
+    },
+    "DESIGN": {
+      "label": "UI & Farbe",
+      "description": "Design-Helfer für Farben, CSS und visuelle Ausgaben."
+    },
+    "CONTENT": {
+      "label": "Text & Inhalt",
+      "description": "Schreiben, formatieren, vergleichen und Inhalte schnell umwandeln."
+    }
+  },
+  "footer": {
+    "description": "Deine Sammlung leistungsstarker, datenschutzfreundlicher Entwickler-Tools. Alle Tools laufen clientseitig im Browser, keine Daten verlassen dein Gerät.",
+    "popularTools": "Beliebte Tools",
+    "copyright": "© {year} Frontend Multitool. Alle Rechte vorbehalten.",
+    "privacy": "Datenschutz",
+    "terms": "AGB"
+  },
+  "notFound": {
+    "alt": "Fehlerseiten-Icon",
+    "title": "Seite nicht gefunden",
+    "description": "Ups! Die Seite ist im digitalen Nirgendwo verschwunden. Wir bringen dich zurück.",
+    "goHome": "Zur Startseite",
+    "goBack": "Zurück",
+    "goHomeAria": "Zur Startseite gehen",
+    "goBackAria": "Zur vorherigen Seite gehen",
+    "code": "Fehlercode: 404 • Seite nicht gefunden"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "description": "Beim Rendern dieser Seite ist ein unerwarteter Fehler aufgetreten. Du kannst es erneut versuchen oder zur Startseite gehen.",
+    "tryAgain": "Erneut versuchen",
+    "goHome": "Zur Startseite",
+    "goHomeAria": "Zur Startseite gehen"
+  },
+  "common": {
+    "clear": "Löschen",
+    "tool": "Tool",
+    "tools": "Tools",
+    "legal": "Rechtliches"
+  }
+}

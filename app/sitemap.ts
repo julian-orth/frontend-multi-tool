@@ -6,21 +6,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE_CONFIG.domain;
 
   // Dynamically generate tool URLs from registry
-  const toolUrls = TOOL_REGISTRY.map((tool) => ({
-    url: `${baseUrl}${tool.href}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-  }));
+  const toolUrls = TOOL_REGISTRY.flatMap((tool) => [
+    {
+      url: `${baseUrl}${tool.href}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/en${tool.href}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    },
+  ]);
 
   // Static pages
-  const staticPages = [
+  const staticPageDefs = [
     { url: baseUrl, priority: 1, changeFrequency: "weekly" as const },
-    {
-      url: `${baseUrl}/tools`,
-      priority: 0.9,
-      changeFrequency: "weekly" as const,
-    },
     {
       url: `${baseUrl}/about`,
       priority: 0.7,
@@ -36,6 +39,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
       changeFrequency: "yearly" as const,
     },
+  ];
+
+  const staticPages = [
+    ...staticPageDefs,
+    ...staticPageDefs.map((page) => ({
+      ...page,
+      url:
+        page.url === baseUrl
+          ? `${baseUrl}/en`
+          : `${baseUrl}/en${page.url.replace(baseUrl, "")}`,
+    })),
   ].map((page) => ({
     ...page,
     lastModified: new Date(),

@@ -6,18 +6,8 @@
  * import { TOOLS } from "@/lib/tools/registry"
  */
 
-export const SITE_NAME = "Frontend Multitool";
-export const SITE_DESCRIPTION =
-  "Free online developer utilities and tools for everyday coding tasks";
-
 /**
  * @deprecated Import from @/lib/tools/registry instead
  * This export maintained for backward compatibility
  */
 export { TOOLS } from "@/lib/tools/registry";
-
-export const NAV_ITEMS = [
-  { name: "Home", href: "/" },
-  { name: "Tools", href: "/tools" },
-  { name: "About", href: "/about" },
-];

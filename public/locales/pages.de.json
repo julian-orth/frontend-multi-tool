@@ -1,0 +1,165 @@
+{
+  "about": {
+    "badge": "Über",
+    "title": "Über dieses Projekt",
+    "intro": "Ein persönliches Projekt, um produktionsnahe Frontend-Engineering-Standards offen umzusetzen: typisierte Tool-Registry, echtes Test-Setup und kein Backend als Ausrede.",
+    "stats": [
+      "Veröffentlichte Tools",
+      "Tool-Kategorien",
+      "Automatisierte Tests",
+      "Backend-Server"
+    ],
+    "whatTitle": "Worum es geht",
+    "whatParagraphs": [
+      "Frontend Multitool ist eine wachsende Sammlung nützlicher Entwickler-Utilities wie Formatter, Encoder, Generatoren und Konverter, die komplett im Browser laufen. Es gibt keine API-Schicht, die deine Eingaben verarbeitet.",
+      "Der Kern des Projekts sind nicht nur die Tools selbst, sondern die Codebasis dahinter: eine Registry-Struktur, mit der neue Tools konsistent verlinkt, getestet und auffindbar bleiben."
+    ],
+    "buildTitle": "Wie es gebaut ist",
+    "principles": [
+      {
+        "title": "Typisierte Registry statt Seiten-Chaos",
+        "description": "Jedes Tool ist ein typisiertes Konfigurationsobjekt. Ein Prebuild-Check stoppt den Build bei doppelten IDs, fehlenden Seiten oder kaputten Referenzen."
+      },
+      {
+        "title": "Tests, die Logik prüfen",
+        "description": "Vitest und Testing Library prüfen nicht nur Rendering, sondern auch reale Logik wie Farbkonvertierung, UUID-Dekodierung und Tool-Validierung."
+      },
+      {
+        "title": "Client-side als Architektur",
+        "description": "Keine Cookies, kein Tracking, kein Backend. Das Theme wird vor dem ersten Paint gesetzt, damit die Oberfläche sofort im richtigen Farbschema erscheint."
+      }
+    ],
+    "lighthouseTitle": "Lighthouse-Werte",
+    "lighthouseDescription": "Gemessen gegen die produktive Auslieferung, nicht gegen den Dev-Server. Diese Werte sollten nach größeren Änderungen aktualisiert werden.",
+    "lighthouseLabels": [
+      "Performance",
+      "Accessibility",
+      "Best Practices",
+      "SEO"
+    ],
+    "stackTitle": "Stack",
+    "stackItems": [
+      "Next.js 16 (App Router) für Routing und seitenbezogene Metadaten",
+      "React 19 und TypeScript im Strict Mode mit einem gemeinsamen Tool-Typ",
+      "Tailwind CSS 4 auf Basis weniger zentraler CSS-Variablen für das Theme",
+      "Vitest und Testing Library als feste Qualitätsprüfung vor Releases",
+      "Kleine interne CLI-Skripte zum Anlegen und Validieren neuer Tools"
+    ]
+  },
+  "privacy": {
+    "badge": "Rechtliches",
+    "title": "Datenschutz",
+    "sections": [
+      {
+        "title": "Deine Privatsphäre zählt",
+        "paragraphs": [
+          "Wir nehmen Datenschutz ernst. Die kurze Version: Wir sammeln, speichern und übertragen keine Inhalte, die du in die Tools eingibst."
+        ]
+      },
+      {
+        "title": "Kurzfassung",
+        "paragraphs": [
+          "Deine Daten bleiben auf deinem Gerät. Alle Tools laufen lokal im Browser. Datenschutz ist hier keine Zusatzfunktion, sondern Teil der Architektur."
+        ],
+        "highlight": true
+      },
+      {
+        "title": "Wie die Tools arbeiten",
+        "paragraphs": [
+          "Alle Tools laufen vollständig im Browser. Das bedeutet konkret:"
+        ],
+        "bullets": [
+          "Keine Daten verlassen dein Gerät.",
+          "Keine serverseitige Verarbeitung.",
+          "Keine Speicherung deiner Eingaben.",
+          "Keine Accounts oder persönlichen Angaben nötig."
+        ]
+      },
+      {
+        "title": "Was wir speichern",
+        "paragraphs": [
+          "Minimal und lokal: aktuell nur Einstellungen wie Theme und Sprache im Browser, damit die Oberfläche beim nächsten Besuch konsistent bleibt."
+        ]
+      },
+      {
+        "title": "Drittanbieter und Cookies",
+        "paragraphs": [
+          "Es gibt keine integrierten Tracking-Dienste. Theme- und Sprachpräferenzen werden lokal gespeichert, nicht über Werbe- oder Analyse-Cookies gesteuert."
+        ]
+      },
+      {
+        "title": "Sicherheit",
+        "paragraphs": [
+          "Da keine Inhalte an Server gesendet werden, entsteht auf unserer Seite kein Datenbestand, der abgesichert werden müsste. Für dich bleibt trotzdem sinnvoll: Browser aktuell halten, besonders auf gemeinsam genutzten Geräten."
+        ]
+      },
+      {
+        "title": "Open Source und Kontakt",
+        "paragraphs": [
+          "Der Quellcode ist offen einsehbar. Wenn du Fragen hast, kannst du ein Issue im Repository eröffnen."
+        ]
+      }
+    ],
+    "lastUpdated": "Zuletzt aktualisiert: 8. August 2026"
+  },
+  "terms": {
+    "badge": "Rechtliches",
+    "title": "AGB",
+    "sections": [
+      {
+        "title": "Willkommen",
+        "paragraphs": [
+          "Mit der Nutzung von Frontend Multitool stimmst du diesen Bedingungen zu. Wenn du mit einem Teil nicht einverstanden bist, solltest du die Dienste nicht verwenden."
+        ]
+      },
+      {
+        "title": "Kurzfassung",
+        "paragraphs": [
+          "Nutze die Tools frei und verantwortungsvoll. Sie werden ohne Gewähr bereitgestellt. Missbrauche den Dienst nicht und prüfe Ausgaben selbst vor produktivem Einsatz."
+        ],
+        "highlight": true
+      },
+      {
+        "title": "Leistungsbeschreibung",
+        "paragraphs": [
+          "Frontend Multitool bietet kostenlose Entwickler-Utilities, die vollständig im Browser laufen. Dazu gehören insbesondere:"
+        ],
+        "bullets": [
+          "Text- und Datenverarbeitung",
+          "Formatierung und Validierung",
+          "Entwicklungs-Utilities",
+          "Farb- und Design-Helfer",
+          "Kodier- und Dekodierfunktionen"
+        ]
+      },
+      {
+        "title": "Erlaubte Nutzung",
+        "paragraphs": [
+          "Du darfst die Tools für persönliche und kommerzielle Projekte nutzen, eigene oder zulässige Daten verarbeiten und Links zu den Tools teilen."
+        ]
+      },
+      {
+        "title": "Nicht erlaubt",
+        "bullets": [
+          "Störung oder Missbrauch des Dienstes",
+          "Automatisierte Nutzung in unangemessenem Umfang",
+          "Rechtswidrige oder unautorisierte Verwendung",
+          "Entfernen von Schutz- oder Eigentumshinweisen"
+        ]
+      },
+      {
+        "title": "Haftung und Gewährleistung",
+        "paragraphs": [
+          "Die Tools werden ohne ausdrückliche oder stillschweigende Gewähr bereitgestellt. Für indirekte Schäden, Datenverlust oder Folgeschäden wird im gesetzlich zulässigen Rahmen keine Haftung übernommen."
+        ]
+      },
+      {
+        "title": "Datenschutz, Änderungen und Kontakt",
+        "paragraphs": [
+          "Details zum Datenschutz findest du in der Datenschutzerklärung. Funktionen und Bedingungen können sich ändern. Bei Fragen kannst du das Repository oder die Über-Seite nutzen."
+        ]
+      }
+    ],
+    "lastUpdated": "Zuletzt aktualisiert: 8. August 2026"
+  }
+}

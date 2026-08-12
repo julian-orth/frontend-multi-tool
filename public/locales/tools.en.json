@@ -1,0 +1,62 @@
+{
+  "json-formatter": {
+    "name": "JSON Formatter",
+    "description": "Format, validate, minify, and beautify JSON with error detection"
+  },
+  "uuid-generator": {
+    "name": "UUID Generator",
+    "description": "Generate, validate, decode, and reformat RFC 4122 compliant UUIDs"
+  },
+  "base64": {
+    "name": "Base64 / URL / HTML Encoder & Decoder",
+    "description": "Encode and decode Base64, URL, and HTML entities for APIs, data transfer, and safe HTML output"
+  },
+  "regex-tester": {
+    "name": "Regex Tester",
+    "description": "Test and debug regular expressions with real-time matches, groups, and highlighting"
+  },
+  "color-picker": {
+    "name": "Color Picker",
+    "description": "Pick colors, convert formats (HEX, RGB, HSL), and generate palettes"
+  },
+  "color-palettes": {
+    "name": "Color Palette Generator",
+    "description": "Generate harmonious color palettes using color theory"
+  },
+  "gradient-generator": {
+    "name": "Gradient Generator",
+    "description": "Create CSS gradients with 45+ presets and custom options"
+  },
+  "timestamp-converter": {
+    "name": "Timestamp Converter",
+    "description": "Convert Unix timestamps to readable dates and back"
+  },
+  "text-diff": {
+    "name": "Text Diff",
+    "description": "Compare text differences side by side with highlighted changes"
+  },
+  "jwt-decoder": {
+    "name": "JWT Decoder",
+    "description": "Decode JSON Web Tokens and inspect headers, payloads, and signatures"
+  },
+  "hash-generator": {
+    "name": "Hash Generator",
+    "description": "Generate cryptographic hashes and HMACs for integrity checks and checksums"
+  },
+  "password-generator": {
+    "name": "Password Generator",
+    "description": "Generate secure passwords and passphrases locally in the browser"
+  },
+  "markdown-previewer": {
+    "name": "Markdown Previewer",
+    "description": "Edit markdown with live preview, GitHub-style syntax, and HTML export"
+  },
+  "css-minifier": {
+    "name": "CSS Minifier/Beautifier",
+    "description": "Minify CSS or format it for readability with instant browser output"
+  },
+  "qr-code-generator": {
+    "name": "QR Code Generator",
+    "description": "Generate customizable QR codes for URLs, text, WiFi, email, and more"
+  }
+}

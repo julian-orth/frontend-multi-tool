@@ -1,0 +1,165 @@
+{
+  "about": {
+    "badge": "About",
+    "title": "About This Project",
+    "intro": "A personal project built to practice production-grade frontend engineering in the open: typed tool registry, real tests, and no backend to hide behind.",
+    "stats": [
+      "Tools shipped",
+      "Tool categories",
+      "Automated tests",
+      "Backend servers"
+    ],
+    "whatTitle": "What it is",
+    "whatParagraphs": [
+      "Frontend Multitool is a growing collection of practical developer utilities such as formatters, encoders, generators, and converters that run entirely in the browser. There is no API layer processing your input.",
+      "The real point of the project is not only the tools themselves, but the codebase around them: a registry structure that keeps new tools linked, tested, and discoverable in a consistent way."
+    ],
+    "buildTitle": "How it's built",
+    "principles": [
+      {
+        "title": "Typed registry instead of page sprawl",
+        "description": "Each tool is a typed config object. A prebuild check blocks duplicate IDs, missing pages, or broken references before they can ship."
+      },
+      {
+        "title": "Tests that verify real logic",
+        "description": "Vitest and Testing Library cover more than rendering: they verify color conversion, UUID decoding, validation behavior, and other real utility logic."
+      },
+      {
+        "title": "Client-side by architecture",
+        "description": "No cookies, no tracking, no backend. The theme is resolved before first paint so the UI starts in the correct color scheme immediately."
+      }
+    ],
+    "lighthouseTitle": "Lighthouse scores",
+    "lighthouseDescription": "Measured against the production deployment, not the dev server. Update these after major changes instead of trusting them forever.",
+    "lighthouseLabels": [
+      "Performance",
+      "Accessibility",
+      "Best Practices",
+      "SEO"
+    ],
+    "stackTitle": "Stack",
+    "stackItems": [
+      "Next.js 16 (App Router) for routing and page-level metadata",
+      "React 19 and TypeScript in strict mode with one shared tool type",
+      "Tailwind CSS 4 on top of a small set of theme variables",
+      "Vitest and Testing Library as a release-quality verification layer",
+      "Small internal CLI scripts for scaffolding and validating tools"
+    ]
+  },
+  "privacy": {
+    "badge": "Legal",
+    "title": "Privacy Policy",
+    "sections": [
+      {
+        "title": "Your privacy matters",
+        "paragraphs": [
+          "We take privacy seriously. The short version: we do not collect, store, or transmit the content you use in these tools."
+        ]
+      },
+      {
+        "title": "TL;DR",
+        "paragraphs": [
+          "Your data stays on your device. All tools run locally in the browser. Privacy is part of the architecture, not an afterthought."
+        ],
+        "highlight": true
+      },
+      {
+        "title": "How the tools work",
+        "paragraphs": [
+          "All tools run entirely in your browser. In practice that means:"
+        ],
+        "bullets": [
+          "No data leaves your device.",
+          "No server-side processing.",
+          "No storage of your inputs.",
+          "No accounts or personal details required."
+        ]
+      },
+      {
+        "title": "What we store",
+        "paragraphs": [
+          "Very little, and only locally: currently preferences such as theme and language so the interface stays consistent on your next visit."
+        ]
+      },
+      {
+        "title": "Third parties and cookies",
+        "paragraphs": [
+          "There are no integrated tracking services. Theme and language preferences are stored locally, not managed through advertising or analytics cookies."
+        ]
+      },
+      {
+        "title": "Security",
+        "paragraphs": [
+          "Because no content is sent to a backend, there is no server-side data store for us to secure. It still makes sense for you to keep your browser up to date, especially on shared devices."
+        ]
+      },
+      {
+        "title": "Open source and contact",
+        "paragraphs": [
+          "The source code is open to inspection. If you have questions, you can open an issue in the repository."
+        ]
+      }
+    ],
+    "lastUpdated": "Last updated: August 8, 2026"
+  },
+  "terms": {
+    "badge": "Legal",
+    "title": "Terms & Conditions",
+    "sections": [
+      {
+        "title": "Welcome",
+        "paragraphs": [
+          "By using Frontend Multitool, you agree to these terms. If you disagree with any part, you should not use the service."
+        ]
+      },
+      {
+        "title": "TL;DR",
+        "paragraphs": [
+          "Use the tools freely and responsibly. They are provided without warranties. Do not abuse the service and verify outputs yourself before production use."
+        ],
+        "highlight": true
+      },
+      {
+        "title": "Service description",
+        "paragraphs": [
+          "Frontend Multitool provides free developer utilities that run entirely in the browser. This includes:"
+        ],
+        "bullets": [
+          "Text and data processing",
+          "Formatting and validation",
+          "Development utilities",
+          "Color and design helpers",
+          "Encoding and decoding functions"
+        ]
+      },
+      {
+        "title": "Permitted use",
+        "paragraphs": [
+          "You may use the tools for personal and commercial projects, process your own or permitted data, and share links to the tools."
+        ]
+      },
+      {
+        "title": "Not permitted",
+        "bullets": [
+          "Interfering with or abusing the service",
+          "Automated use at an unreasonable scale",
+          "Illegal or unauthorized use",
+          "Removing ownership or protection notices"
+        ]
+      },
+      {
+        "title": "Liability and warranties",
+        "paragraphs": [
+          "The tools are provided without express or implied warranties. To the extent permitted by law, no liability is assumed for indirect damage, data loss, or consequential losses."
+        ]
+      },
+      {
+        "title": "Privacy, changes, and contact",
+        "paragraphs": [
+          "Details about data handling are covered in the privacy policy. Features and terms may change over time. For questions, use the repository or the about page."
+        ]
+      }
+    ],
+    "lastUpdated": "Last updated: August 8, 2026"
+  }
+}

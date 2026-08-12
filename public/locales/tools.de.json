@@ -1,0 +1,62 @@
+{
+  "json-formatter": {
+    "name": "JSON Formatter",
+    "description": "JSON formatieren, validieren, minimieren und mit Fehlererkennung verschönern"
+  },
+  "uuid-generator": {
+    "name": "UUID Generator",
+    "description": "RFC-4122-konforme UUIDs generieren, validieren, dekodieren und umformatieren"
+  },
+  "base64": {
+    "name": "Base64 / URL / HTML Encoder & Decoder",
+    "description": "Base64-, URL- und HTML-Entities kodieren und dekodieren für APIs, Datentransfer und sichere HTML-Ausgabe"
+  },
+  "regex-tester": {
+    "name": "Regex Tester",
+    "description": "Reguläre Ausdrücke mit Echtzeit-Matches, Gruppen und Hervorhebungen testen und debuggen"
+  },
+  "color-picker": {
+    "name": "Color Picker",
+    "description": "Farben wählen, Formate konvertieren (HEX, RGB, HSL) und Paletten erzeugen"
+  },
+  "color-palettes": {
+    "name": "Color Palette Generator",
+    "description": "Harmonische Farbpaletten auf Basis von Farbtheorie erzeugen"
+  },
+  "gradient-generator": {
+    "name": "Gradient Generator",
+    "description": "CSS-Verläufe mit 45+ Presets und eigenen Optionen erstellen"
+  },
+  "timestamp-converter": {
+    "name": "Timestamp Converter",
+    "description": "Unix-Timestamps in lesbare Datumswerte umwandeln und umgekehrt"
+  },
+  "text-diff": {
+    "name": "Text Diff",
+    "description": "Textunterschiede nebeneinander mit Hervorhebungen für Änderungen vergleichen"
+  },
+  "jwt-decoder": {
+    "name": "JWT Decoder",
+    "description": "JSON Web Tokens dekodieren und Header, Payloads sowie Signaturen prüfen"
+  },
+  "hash-generator": {
+    "name": "Hash Generator",
+    "description": "Kryptografische Hashes und HMACs für Integrität, Checksummen und Prüfungen erzeugen"
+  },
+  "password-generator": {
+    "name": "Password Generator",
+    "description": "Sichere Passwörter und Passphrasen lokal im Browser generieren"
+  },
+  "markdown-previewer": {
+    "name": "Markdown Previewer",
+    "description": "Markdown live mit Vorschau, GitHub-Syntax und HTML-Export bearbeiten"
+  },
+  "css-minifier": {
+    "name": "CSS Minifier/Beautifier",
+    "description": "CSS minimieren oder lesbar formatieren mit sofortiger Ausgabe im Browser"
+  },
+  "qr-code-generator": {
+    "name": "QR Code Generator",
+    "description": "QR-Codes für URLs, Text, WiFi, E-Mail und mehr mit Anpassungen erzeugen"
+  }
+}

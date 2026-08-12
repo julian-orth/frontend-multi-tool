@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { getToolById } from "@/lib/tools/registry";
+import { useLocale } from "@/lib/contexts/locale-context";
+import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
+import { getLocalizedTool } from "@/lib/i18n/tools";
 
 function toTitle(str: string) {
   // Special cases for acronyms
@@ -30,31 +33,32 @@ function toTitle(str: string) {
 
 export default function Breadcrumb() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
+  const basePathname = stripLocalePrefix(pathname);
+  const segments = basePathname.split("/").filter(Boolean);
+  const { locale, t } = useLocale();
 
   // Build breadcrumb items
-  let crumbs = [{ name: "Home", href: "/" }];
+  let crumbs = [{ name: t("nav.home"), href: "/" }];
 
   // Check if we're on a tool page
   if (segments[0] === "tools" && segments[1]) {
     const tool = getToolById(segments[1]);
+    const localizedTool = tool ? getLocalizedTool(tool, locale) : undefined;
 
-    if (tool) {
-      // Add Tools > Group > Tool Name
+    if (tool && localizedTool) {
+      // Add Group > Tool Name without a /tools landing page
       crumbs.push(
-        { name: "Tools", href: "/tools" },
-        { name: `${tool.group} Tools`, href: "/tools" },
-        { name: tool.name, href: pathname }
+        { name: `${tool.group} Tools`, href: "/" },
+        { name: localizedTool.name, href: basePathname }
       );
     } else {
       // Fallback if tool not found in registry
-      crumbs.push({ name: "Tools", href: "/tools" });
-      crumbs.push({ name: toTitle(segments[1]), href: pathname });
+      crumbs.push({ name: toTitle(segments[1]), href: basePathname });
     }
   } else {
     // Default behavior for non-tool pages
     crumbs = [
-      { name: "Home", href: "/" },
+      { name: t("nav.home"), href: "/" },
       ...segments.map((seg, idx) => ({
         name: toTitle(seg),
         href: "/" + segments.slice(0, idx + 1).join("/"),
@@ -103,7 +107,7 @@ export default function Breadcrumb() {
                 </span>
               ) : (
                 <Link
-                  href={crumb.href}
+                  href={localizeHref(crumb.href, locale)}
                   className="rounded text-gray-600 hover:text-blue-600 hover:underline focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:text-gray-400 dark:hover:text-blue-400 dark:focus:ring-offset-gray-950"
                 >
                   {crumb.name}

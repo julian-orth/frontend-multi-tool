@@ -2,17 +2,26 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
+import { PocketKnife } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { NAV_ITEMS } from "@/lib/i18n/en";
 import { MobileNavButton } from "@/components/MobileNav";
+import { LanguageToggle } from "@/components/language-toggle";
+import { useLocale } from "@/lib/contexts/locale-context";
+import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
 
 export function Header() {
   const pathname = usePathname();
-  const isToolPage = pathname.startsWith("/tools/");
+  const basePathname = stripLocalePrefix(pathname);
+  const isToolPage = basePathname.startsWith("/tools/");
+  const { locale, t } = useLocale();
+
+  const navItems = [
+    { name: t("nav.home"), href: "/" },
+    { name: t("nav.about"), href: "/about" },
+  ];
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (pathname === "/") {
+    if (basePathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -26,40 +35,34 @@ export function Header() {
         className={`mx-auto flex items-center justify-between px-4 py-4 sm:px-6 ${isToolPage ? "max-w-full" : "max-w-7xl"}`}
       >
         <Link
-          href="/"
+          href={localizeHref("/", locale)}
           onClick={handleLogoClick}
-          className="group flex items-center transition-opacity hover:opacity-80"
-          aria-label="Frontend Multitool Home"
+          className="group flex items-center gap-3 transition-opacity hover:opacity-80"
+          aria-label={t("nav.home")}
         >
-          <Image
-            src="/logo.svg"
-            alt="Frontend Multitool"
-            width={320}
-            height={48}
-            className="h-10 w-auto dark:hidden"
-            priority
-          />
-          <Image
-            src="/logo-darkmode.svg"
-            alt="Frontend Multitool"
-            width={320}
-            height={48}
-            className="hidden h-10 w-auto dark:block"
-            priority
-          />
+          <span className="rounded-full bg-red-100 p-2 dark:bg-red-900/30">
+            <PocketKnife
+              className="h-6 w-6 text-red-700 dark:text-red-400"
+              aria-hidden="true"
+            />
+          </span>
+          <span className="text-xl font-bold tracking-tight text-[var(--ink)]">
+            {t("site.name")}
+          </span>
         </Link>
         <div className="flex items-center gap-3 md:gap-6">
           <MobileNavButton />
           <nav className="hidden md:block">
             <ul className="flex gap-6">
-              {NAV_ITEMS.map((item) => {
+              {navItems.map((item) => {
+                const localizedHref = localizeHref(item.href, locale);
                 const isActive =
-                  pathname === item.href ||
-                  pathname.startsWith(item.href + "/");
+                  basePathname === item.href ||
+                  basePathname.startsWith(item.href + "/");
                 return (
-                  <li key={item.href}>
+                  <li key={localizedHref}>
                     <Link
-                      href={item.href}
+                      href={localizedHref}
                       className={`rounded-sm px-2 py-1 text-sm font-semibold transition-colors ${
                         isActive
                           ? "bg-[var(--paper-2)] text-[var(--ink)]"
@@ -74,7 +77,10 @@ export function Header() {
               })}
             </ul>
           </nav>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

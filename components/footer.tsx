@@ -2,12 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-import { TOOLS } from "@/lib/i18n/en";
+import { PocketKnife } from "lucide-react";
+import { TOOLS } from "@/lib/tools/registry";
+import { useLocale } from "@/lib/contexts/locale-context";
+import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
+import { getLocalizedTool } from "@/lib/i18n/tools";
 
 export function Footer() {
   const pathname = usePathname();
-  const isToolPage = pathname.startsWith("/tools/");
+  const basePathname = stripLocalePrefix(pathname);
+  const isToolPage = basePathname.startsWith("/tools/");
+  const { locale, t } = useLocale();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -19,39 +24,34 @@ export function Footer() {
       >
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           <div className="max-w-md">
-            <div className="mb-3">
-              <Image
-                src="/logo.svg"
-                alt="Frontend Multitool"
-                width={250}
-                height={38}
-                className="h-9 w-auto dark:hidden"
-              />
-              <Image
-                src="/logo-darkmode.svg"
-                alt="Frontend Multitool"
-                width={250}
-                height={38}
-                className="hidden h-9 w-auto dark:block"
-              />
+            <div className="mb-3 flex items-center gap-3">
+              <span className="rounded-full bg-red-100 p-2 dark:bg-red-900/30">
+                <PocketKnife
+                  className="h-5 w-5 text-red-700 dark:text-red-400"
+                  aria-hidden="true"
+                />
+              </span>
+              <span className="text-lg font-bold tracking-tight text-[var(--ink)]">
+                {t("site.name")}
+              </span>
             </div>
             <p className="text-sm leading-relaxed text-gray-700 dark:text-gray-400">
-              Your go-to collection of powerful, privacy-focused developer
-              utilities. All tools run client-side in your browser—no data ever
-              leaves your device.
+              {t("footer.description")}
             </p>
           </div>
           <div>
             <h4 className="mb-3 text-sm font-bold tracking-wider text-gray-900 uppercase dark:text-white">
-              Popular Tools
+              {t("footer.popularTools")}
             </h4>
             <ul className="space-y-2 text-sm">
               {TOOLS.slice(0, 5).map((tool) => {
-                const isActive = pathname === tool.href;
+                const localizedTool = getLocalizedTool(tool, locale);
+                const localizedHref = localizeHref(tool.href, locale);
+                const isActive = basePathname === tool.href;
                 return (
                   <li key={tool.id}>
                     <Link
-                      href={tool.href}
+                      href={localizedHref}
                       className={`transition-colors ${
                         isActive
                           ? "font-semibold text-[var(--ink)]"
@@ -59,7 +59,7 @@ export function Footer() {
                       }`}
                       aria-current={isActive ? "page" : undefined}
                     >
-                      {tool.name}
+                      {localizedTool.name}
                     </Link>
                   </li>
                 );
@@ -70,30 +70,30 @@ export function Footer() {
         <div className="mt-8 border-t border-[var(--line)] pt-6">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <p className="text-sm text-gray-700 dark:text-gray-400">
-              © {currentYear} Frontend Multitool. All rights reserved.
+              {t("footer.copyright", { year: currentYear })}
             </p>
             <div className="flex gap-6 text-sm">
               <Link
-                href="/privacy"
+                href={localizeHref("/privacy", locale)}
                 className={`transition-colors ${
-                  pathname === "/privacy"
+                  basePathname === "/privacy"
                     ? "font-semibold text-[var(--ink)]"
                     : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                 }`}
-                aria-current={pathname === "/privacy" ? "page" : undefined}
+                aria-current={basePathname === "/privacy" ? "page" : undefined}
               >
-                Privacy Policy
+                {t("footer.privacy")}
               </Link>
               <Link
-                href="/terms"
+                href={localizeHref("/terms", locale)}
                 className={`transition-colors ${
-                  pathname === "/terms"
+                  basePathname === "/terms"
                     ? "font-semibold text-[var(--ink)]"
                     : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
                 }`}
-                aria-current={pathname === "/terms" ? "page" : undefined}
+                aria-current={basePathname === "/terms" ? "page" : undefined}
               >
-                Terms &amp; Conditions
+                {t("footer.terms")}
               </Link>
             </div>
           </div>
