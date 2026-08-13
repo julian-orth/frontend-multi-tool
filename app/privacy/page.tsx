@@ -38,7 +38,7 @@ export default async function PrivacyPage() {
         <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] tracking-[0.12em] text-[var(--ink-soft)] uppercase shadow-[0_1px_0_var(--line)]">
           {content.badge}
         </span>
-        <h1 className="mt-4 mb-6 font-[Space_Grotesk] text-5xl font-bold tracking-tight text-[var(--ink)]">
+        <h1 className="font-display mt-4 mb-6 text-5xl font-bold tracking-tight text-[var(--ink)]">
           {content.title}
         </h1>
 
@@ -52,7 +52,7 @@ export default async function PrivacyPage() {
                   : undefined
               }
             >
-              <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-semibold text-[var(--ink)]">
+              <h2 className="font-display mb-4 text-2xl font-semibold text-[var(--ink)]">
                 {section.title}
               </h2>
               {section.paragraphs?.map((paragraph) => (

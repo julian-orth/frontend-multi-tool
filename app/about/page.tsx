@@ -54,7 +54,7 @@ export default async function AboutPage() {
         <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] tracking-[0.12em] text-[var(--ink-soft)] uppercase shadow-[0_1px_0_var(--line)]">
           {content.badge}
         </span>
-        <h1 className="mt-4 mb-3 font-[Space_Grotesk] text-5xl font-bold tracking-tight text-[var(--ink)]">
+        <h1 className="font-display mt-4 mb-3 text-5xl font-bold tracking-tight text-[var(--ink)]">
           {content.title}
         </h1>
         <p className="max-w-2xl text-lg text-[var(--ink-soft)]">
@@ -69,10 +69,10 @@ export default async function AboutPage() {
               key={stat.label}
               className="rounded-md border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_1px_0_var(--line-soft)]"
             >
-              <div className="font-[Space_Grotesk] text-3xl font-bold text-[var(--ink)]">
+              <div className="font-display text-3xl font-bold text-[var(--ink)]">
                 {stat.value}
               </div>
-              <div className="mt-1 font-[IBM_Plex_Mono] text-[11px] tracking-[0.08em] text-[var(--ink-soft)] uppercase">
+              <div className="mt-1 font-mono text-[11px] tracking-[0.08em] text-[var(--ink-soft)] uppercase">
                 {stat.label}
               </div>
             </div>
@@ -80,7 +80,7 @@ export default async function AboutPage() {
         </section>
 
         <section className="rounded-md border border-[var(--line)] bg-[var(--card)] p-8 shadow-[0_1px_0_var(--line-soft)]">
-          <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-bold text-[var(--ink)]">
+          <h2 className="font-display mb-4 text-2xl font-bold text-[var(--ink)]">
             {content.whatTitle}
           </h2>
           {content.whatParagraphs.map((paragraph) => (
@@ -94,7 +94,7 @@ export default async function AboutPage() {
         </section>
 
         <section>
-          <h2 className="mb-6 font-[Space_Grotesk] text-2xl font-bold text-[var(--ink)]">
+          <h2 className="font-display mb-6 text-2xl font-bold text-[var(--ink)]">
             {content.buildTitle}
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
@@ -112,7 +112,7 @@ export default async function AboutPage() {
                   >
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <h3 className="mb-2 font-[Space_Grotesk] text-xl font-bold text-[var(--ink)]">
+                  <h3 className="font-display mb-2 text-xl font-bold text-[var(--ink)]">
                     {principle.title}
                   </h3>
                   <p className="text-[var(--ink-soft)]">
@@ -125,7 +125,7 @@ export default async function AboutPage() {
         </section>
 
         <section className="rounded-md border border-[var(--line)] bg-[var(--card)] p-8 shadow-[0_1px_0_var(--line-soft)]">
-          <h2 className="mb-2 font-[Space_Grotesk] text-2xl font-bold text-[var(--ink)]">
+          <h2 className="font-display mb-2 text-2xl font-bold text-[var(--ink)]">
             {content.lighthouseTitle}
           </h2>
           <p className="mb-6 text-[var(--ink-soft)]">
@@ -137,10 +137,10 @@ export default async function AboutPage() {
                 key={label}
                 className="rounded-md border border-[var(--line)] bg-[var(--paper-2)] p-4 text-center"
               >
-                <div className="font-[Space_Grotesk] text-3xl font-bold text-[var(--ink)]">
+                <div className="font-display text-3xl font-bold text-[var(--ink)]">
                   {LIGHTHOUSE_VALUES[index]}
                 </div>
-                <div className="mt-1 font-[IBM_Plex_Mono] text-[11px] tracking-[0.08em] text-[var(--ink-soft)] uppercase">
+                <div className="mt-1 font-mono text-[11px] tracking-[0.08em] text-[var(--ink-soft)] uppercase">
                   {label}
                 </div>
               </div>
@@ -149,7 +149,7 @@ export default async function AboutPage() {
         </section>
 
         <section className="rounded-md border border-[var(--line)] bg-[var(--card)] p-8 shadow-[0_1px_0_var(--line-soft)]">
-          <h2 className="mb-4 font-[Space_Grotesk] text-2xl font-bold text-[var(--ink)]">
+          <h2 className="font-display mb-4 text-2xl font-bold text-[var(--ink)]">
             {content.stackTitle}
           </h2>
           <ul className="space-y-2 text-[var(--ink-soft)]">

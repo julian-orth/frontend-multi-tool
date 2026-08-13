@@ -48,7 +48,7 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
       <div className="mt-6 flex max-w-xl items-center gap-3 rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-2.5 shadow-[0_2px_0_var(--line)] focus-within:border-[var(--focus)]">
         <Search className="h-4 w-4 text-[#b5652c]" aria-hidden="true" />
         <input
-          className="w-full border-none bg-transparent font-[IBM_Plex_Mono] text-sm text-[var(--ink)] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
+          className="w-full border-none bg-transparent font-mono text-sm text-[var(--ink)] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
           placeholder={t("home.searchPlaceholder")}
           value={query}
           onChange={(event) => setQuery(event.target.value)}
@@ -66,7 +66,7 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="mt-10 rounded-sm border border-[var(--line)] bg-[var(--card)] px-4 py-10 text-center font-[IBM_Plex_Mono] text-sm text-[var(--ink-soft)]">
+        <div className="mt-10 rounded-sm border border-[var(--line)] bg-[var(--card)] px-4 py-10 text-center font-mono text-sm text-[var(--ink-soft)]">
           {t("home.noToolsFound", { query })}
         </div>
       ) : (
@@ -84,7 +84,7 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
               >
                 <div className="mb-3 flex items-center gap-3">
                   <span
-                    className="inline-flex items-center gap-2 rounded-sm border px-3 py-1.5 font-[IBM_Plex_Mono] text-xs font-semibold tracking-[0.1em] text-white uppercase shadow-[0_1px_0_rgba(0,0,0,0.25)]"
+                    className="inline-flex items-center gap-2 rounded-sm border px-3 py-1.5 font-mono text-xs font-semibold tracking-[0.1em] text-white uppercase shadow-[0_1px_0_rgba(0,0,0,0.25)]"
                     style={{
                       background: section.color,
                       borderColor: section.color,
@@ -97,7 +97,7 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
                     />
                     {t(`categories.${groupKey}.label`)}
                   </span>
-                  <span className="rounded-sm border border-[var(--line)] bg-[var(--paper-2)] px-2 py-0.5 font-[IBM_Plex_Mono] text-[11px] text-[var(--ink-soft)]">
+                  <span className="rounded-sm border border-[var(--line)] bg-[var(--paper-2)] px-2 py-0.5 font-mono text-[11px] text-[var(--ink-soft)]">
                     {groupTools.length}{" "}
                     {groupTools.length !== 1
                       ? t("common.tools")
@@ -136,7 +136,7 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
                             </span>
                           </span>
                         </div>
-                        <div className="font-[Space_Grotesk] text-[14px] leading-tight font-semibold">
+                        <div className="font-display text-[14px] leading-tight font-semibold">
                           {localizedTool.name}
                         </div>
                         <p className="mt-1 line-clamp-2 text-[12px] leading-snug text-[var(--ink-soft)]">

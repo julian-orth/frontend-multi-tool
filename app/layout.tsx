@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
+import { cookies } from "next/headers";
 import "./globals.css";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { ThemeProvider } from "@/lib/contexts/theme-context";
@@ -9,24 +8,6 @@ import { LocaleProvider } from "@/lib/contexts/locale-context";
 import { ClientLayoutWrapper } from "@/components/layout-client";
 import { LoadingBar } from "@/components/loading-bar";
 import MobileNav from "@/components/MobileNav";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-space-grotesk",
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-ibm-plex-sans",
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-ibm-plex-mono",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -102,10 +83,14 @@ const themeBootstrapScript = `
   try {
     var storageKey = 'theme';
     var storedTheme = localStorage.getItem(storageKey);
+    var cookieTheme = document.cookie.match(/(?:^|; )theme=([^;]+)/);
+    var cookieValue = cookieTheme ? decodeURIComponent(cookieTheme[1]) : null;
     var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     var resolvedTheme = storedTheme === 'light' || storedTheme === 'dark'
       ? storedTheme
-      : (prefersDark ? 'dark' : 'light');
+      : (cookieValue === 'light' || cookieValue === 'dark'
+        ? cookieValue
+        : (prefersDark ? 'dark' : 'light'));
 
     var root = document.documentElement;
     root.classList.toggle('dark', resolvedTheme === 'dark');
@@ -116,24 +101,35 @@ const themeBootstrapScript = `
 })();
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get("theme")?.value;
+  const initialTheme =
+    themeCookie === "dark"
+      ? "dark"
+      : themeCookie === "light"
+        ? "light"
+        : undefined;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      className={initialTheme === "dark" ? "dark" : undefined}
+      suppressHydrationWarning
+    >
       <head>
-        {/* Next.js-safe early execution in app layout without rendering a raw
-            script element from a React component. */}
-        <Script
+        <script
           id="theme-bootstrap"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: themeBootstrapScript }}
         />
       </head>
       <body
-        className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} flex min-h-screen flex-col text-gray-900 dark:text-gray-50`}
+        className="flex min-h-screen flex-col text-gray-900 dark:text-gray-50"
+        style={initialTheme ? { colorScheme: initialTheme } : undefined}
         suppressHydrationWarning
       >
         <LocaleProvider>

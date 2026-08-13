@@ -25,11 +25,11 @@ export function MobileNavButton() {
 
   return (
     <button
-      className="rounded-lg border border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none md:hidden dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:focus:ring-offset-gray-950"
+      className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none md:hidden"
       aria-label={t("mobile.openMenu")}
       onClick={open}
     >
-      <Menu className="h-6 w-6" aria-hidden="true" />
+      <Menu className="h-4 w-4" aria-hidden="true" />
     </button>
   );
 }
@@ -133,11 +133,11 @@ export default function MobileNav() {
               </span>
             </Link>
             <button
-              className="rounded-lg border border-gray-300 bg-white p-2 text-gray-700 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 dark:focus:ring-offset-gray-950"
+              className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none"
               aria-label={t("mobile.closeMenu")}
               onClick={close}
             >
-              <X className="h-5 w-5" aria-hidden="true" />
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
 

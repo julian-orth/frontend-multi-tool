@@ -2,6 +2,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  --font-sans: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display:
+    "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
   --paper: #eaeef2;
   --paper-2: #e1e6ec;
   --card: #fdfdfc;
@@ -52,6 +57,9 @@
 
 html {
   color-scheme: light;
+  margin: 0;
+  padding: 0;
+  background: #15171b;
 }
 
 html.dark {
@@ -65,23 +73,393 @@ html.theme-switching *::after {
   animation: none !important;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
 * {
+  box-sizing: border-box;
   border-color: var(--border);
 }
 
 body {
   color: var(--ink);
-  background: var(--paper);
-  background-image:
-    linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size: 28px 28px;
-  font-family: var(--font-ibm-plex-sans), "IBM Plex Sans", sans-serif;
+  background: #15171b !important;
+  background-image: none;
+  font-family: var(--font-sans);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
 }
 
 ::selection {
   background: var(--ink);
   color: var(--paper);
+}
+
+a {
+  text-decoration: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+svg {
+  display: block;
+}
+
+.stage {
+  position: relative;
+  min-height: 100vh;
+  padding: 56px 24px 80px;
+  background: #15171b;
+  color: #ecedee;
+  font-family: "IBM Plex Sans", sans-serif;
+  overflow-x: hidden;
+}
+
+.stage .spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: radial-gradient(
+    circle 320px at var(--mx, 50%) var(--my, 20%),
+    rgba(255, 178, 56, 0.08),
+    rgba(255, 178, 56, 0) 70%
+  );
+  transition: background 0.05s linear;
+}
+
+.stage header {
+  max-width: 980px;
+  margin: 0 auto 48px;
+  text-align: left;
+  position: relative;
+  z-index: 10;
+}
+
+.stage .eyebrow {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffb238;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.stage .eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb238;
+  box-shadow: 0 0 8px #ffb238;
+}
+
+.stage h1 {
+  font-family: "Space Mono", monospace;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+  color: #ecedee;
+}
+
+.stage header p {
+  color: #7b828d;
+  font-size: 15px;
+  max-width: 520px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.stage .socket-search {
+  max-width: 420px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #1e2126;
+  border: 1px solid #33373f;
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  color: #7b828d;
+}
+
+.stage .socket-search svg {
+  flex-shrink: 0;
+}
+
+.stage .socket-search input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #ecedee;
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  width: 100%;
+}
+
+.stage .socket-search input::placeholder {
+  color: #7b828d;
+}
+
+.stage .clear-search {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #7b828d;
+  cursor: pointer;
+  padding: 0;
+}
+
+.stage .pegboard {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  background: radial-gradient(circle, #0d0e10 2.5px, transparent 2.6px);
+  background-size: 34px 34px;
+  background-color: #1e2126;
+  border-radius: 14px;
+  padding: 48px clamp(20px, 4vw, 56px) 56px;
+  border: 1px solid #2a2e35;
+  box-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.stage .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 44px 28px;
+  position: relative;
+  z-index: 10;
+  align-items: stretch;
+}
+
+.stage .tool {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
+
+.stage .hook {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 26px;
+  z-index: 2;
+}
+
+.stage .hook svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.stage .hook .peg-hole {
+  fill: #0d0e10;
+}
+
+.stage .hook .hook-metal {
+  stroke: #4c525c;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.stage .card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 178px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(160deg, #262a31, #1c1f24);
+  border: 1px solid #34383f;
+  border-radius: 10px;
+  padding: 30px 16px 18px;
+  text-align: center;
+  transform-origin: top center;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    background 0.3s ease;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+  animation: idle-sway 7s ease-in-out infinite;
+  animation-delay: var(--sway-delay, 0s);
+}
+
+.stage .tool:nth-child(3n) .card {
+  --sway-delay: -1.4s;
+  animation-duration: 8s;
+}
+
+.stage .tool:nth-child(3n + 1) .card {
+  --sway-delay: -3.1s;
+  animation-duration: 6.4s;
+}
+
+.stage .tool:nth-child(3n + 2) .card {
+  --sway-delay: -5s;
+  animation-duration: 7.6s;
+}
+
+@keyframes idle-sway {
+  0%,
+  100% {
+    transform: rotate(-0.6deg);
+  }
+  50% {
+    transform: rotate(0.6deg);
+  }
+}
+
+.stage .tool:hover .card,
+.stage .tool:focus-visible .card {
+  animation-play-state: paused;
+  transform: translateY(-10px) rotate(2.5deg) scale(1.04);
+  box-shadow:
+    0 26px 34px -10px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(255, 178, 56, 0.9),
+    0 0 20px rgba(255, 178, 56, 0.12);
+  border-color: #ffb238;
+  background: linear-gradient(160deg, #2a2d34, #21252b);
+}
+
+.stage .tool:active .card {
+  transform: translateY(-4px) rotate(1deg) scale(1.01);
+}
+
+.stage .icon-wrap {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #8b93a0;
+  transition:
+    color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.stage .tool:hover .icon-wrap {
+  color: #ffd57a;
+  background: rgba(255, 178, 56, 0.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 178, 56, 0.2),
+    0 0 18px rgba(255, 178, 56, 0.14);
+}
+
+.stage .tool-name {
+  font-family: "Space Mono", monospace;
+  font-size: 13.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+  color: #ecedee;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.3;
+}
+
+.stage .tool-desc {
+  font-size: 11.5px;
+  color: #7b828d;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.stage .status-dot {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4fd1c5;
+  opacity: 0;
+  box-shadow: 0 0 6px #4fd1c5;
+  transition: opacity 0.3s ease;
+}
+
+.stage .tool.active .status-dot {
+  opacity: 1;
+}
+
+.stage .tool.active .card {
+  border-color: #4fd1c5;
+  box-shadow:
+    0 26px 34px -10px rgba(0, 0, 0, 0.65),
+    0 0 0 1px #4fd1c5;
+}
+
+.stage .tool.active .icon-wrap {
+  color: #7ae8e2;
+  background: rgba(79, 209, 197, 0.12);
+}
+
+.stage .empty-state {
+  color: #7b828d;
+  font-family: "Space Mono", monospace;
+  font-size: 13px;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.stage footer {
+  max-width: 980px;
+  margin: 28px auto 0;
+  color: #7b828d;
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  position: relative;
+  z-index: 10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage .card {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 /* Theme toggle crossfade via the View Transitions API (see toggleTheme in
@@ -92,6 +470,7 @@ body {
    rather than a smooth switch. Never triggered on initial load (the
    theme-bootstrap script in layout.tsx already resolves the correct class
    before first paint), only on an explicit user toggle. */
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 0.25s;
@@ -102,83 +481,5 @@ body {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 0.01ms;
-  }
-}
-
-/* Custom scrollbar styling */
-html,
-body {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(229 231 235) transparent;
-}
-
-html.dark,
-.dark body {
-  scrollbar-color: rgb(31 41 55) transparent;
-}
-
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-html::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
-  background-color: rgb(229 231 235);
-  border-radius: 9999px;
-}
-
-html.dark::-webkit-scrollbar-thumb,
-.dark body::-webkit-scrollbar-thumb {
-  background-color: rgb(31 41 55);
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgb(229 231 235) transparent;
-}
-
-.dark * {
-  scrollbar-color: rgb(31 41 55) transparent;
-}
-
-*::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-*::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: rgb(229 231 235);
-  border-radius: 9999px;
-}
-
-.dark *::-webkit-scrollbar-thumb {
-  background-color: rgb(31 41 55);
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

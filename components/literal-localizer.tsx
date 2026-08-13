@@ -11,11 +11,52 @@ const deLiterals = deLiteralsRaw as LiteralMap;
 const enLiterals = enLiteralsRaw as LiteralMap;
 
 const TRANSLATABLE_ATTRS = ["placeholder", "title", "aria-label", "alt"];
+const HTML_ENTITY_PATTERN =
+  /&(?:amp|lt|gt|quot|apos|nbsp|copy|reg|trade|euro|#\d+|#x[0-9a-f]+);/gi;
 
-function decodeHtml(value: string): string {
-  const textarea = document.createElement("textarea");
-  textarea.innerHTML = value;
-  return textarea.value;
+export function decodeHtml(value: string): string {
+  if (!value) return "";
+
+  if (typeof document !== "undefined") {
+    const textarea = document.createElement("textarea");
+    textarea.innerHTML = value;
+    return textarea.value;
+  }
+
+  return value.replace(HTML_ENTITY_PATTERN, (match) => {
+    const normalized = match.toLowerCase();
+
+    switch (normalized) {
+      case "&amp;":
+        return "&";
+      case "&lt;":
+        return "<";
+      case "&gt;":
+        return ">";
+      case "&quot;":
+        return '"';
+      case "&apos;":
+        return "'";
+      case "&nbsp;":
+        return "\u00A0";
+      case "&copy;":
+        return "©";
+      case "&reg;":
+        return "®";
+      case "&trade;":
+        return "™";
+      case "&euro;":
+        return "€";
+      default:
+        if (normalized.startsWith("&#x")) {
+          return String.fromCodePoint(parseInt(match.slice(3, -1), 16));
+        }
+        if (normalized.startsWith("&#")) {
+          return String.fromCodePoint(Number(match.slice(2, -1)));
+        }
+        return match;
+    }
+  });
 }
 
 function normalizeText(value: string): string {
@@ -95,6 +136,10 @@ export function LiteralLocalizer() {
   const { locale } = useLocale();
 
   const lookup = useMemo(() => {
+    if (typeof window === "undefined") {
+      return new Map<string, string>();
+    }
+
     if (locale === "de") return toLookupMap(deLiterals);
     return toLookupMap(enLiterals);
   }, [locale]);

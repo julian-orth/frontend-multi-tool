@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PocketKnife } from "lucide-react";
+import { Info, PocketKnife } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MobileNavButton } from "@/components/MobileNav";
 import { LanguageToggle } from "@/components/language-toggle";
@@ -14,11 +14,6 @@ export function Header() {
   const basePathname = stripLocalePrefix(pathname);
   const isToolPage = basePathname.startsWith("/tools/");
   const { locale, t } = useLocale();
-
-  const navItems = [
-    { name: t("nav.home"), href: "/" },
-    { name: t("nav.about"), href: "/about" },
-  ];
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (basePathname === "/") {
@@ -50,33 +45,19 @@ export function Header() {
             {t("site.name")}
           </span>
         </Link>
-        <div className="flex items-center gap-3 md:gap-6">
+
+        <div className="flex items-center gap-2 md:gap-3">
           <MobileNavButton />
-          <nav className="hidden md:block">
-            <ul className="flex gap-6">
-              {navItems.map((item) => {
-                const localizedHref = localizeHref(item.href, locale);
-                const isActive =
-                  basePathname === item.href ||
-                  basePathname.startsWith(item.href + "/");
-                return (
-                  <li key={localizedHref}>
-                    <Link
-                      href={localizedHref}
-                      className={`rounded-sm px-2 py-1 text-sm font-semibold transition-colors ${
-                        isActive
-                          ? "bg-[var(--paper-2)] text-[var(--ink)]"
-                          : "text-[var(--ink-soft)] hover:text-[var(--ink)]"
-                      }`}
-                      aria-current={isActive ? "page" : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+
+          <Link
+            href={localizeHref("/about", locale)}
+            aria-label={t("nav.about")}
+            title={t("nav.about")}
+            className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none"
+          >
+            <Info className="h-4 w-4" aria-hidden="true" />
+          </Link>
+
           <div className="flex items-center gap-2">
             <LanguageToggle />
             <ThemeToggle />

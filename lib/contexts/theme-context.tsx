@@ -27,6 +27,7 @@ const ThemeContext = createContext<ThemeContextType>({
 function applyTheme(nextTheme: Theme) {
   document.documentElement.classList.toggle("dark", nextTheme === "dark");
   document.documentElement.style.colorScheme = nextTheme;
+  document.cookie = `theme=${nextTheme}; path=/; max-age=31536000; samesite=lax`;
 }
 
 function withThemeSwitchLock(callback: () => void) {
