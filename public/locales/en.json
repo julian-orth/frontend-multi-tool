@@ -4,7 +4,8 @@
   },
   "nav": {
     "home": "Home",
-    "about": "About"
+    "about": "About",
+    "aboutTooltip": "About Frontend Multitool"
   },
   "language": {
     "label": "Language",
@@ -14,6 +15,14 @@
   },
   "theme": {
     "toggle": "Toggle theme"
+  },
+  "favorites": {
+    "open": "Show favorite tools",
+    "title": "Favorite tools",
+    "empty": "No favorite tools yet.",
+    "add": "Add {name} to favorites",
+    "remove": "Remove {name} from favorites",
+    "clearAll": "Clear all favorites"
   },
   "mobile": {
     "openMenu": "Open navigation menu",

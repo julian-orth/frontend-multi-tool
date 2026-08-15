@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "@/lib/contexts/locale-context";
+import { IconTooltip } from "@/components/icon-tooltip";
 import {
   type Locale,
   DEFAULT_LOCALE,
@@ -20,15 +21,17 @@ export function LanguageToggle() {
   };
 
   const nextLabel = locale === "de" ? t("language.en") : t("language.de");
+  const tooltipLabel = t("language.switchTo", { language: nextLabel });
 
   return (
-    <button
-      onClick={toggleLocale}
-      className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] p-0 font-mono text-[6px] leading-none font-semibold tracking-[0.12em] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none"
-      aria-label={t("language.switchTo", { language: nextLabel })}
-      title={t("language.switchTo", { language: nextLabel })}
-    >
-      {nextLabel}
-    </button>
+    <IconTooltip label={tooltipLabel}>
+      <button
+        onClick={toggleLocale}
+        className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] p-0 font-mono text-[6px] leading-none font-semibold tracking-[0.12em] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none"
+        aria-label={tooltipLabel}
+      >
+        <span className="relative top-px left-px text-xs">{nextLabel}</span>
+      </button>
+    </IconTooltip>
   );
 }

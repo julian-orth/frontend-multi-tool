@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Search, X } from "lucide-react";
+import { Heart, Search, X } from "lucide-react";
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { resolveToolIcon } from "@/lib/tools/icon-resolver";
 import { TOOLS } from "@/lib/tools/registry";
+import { useFavorites } from "@/lib/contexts/favorites-context";
+import { IconTooltip } from "@/components/icon-tooltip";
 
 function HookSVG() {
   return (
@@ -19,6 +21,7 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [activeToolId, setActiveToolId] = useState(TOOLS[0]?.id ?? "");
   const [cursor, setCursor] = useState({ x: 50, y: 20 });
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   useEffect(() => {
     const handlePointerMove = (event: PointerEvent) => {
@@ -109,27 +112,53 @@ export default function Home() {
             {filteredTools.map((tool) => {
               const Icon = resolveToolIcon(tool.groupIcon);
               const isActive = tool.id === activeToolId;
+              const isToolFavorite = isFavorite(tool.id);
+              const favoriteLabel = `${
+                isToolFavorite ? "Entferne" : "Füge"
+              } ${tool.name} ${
+                isToolFavorite ? "aus Favoriten" : "zu Favoriten hinzu"
+              }`;
 
               return (
-                <Link
+                <div
                   key={tool.id}
-                  href={tool.href}
                   className={`tool ${isActive ? "active" : ""}`}
-                  onClick={() => setActiveToolId(tool.id)}
-                  aria-label={`Öffne ${tool.name}`}
                 >
-                  <div className="hook">
-                    <HookSVG />
-                  </div>
-                  <div className="card">
-                    <span className="status-dot" aria-hidden="true" />
-                    <div className="icon-wrap">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
+                  <Link
+                    href={tool.href}
+                    className="tool-link"
+                    onClick={() => setActiveToolId(tool.id)}
+                    aria-label={`Öffne ${tool.name}`}
+                  >
+                    <div className="hook">
+                      <HookSVG />
                     </div>
-                    <div className="tool-name">{tool.name}</div>
-                    <div className="tool-desc">{tool.description}</div>
-                  </div>
-                </Link>
+                    <div className="card">
+                      <span className="status-dot" aria-hidden="true" />
+                      <div className="icon-wrap">
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </div>
+                      <div className="tool-name">{tool.name}</div>
+                      <div className="tool-desc">{tool.description}</div>
+                    </div>
+                  </Link>
+                  <IconTooltip
+                    label={favoriteLabel}
+                    align="end"
+                    className="tool-favorite-tooltip"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleFavorite(tool.id)}
+                      className={`tool-favorite ${
+                        isToolFavorite ? "is-favorite" : ""
+                      }`}
+                      aria-label={favoriteLabel}
+                    >
+                      <Heart aria-hidden="true" />
+                    </button>
+                  </IconTooltip>
+                </div>
               );
             })}
           </div>

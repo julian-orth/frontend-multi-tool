@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { Menu, PocketKnife, X } from "lucide-react";
+import { Heart, Menu, PocketKnife, X } from "lucide-react";
 import { useMobileNav } from "@/lib/contexts/mobile-nav-context";
 import { TOOLS } from "@/lib/tools/registry";
 import Link from "next/link";
@@ -18,19 +18,23 @@ import {
 import { useLocale } from "@/lib/contexts/locale-context";
 import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
 import { getLocalizedTool } from "@/lib/i18n/tools";
+import { useFavorites } from "@/lib/contexts/favorites-context";
+import { IconTooltip } from "@/components/icon-tooltip";
 
 export function MobileNavButton() {
   const { open } = useMobileNav();
   const { t } = useLocale();
 
   return (
-    <button
-      className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none md:hidden"
-      aria-label={t("mobile.openMenu")}
-      onClick={open}
-    >
-      <Menu className="h-4 w-4" aria-hidden="true" />
-    </button>
+    <IconTooltip label={t("mobile.openMenu")}>
+      <button
+        className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line)] bg-[var(--card)] text-[var(--ink)] shadow-[0_1px_0_var(--line-soft)] transition-all hover:bg-[var(--paper-2)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none md:hidden"
+        aria-label={t("mobile.openMenu")}
+        onClick={open}
+      >
+        <Menu className="h-4 w-4" aria-hidden="true" />
+      </button>
+    </IconTooltip>
   );
 }
 
@@ -40,6 +44,7 @@ export default function MobileNav() {
   const pathname = usePathname();
   const basePathname = stripLocalePrefix(pathname);
   const { locale, t } = useLocale();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   // Trap focus when open, and restore it to whatever triggered the menu
   // when it closes.
@@ -162,31 +167,63 @@ export default function MobileNav() {
                             GROUP_COLOR_CLASSES.blue;
                           const localizedHref = localizeHref(tool.href, locale);
                           const isActive = basePathname === tool.href;
+                          const isToolFavorite = isFavorite(tool.id);
+                          const favoriteLabel = t(
+                            isToolFavorite
+                              ? "favorites.remove"
+                              : "favorites.add",
+                            { name: localizedTool.name }
+                          );
                           return (
                             <li key={tool.id}>
-                              <Link
-                                href={localizedHref}
-                                onClick={close}
-                                className={`flex items-center gap-3 rounded-lg px-3 py-2 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-950 ${
-                                  isActive
-                                    ? "bg-blue-50 font-medium text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-                                    : "text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
-                                }`}
-                                aria-label={t("mobile.openTool", {
-                                  name: localizedTool.name,
-                                })}
-                                aria-current={isActive ? "page" : undefined}
-                              >
-                                <span
-                                  className={`rounded-full p-2 ${badgeColor}`}
+                              <div className="group flex items-center">
+                                <Link
+                                  href={localizedHref}
+                                  onClick={close}
+                                  className={`flex min-w-0 flex-1 items-center gap-3 rounded-lg px-3 py-2 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-950 ${
+                                    isActive
+                                      ? "bg-blue-50 font-medium text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                                      : "text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
+                                  }`}
+                                  aria-label={t("mobile.openTool", {
+                                    name: localizedTool.name,
+                                  })}
+                                  aria-current={isActive ? "page" : undefined}
                                 >
-                                  <Icon
-                                    className="h-6 w-6"
-                                    aria-hidden="true"
-                                  />
-                                </span>
-                                <span>{localizedTool.name}</span>
-                              </Link>
+                                  <span
+                                    className={`rounded-full p-2 ${badgeColor}`}
+                                  >
+                                    <Icon
+                                      className="h-6 w-6"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                  <span className="truncate">
+                                    {localizedTool.name}
+                                  </span>
+                                </Link>
+                                <IconTooltip
+                                  label={favoriteLabel}
+                                  align="end"
+                                  className="ml-1"
+                                >
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleFavorite(tool.id)}
+                                    className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-md text-gray-400 transition-colors hover:bg-gray-100 hover:text-red-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-red-400"
+                                    aria-label={favoriteLabel}
+                                  >
+                                    <Heart
+                                      className={`h-4 w-4 ${
+                                        isToolFavorite
+                                          ? "fill-current text-red-500 dark:text-red-400"
+                                          : ""
+                                      }`}
+                                      aria-hidden="true"
+                                    />
+                                  </button>
+                                </IconTooltip>
+                              </div>
                             </li>
                           );
                         })}

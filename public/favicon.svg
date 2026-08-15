@@ -1,9 +1,10 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="64" height="64" rx="18" fill="#0F172A"/>
-  <rect x="10" y="12" width="44" height="40" rx="12" fill="#111827" stroke="#3B82F6" stroke-opacity="0.5"/>
-  <path d="M20 19.5C20 18.6716 20.6716 18 21.5 18H29.5C33.0899 18 36 20.9101 36 24.5V39.5C36 43.0899 33.0899 46 29.5 46H21.5C20.6716 46 20 45.3284 20 44.5V19.5Z" fill="#F97316"/>
-  <path d="M35 18H39.5C42.5376 18 45 20.4624 45 23.5V40.5C45 43.5376 42.5376 46 39.5 46H35V18Z" fill="#3B82F6"/>
-  <path d="M15 20.5C15 19.6716 15.6716 19 16.5 19H25V45H16.5C15.6716 45 15 44.3284 15 43.5V20.5Z" fill="#F8FAFC" fill-opacity="0.92"/>
-  <path d="M42 19H47.5C49.433 19 51 20.567 51 22.5V41.5C51 43.433 49.433 45 47.5 45H42V19Z" fill="#22C55E"/>
-  <path d="M26 12.5L31 15.5L26 18.5L21 15.5L26 12.5Z" fill="#FBBF24"/>
+  <rect width="64" height="64" fill="#FEE2E2"/>
+  <g transform="translate(8 8) scale(2)" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 2v1c0 1 2 1 2 2S3 6 3 7s2 1 2 2-2 1-2 2 2 1 2 2"/>
+    <path d="M18 6h.01"/>
+    <path d="M6 18h.01"/>
+    <path d="M20.83 8.83a4 4 0 0 0-5.66-5.66l-12 12a4 4 0 1 0 5.66 5.66Z"/>
+    <path d="M18 11.66V22a4 4 0 0 0 4-4V6"/>
+  </g>
 </svg>

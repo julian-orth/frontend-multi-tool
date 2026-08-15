@@ -44,21 +44,42 @@ function withThemeSwitchLock(callback: () => void) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof document === "undefined") return "light";
-    return document.documentElement.classList.contains("dark")
-      ? "dark"
-      : "light";
-  });
+  const [theme, setTheme] = useState<Theme>("light");
   const [isTransitioning, setIsTransitioning] = useState(false);
   const transitionLockRef = useRef(false);
 
-  // The initial theme is already resolved before hydration by the
-  // theme-bootstrap script (see app/layout.tsx) and picked up above via the
-  // lazy useState initializer. This effect only needs to keep listening for
-  // OS-level scheme changes, and only while the user hasn't set an explicit
-  // preference of their own.
   useEffect(() => {
+    const getPreferredTheme = (): Theme => {
+      try {
+        const storedTheme = localStorage.getItem("theme");
+        if (storedTheme === "light" || storedTheme === "dark") {
+          return storedTheme;
+        }
+
+        const cookieTheme = document.cookie.match(/(?:^|; )theme=([^;]+)/);
+        const cookieValue = cookieTheme
+          ? decodeURIComponent(cookieTheme[1])
+          : null;
+        if (cookieValue === "light" || cookieValue === "dark") {
+          return cookieValue;
+        }
+
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+        return prefersDark ? "dark" : "light";
+      } catch {
+        return "light";
+      }
+    };
+
+    const resolvedTheme = getPreferredTheme();
+    setTheme((currentTheme) => {
+      if (currentTheme === resolvedTheme) return currentTheme;
+      applyTheme(resolvedTheme);
+      return resolvedTheme;
+    });
+
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
     const handleSystemThemeChange = (event: MediaQueryListEvent) => {

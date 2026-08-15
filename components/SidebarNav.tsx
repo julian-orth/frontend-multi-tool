@@ -4,7 +4,7 @@ import { TOOLS } from "@/lib/tools/registry";
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, X } from "lucide-react";
+import { Heart, Search, X } from "lucide-react";
 import {
   GROUP_COLOR_CLASSES,
   resolveToolIcon,
@@ -17,6 +17,8 @@ import {
 import { useLocale } from "@/lib/contexts/locale-context";
 import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
 import { getLocalizedTool } from "@/lib/i18n/tools";
+import { useFavorites } from "@/lib/contexts/favorites-context";
+import { IconTooltip } from "@/components/icon-tooltip";
 
 export function SidebarNav() {
   const [query, setQuery] = useState("");
@@ -24,6 +26,7 @@ export function SidebarNav() {
   const pathname = usePathname();
   const basePathname = stripLocalePrefix(pathname);
   const { locale, t } = useLocale();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   // Only show sidebar on tool pages (starting with /tools/)
   const isToolPage = basePathname.startsWith("/tools/");
@@ -131,29 +134,60 @@ export function SidebarNav() {
                           GROUP_COLOR_CLASSES.blue;
                         const localizedHref = localizeHref(tool.href, locale);
                         const isActive = basePathname === tool.href;
+                        const isToolFavorite = isFavorite(tool.id);
+                        const favoriteLabel = t(
+                          isToolFavorite ? "favorites.remove" : "favorites.add",
+                          { name: localizedTool.name }
+                        );
                         return (
                           <li key={tool.id}>
-                            <Link
-                              href={localizedHref}
-                              className={`flex items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-950 ${
-                                isActive
-                                  ? "bg-blue-50 font-medium text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
-                                  : "text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
-                              }`}
-                              aria-label={t("mobile.openTool", {
-                                name: localizedTool.name,
-                              })}
-                              aria-current={isActive ? "page" : undefined}
-                            >
-                              <span
-                                className={`rounded-full p-1.5 ${badgeColor}`}
+                            <div className="group flex items-center">
+                              <Link
+                                href={localizedHref}
+                                className={`flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:focus:ring-offset-gray-950 ${
+                                  isActive
+                                    ? "bg-blue-50 font-medium text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+                                    : "text-gray-900 hover:bg-gray-100 dark:text-gray-50 dark:hover:bg-gray-800"
+                                }`}
+                                aria-label={t("mobile.openTool", {
+                                  name: localizedTool.name,
+                                })}
+                                aria-current={isActive ? "page" : undefined}
                               >
-                                <Icon className="h-4 w-4" aria-hidden="true" />
-                              </span>
-                              <span className="truncate">
-                                {localizedTool.name}
-                              </span>
-                            </Link>
+                                <span
+                                  className={`rounded-full p-1.5 ${badgeColor}`}
+                                >
+                                  <Icon
+                                    className="h-4 w-4"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                                <span className="truncate">
+                                  {localizedTool.name}
+                                </span>
+                              </Link>
+                              <IconTooltip
+                                label={favoriteLabel}
+                                align="end"
+                                className="ml-1"
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => toggleFavorite(tool.id)}
+                                  className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-md text-gray-400 opacity-0 transition-colors group-hover:opacity-100 hover:bg-gray-100 hover:text-red-500 focus:opacity-100 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-gray-500 dark:hover:bg-gray-800 dark:hover:text-red-400"
+                                  aria-label={favoriteLabel}
+                                >
+                                  <Heart
+                                    className={`h-4 w-4 ${
+                                      isToolFavorite
+                                        ? "fill-current text-red-500 dark:text-red-400"
+                                        : ""
+                                    }`}
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                              </IconTooltip>
+                            </div>
                           </li>
                         );
                       })}
