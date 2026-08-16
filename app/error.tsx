@@ -36,8 +36,9 @@ export default function Error({
 
       <div className="flex flex-col gap-4 sm:flex-row">
         <button
+          type="button"
           onClick={reset}
-          className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-colors hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:bg-blue-500 dark:hover:bg-blue-600"
+          className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-[var(--primary)] px-6 py-3 font-medium text-white transition-colors hover:bg-[var(--primary-hover)] focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none"
         >
           <RotateCcw className="h-5 w-5" aria-hidden="true" />
           {t("error.tryAgain")}

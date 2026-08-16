@@ -1,14 +1,20 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const locale =
+    pathname === "/en" || pathname.startsWith("/en/") ? "en" : "de";
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-locale", locale);
 
-  if (pathname === "/en" || pathname.startsWith("/en/")) {
+  if (locale === "en") {
     const rewriteUrl = request.nextUrl.clone();
     const stripped = pathname === "/en" ? "/" : pathname.slice(3);
     rewriteUrl.pathname = stripped;
 
-    const response = NextResponse.rewrite(rewriteUrl);
+    const response = NextResponse.rewrite(rewriteUrl, {
+      request: { headers: requestHeaders },
+    });
     response.cookies.set("locale", "en", {
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
@@ -17,7 +23,7 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  const response = NextResponse.next();
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.cookies.set("locale", "de", {
     path: "/",
     maxAge: 60 * 60 * 24 * 365,

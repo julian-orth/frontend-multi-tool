@@ -4,6 +4,7 @@
   },
   "nav": {
     "home": "Home",
+    "tools": "Choose tools",
     "about": "About",
     "aboutTooltip": "About Frontend Multitool"
   },
@@ -36,11 +37,15 @@
     "noToolsFound": "No tools found."
   },
   "home": {
+    "title": "Your toolbox",
+    "intro": "Client-side developer tools, right in your browser. No server, no waiting - just pick one up and get started.",
     "kicker": "Local-first toolkit · {count} tools",
     "subtitle": "Practical browser tools for everyday frontend work: fast to open, easy to scan, and built without backend noise.",
+    "searchLabel": "Search tools",
     "searchPlaceholder": "Search tools, e.g. json, uuid, color...",
     "noToolsFound": "No tools found for \"{query}\".",
-    "openTool": "Open {name}"
+    "openTool": "Open {name}",
+    "resultsCounter": "Showing {shown} of {total} tools"
   },
   "categories": {
     "ESSENTIALS": {

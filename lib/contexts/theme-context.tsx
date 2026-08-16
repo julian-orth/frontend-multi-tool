@@ -74,10 +74,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     };
 
     const resolvedTheme = getPreferredTheme();
-    setTheme((currentTheme) => {
-      if (currentTheme === resolvedTheme) return currentTheme;
-      applyTheme(resolvedTheme);
-      return resolvedTheme;
+    const frameId = requestAnimationFrame(() => {
+      setTheme((currentTheme) => {
+        if (currentTheme === resolvedTheme) return currentTheme;
+        applyTheme(resolvedTheme);
+        return resolvedTheme;
+      });
     });
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -93,6 +95,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     mediaQuery.addEventListener("change", handleSystemThemeChange);
     return () => {
+      cancelAnimationFrame(frameId);
       mediaQuery.removeEventListener("change", handleSystemThemeChange);
     };
   }, []);

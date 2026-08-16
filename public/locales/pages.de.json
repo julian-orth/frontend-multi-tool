@@ -1,49 +1,49 @@
 {
   "about": {
-    "badge": "Über",
-    "title": "Über dieses Projekt",
-    "intro": "Ein persönliches Projekt, um produktionsnahe Frontend-Engineering-Standards offen umzusetzen: typisierte Tool-Registry, echtes Test-Setup und kein Backend als Ausrede.",
-    "stats": [
-      "Veröffentlichte Tools",
-      "Tool-Kategorien",
-      "Automatisierte Tests",
-      "Backend-Server"
-    ],
-    "whatTitle": "Worum es geht",
-    "whatParagraphs": [
-      "Frontend Multitool ist eine wachsende Sammlung nützlicher Entwickler-Utilities wie Formatter, Encoder, Generatoren und Konverter, die komplett im Browser laufen. Es gibt keine API-Schicht, die deine Eingaben verarbeitet.",
-      "Der Kern des Projekts sind nicht nur die Tools selbst, sondern die Codebasis dahinter: eine Registry-Struktur, mit der neue Tools konsistent verlinkt, getestet und auffindbar bleiben."
-    ],
-    "buildTitle": "Wie es gebaut ist",
+    "badge": "Portfolio-Projekt",
+    "title": "Frontend Multitool",
+    "intro": "Eine Sammlung kleiner, schneller Browser-Tools - und ein Ort, an dem digitale Werkzeuge genauso klar und angenehm werden sollen wie die Arbeit damit.",
+    "authorLabel": "Konzept, Design und Entwicklung",
+    "authorName": "Julian Orth",
+    "authorUrl": "julianorth.de",
+    "portfolioTitle": "Ein Portfolio mit Praxiswert",
+    "portfolioText": "Dieses Projekt übersetzt Frontend-Handwerk in eine konkrete Erfahrung: hilfreiche Utilities, eine erkennbare Oberfläche und viele Entscheidungen, die nicht erst beim Code beginnen.",
+    "focusTitle": "Der Fokus im Projekt",
     "principles": [
       {
-        "title": "Typisierte Registry statt Seiten-Chaos",
-        "description": "Jedes Tool ist ein typisiertes Konfigurationsobjekt. Ein Prebuild-Check stoppt den Build bei doppelten IDs, fehlenden Seiten oder kaputten Referenzen."
+        "title": "UI, die Arbeit leichter macht",
+        "description": "Klare Hierarchien, vertraute Interaktionen und ein visueller Rhythmus, der Tools schnell erfassbar macht - auf großen wie auf kleinen Screens."
       },
       {
-        "title": "Tests, die Logik prüfen",
-        "description": "Vitest und Testing Library prüfen nicht nur Rendering, sondern auch reale Logik wie Farbkonvertierung, UUID-Dekodierung und Tool-Validierung."
+        "title": "SEO mit Substanz",
+        "description": "Saubere Seitenstruktur, hilfreiche Metadaten und verständliche URLs geben jedem Tool eine echte Chance, gefunden zu werden."
       },
       {
-        "title": "Client-side als Architektur",
-        "description": "Keine Cookies, kein Tracking, kein Backend. Das Theme wird vor dem ersten Paint gesetzt, damit die Oberfläche sofort im richtigen Farbschema erscheint."
+        "title": "Frontend als Produkt",
+        "description": "Der Schwerpunkt liegt auf einer schnellen, eigenständigen Browser-Erfahrung: kleine Details, gute Zustände und ein Interface, das gern benutzt wird."
       }
     ],
-    "lighthouseTitle": "Lighthouse-Werte",
-    "lighthouseDescription": "Gemessen gegen die produktive Auslieferung, nicht gegen den Dev-Server. Diese Werte sollten nach größeren Änderungen aktualisiert werden.",
-    "lighthouseLabels": [
+    "toolsLabel": "Tools im Set",
+    "clientSideLabel": "Client-side Verarbeitung",
+    "technicalTitle": "Technische Umsetzung",
+    "technicalIntro": "Gebaut als Next.js-App mit einem klaren Schwerpunkt auf Performance, Wartbarkeit und einer sauberen Nutzeroberfläche - ohne Account- oder API-Komplexität, die für diese Werkzeuge keinen Mehrwert bringt.",
+    "technicalItems": [
+      {
+        "title": "Stack & Tooling",
+        "description": "Next.js 16, React 19, TypeScript und Tailwind CSS 4 bilden die Basis. Lucide liefert die Icons, während qrcode, DOMPurify und diff dort eingesetzt werden, wo sie echten Werkzeugnutzen schaffen."
+      },
+      {
+        "title": "Workflow & Qualität",
+        "description": "Die Tool-Registry hält Seiten und Metadaten konsistent. Vitest prüft Logik, ESLint und TypeScript sichern Änderungen ab. Claude Code unterstützt als Teil des Entwicklungsworkflows bei Recherche, Iteration und Tests."
+      }
+    ],
+    "lighthouseTitle": "Lighthouse-Check",
+    "lighthouseIntro": "Platzhalter für die nächste Messung auf dem Production Build. Ziel sind belastbare Werte für die reale Auslieferung, nicht geschönte Dev-Server-Ergebnisse.",
+    "lighthouseMetrics": [
       "Performance",
       "Accessibility",
       "Best Practices",
       "SEO"
-    ],
-    "stackTitle": "Stack",
-    "stackItems": [
-      "Next.js 16 (App Router) für Routing und seitenbezogene Metadaten",
-      "React 19 und TypeScript im Strict Mode mit einem gemeinsamen Tool-Typ",
-      "Tailwind CSS 4 auf Basis weniger zentraler CSS-Variablen für das Theme",
-      "Vitest und Testing Library als feste Qualitätsprüfung vor Releases",
-      "Kleine interne CLI-Skripte zum Anlegen und Validieren neuer Tools"
     ]
   },
   "privacy": {

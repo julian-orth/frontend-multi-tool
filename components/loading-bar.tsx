@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { stripLocalePrefix } from "@/lib/i18n/locale";
 
 // Staged targets rather than a continuous formula: each stage eases toward
 // its target over its own CSS transition, so the bar shows real motion
@@ -25,8 +24,6 @@ export function LoadingBar() {
   const [progress, setProgress] = useState(0);
   const isLoadingRef = useRef(false);
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const isToolPage = stripLocalePrefix(pathname).startsWith("/tools/");
-
   const clearTimers = () => {
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
@@ -104,12 +101,12 @@ export function LoadingBar() {
 
   return (
     <div
-      className={`fixed top-[73px] right-0 z-50 h-[3px] overflow-hidden bg-transparent transition-opacity ease-out ${
+      className={`fixed top-0 right-0 z-50 h-[3px] overflow-hidden bg-transparent transition-opacity ease-out ${
         visible ? "opacity-100 duration-150" : "opacity-0 duration-200"
-      } ${isToolPage ? "left-0 md:left-72" : "left-0"}`}
+      } left-16`}
     >
       <div
-        className="h-full bg-blue-600 shadow-[0_0_6px] shadow-blue-500/40 transition-[width] duration-300 ease-out dark:bg-blue-500 dark:shadow-blue-400/30"
+        className="h-full bg-[var(--primary)] shadow-[0_0_6px_var(--primary)] transition-[width] duration-300 ease-out"
         style={{ width: `${progress}%` }}
       />
     </div>

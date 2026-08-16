@@ -11,17 +11,12 @@ import { getLocalizedTool } from "@/lib/i18n/tools";
 export function Footer() {
   const pathname = usePathname();
   const basePathname = stripLocalePrefix(pathname);
-  const isToolPage = basePathname.startsWith("/tools/");
   const { locale, t } = useLocale();
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer
-      className={`relative border-t border-[var(--line)] bg-[var(--paper)] py-8 ${isToolPage ? "md:ml-72" : ""}`}
-    >
-      <div
-        className={`px-4 sm:px-6 ${isToolPage ? "max-w-full" : "mx-auto max-w-7xl"}`}
-      >
+    <footer className="relative ml-16 border-t border-[var(--line)] bg-[var(--paper)] py-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="flex flex-col gap-8 sm:flex-row sm:justify-between">
           <div className="max-w-md">
             <div className="mb-3 flex items-center gap-3">

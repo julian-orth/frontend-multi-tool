@@ -4,11 +4,9 @@ import "./globals.css";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { ThemeProvider } from "@/lib/contexts/theme-context";
 import { FavoritesProvider } from "@/lib/contexts/favorites-context";
-import { MobileNavProvider } from "@/lib/contexts/mobile-nav-context";
 import { LocaleProvider } from "@/lib/contexts/locale-context";
 import { ClientLayoutWrapper } from "@/components/layout-client";
 import { LoadingBar } from "@/components/loading-bar";
-import MobileNav from "@/components/MobileNav";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -136,11 +134,8 @@ export default async function RootLayout({
         <LocaleProvider>
           <ThemeProvider>
             <FavoritesProvider>
-              <MobileNavProvider>
-                <MobileNav />
-                <LoadingBar />
-                <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
-              </MobileNavProvider>
+              <LoadingBar />
+              <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
             </FavoritesProvider>
           </ThemeProvider>
         </LocaleProvider>

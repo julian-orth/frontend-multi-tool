@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import { Layers, FlaskConical, Gauge } from "lucide-react";
+import { Code2, Compass, Gauge, SearchCheck, Sparkles } from "lucide-react";
 import { TOOLS } from "@/lib/tools/registry";
 import { SITE_CONFIG } from "@/lib/site-config";
 import { getServerLocale } from "@/lib/i18n/server";
 import { getPageContent } from "@/lib/i18n/page-content";
 
-const CATEGORY_COUNT = new Set(TOOLS.map((tool) => tool.group)).size;
-const LIGHTHOUSE_VALUES = [92, 100, 100, 100] as const;
-const PRINCIPLE_ICONS = [Layers, FlaskConical, Gauge] as const;
-const PRINCIPLE_COLORS = ["#3D5A99", "#2E6B5E", "#B5652C"] as const;
+const PRINCIPLE_ICONS = [Compass, SearchCheck, Sparkles] as const;
+const PRINCIPLE_COLORS = ["#9f3f38", "#777774", "#c2766f"] as const;
+const TECH_ICONS = [Code2, Gauge] as const;
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -42,124 +41,100 @@ export default async function AboutPage() {
   const content = getPageContent(locale).about;
 
   const stats = [
-    { label: content.stats[0], value: String(TOOLS.length) },
-    { label: content.stats[1], value: String(CATEGORY_COUNT) },
-    { label: content.stats[2], value: "331" },
-    { label: content.stats[3], value: "0" },
+    { label: content.toolsLabel, value: String(TOOLS.length) },
+    { label: content.clientSideLabel, value: "100%" },
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 pb-16 sm:px-6">
-      <div className="mb-8">
-        <span className="inline-flex items-center rounded-sm border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-[11px] tracking-[0.12em] text-[var(--ink-soft)] uppercase shadow-[0_1px_0_var(--line)]">
-          {content.badge}
-        </span>
-        <h1 className="font-display mt-4 mb-3 text-5xl font-bold tracking-tight text-[var(--ink)]">
-          {content.title}
-        </h1>
-        <p className="max-w-2xl text-lg text-[var(--ink-soft)]">
-          {content.intro}
-        </p>
-      </div>
+    <div className="about-stage">
+      <div className="about-shell">
+        <div className="about-intro">
+          <span className="about-kicker">{content.badge}</span>
+          <h1>{content.title}</h1>
+          <p>{content.intro}</p>
+          <div className="about-author">
+            <span>{content.authorLabel}</span>
+            <a href="https://julianorth.de" target="_blank" rel="noreferrer">
+              {content.authorName} <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
 
-      <div className="space-y-8">
-        <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <section className="about-stats" aria-label={content.title}>
           {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-md border border-[var(--line)] bg-[var(--card)] p-4 shadow-[0_1px_0_var(--line-soft)]"
-            >
-              <div className="font-display text-3xl font-bold text-[var(--ink)]">
-                {stat.value}
-              </div>
-              <div className="mt-1 font-mono text-[11px] tracking-[0.08em] text-[var(--ink-soft)] uppercase">
-                {stat.label}
-              </div>
+            <div key={stat.label}>
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
             </div>
           ))}
         </section>
 
-        <section className="rounded-md border border-[var(--line)] bg-[var(--card)] p-8 shadow-[0_1px_0_var(--line-soft)]">
-          <h2 className="font-display mb-4 text-2xl font-bold text-[var(--ink)]">
-            {content.whatTitle}
-          </h2>
-          {content.whatParagraphs.map((paragraph) => (
-            <p
-              key={paragraph}
-              className="mb-4 text-[var(--ink-soft)] last:mb-0"
-            >
-              {paragraph}
-            </p>
-          ))}
+        <section className="about-statement">
+          <span className="about-statement-mark" aria-hidden="true">
+            {"//"}
+          </span>
+          <div>
+            <h2>{content.portfolioTitle}</h2>
+            <p>{content.portfolioText}</p>
+          </div>
         </section>
 
-        <section>
-          <h2 className="font-display mb-6 text-2xl font-bold text-[var(--ink)]">
-            {content.buildTitle}
-          </h2>
-          <div className="grid gap-6 md:grid-cols-3">
+        <section className="about-focus">
+          <h2>{content.focusTitle}</h2>
+          <div>
             {content.principles.map((principle, index) => {
               const Icon = PRINCIPLE_ICONS[index];
               const color = PRINCIPLE_COLORS[index];
               return (
-                <article
-                  key={principle.title}
-                  className="rounded-md border border-[var(--line)] bg-[var(--card)] p-6 shadow-[0_1px_0_var(--line-soft)]"
-                >
+                <article key={principle.title}>
                   <div
-                    className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded border"
+                    className="about-focus-icon"
                     style={{ borderColor: color, color }}
                   >
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </div>
-                  <h3 className="font-display mb-2 text-xl font-bold text-[var(--ink)]">
-                    {principle.title}
-                  </h3>
-                  <p className="text-[var(--ink-soft)]">
-                    {principle.description}
-                  </p>
+                  <h3>{principle.title}</h3>
+                  <p>{principle.description}</p>
                 </article>
               );
             })}
           </div>
         </section>
 
-        <section className="rounded-md border border-[var(--line)] bg-[var(--card)] p-8 shadow-[0_1px_0_var(--line-soft)]">
-          <h2 className="font-display mb-2 text-2xl font-bold text-[var(--ink)]">
-            {content.lighthouseTitle}
-          </h2>
-          <p className="mb-6 text-[var(--ink-soft)]">
-            {content.lighthouseDescription}
-          </p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {content.lighthouseLabels.map((label, index) => (
-              <div
-                key={label}
-                className="rounded-md border border-[var(--line)] bg-[var(--paper-2)] p-4 text-center"
-              >
-                <div className="font-display text-3xl font-bold text-[var(--ink)]">
-                  {LIGHTHOUSE_VALUES[index]}
-                </div>
-                <div className="mt-1 font-mono text-[11px] tracking-[0.08em] text-[var(--ink-soft)] uppercase">
-                  {label}
-                </div>
-              </div>
-            ))}
+        <section className="about-technical">
+          <div className="about-section-heading">
+            <span>{"// 01"}</span>
+            <h2>{content.technicalTitle}</h2>
+          </div>
+          <p className="about-section-intro">{content.technicalIntro}</p>
+          <div className="about-technical-grid">
+            {content.technicalItems.map((item, index) => {
+              const Icon = TECH_ICONS[index];
+              return (
+                <article key={item.title}>
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        <section className="rounded-md border border-[var(--line)] bg-[var(--card)] p-8 shadow-[0_1px_0_var(--line-soft)]">
-          <h2 className="font-display mb-4 text-2xl font-bold text-[var(--ink)]">
-            {content.stackTitle}
-          </h2>
-          <ul className="space-y-2 text-[var(--ink-soft)]">
-            {content.stackItems.map((item) => (
-              <li key={item} className="flex items-start">
-                <span className="mr-2">•</span>
-                <span>{item}</span>
-              </li>
+        <section className="about-lighthouse">
+          <div className="about-section-heading">
+            <span>{"// 02"}</span>
+            <h2>{content.lighthouseTitle}</h2>
+          </div>
+          <p className="about-section-intro">{content.lighthouseIntro}</p>
+          <div className="about-lighthouse-grid">
+            {content.lighthouseMetrics.map((metric) => (
+              <div key={metric}>
+                <strong>--</strong>
+                <span>{metric}</span>
+              </div>
             ))}
-          </ul>
+          </div>
         </section>
       </div>
     </div>

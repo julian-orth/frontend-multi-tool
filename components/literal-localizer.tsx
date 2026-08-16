@@ -13,6 +13,8 @@ const enLiterals = enLiteralsRaw as LiteralMap;
 const TRANSLATABLE_ATTRS = ["placeholder", "title", "aria-label", "alt"];
 const HTML_ENTITY_PATTERN =
   /&(?:amp|lt|gt|quot|apos|nbsp|copy|reg|trade|euro|#\d+|#x[0-9a-f]+);/gi;
+const originalText = new WeakMap<Text, string>();
+const originalAttributes = new WeakMap<Element, Map<string, string>>();
 
 export function decodeHtml(value: string): string {
   if (!value) return "";
@@ -110,6 +112,7 @@ function translateTextNodes(root: Node, map: Map<string, string>) {
     const translated = map.get(normalized);
     if (!translated || translated === normalized) continue;
 
+    if (!originalText.has(node)) originalText.set(node, original);
     node.textContent = preserveEdgeWhitespace(original, translated);
   }
 }
@@ -127,9 +130,46 @@ function translateAttributes(root: Element, map: Map<string, string>) {
       const normalized = normalizeText(current);
       const translated = map.get(normalized);
       if (!translated || translated === normalized) continue;
+
+      const originals =
+        originalAttributes.get(element) ?? new Map<string, string>();
+      if (!originals.has(attr)) {
+        originals.set(attr, current);
+        originalAttributes.set(element, originals);
+      }
       element.setAttribute(attr, preserveEdgeWhitespace(current, translated));
     }
   }
+}
+
+function restoreOriginalValues(root: Element) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode as Text;
+    const original = originalText.get(node);
+    if (original !== undefined) node.textContent = original;
+  }
+
+  const selector = TRANSLATABLE_ATTRS.map((attr) => `[${attr}]`).join(",");
+  const elements = root.matches(selector)
+    ? [root, ...Array.from(root.querySelectorAll(selector))]
+    : Array.from(root.querySelectorAll(selector));
+
+  for (const element of elements) {
+    const originals = originalAttributes.get(element);
+    if (!originals) continue;
+
+    for (const [attr, original] of originals) {
+      element.setAttribute(attr, original);
+    }
+  }
+}
+
+export function localizeRoot(root: Element, lookup: Map<string, string>) {
+  restoreOriginalValues(root);
+  translateTextNodes(root, lookup);
+  translateAttributes(root, lookup);
 }
 
 export function LiteralLocalizer() {
@@ -148,24 +188,21 @@ export function LiteralLocalizer() {
     const root = document.getElementById("main-content");
     if (!root) return;
 
+    let observer: MutationObserver;
     const runTranslation = () => {
-      translateTextNodes(root, lookup);
-      translateAttributes(root, lookup);
+      observer.disconnect();
+      localizeRoot(root, lookup);
+      observer.observe(root, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: TRANSLATABLE_ATTRS,
+      });
     };
 
+    observer = new MutationObserver(runTranslation);
     runTranslation();
-
-    const observer = new MutationObserver(() => {
-      runTranslation();
-    });
-
-    observer.observe(root, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-      attributes: true,
-      attributeFilter: TRANSLATABLE_ATTRS,
-    });
 
     return () => observer.disconnect();
   }, [lookup]);

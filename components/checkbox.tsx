@@ -12,7 +12,7 @@ export interface CheckboxProps {
 
 /**
  * Reusable checkbox component with consistent styling across the app.
- * Uses blue/purple accent colors instead of green for a modern look.
+ * Uses the shared primary color for a consistent selected state.
  */
 export function Checkbox({
   checked,
@@ -35,7 +35,7 @@ export function Checkbox({
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           disabled={disabled}
-          className="h-6 w-6 cursor-pointer appearance-none rounded-lg border-2 border-gray-300 bg-white shadow-sm transition-all duration-200 checked:border-teal-600 checked:bg-teal-600 checked:shadow-md hover:border-teal-400 hover:shadow focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:shadow-gray-950/50 dark:checked:border-teal-500 dark:checked:bg-teal-500 dark:hover:border-teal-400 dark:focus:ring-teal-500 dark:focus:ring-offset-gray-900"
+          className="h-6 w-6 cursor-pointer appearance-none rounded-lg border-2 border-[var(--line)] bg-[var(--card)] shadow-sm transition-all duration-200 checked:border-[var(--primary)] checked:bg-[var(--primary)] checked:shadow-md hover:border-[var(--primary)] hover:shadow focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
           style={{
             backgroundImage: checked
               ? `url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e")`

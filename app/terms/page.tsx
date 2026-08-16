@@ -78,7 +78,7 @@ export default async function TermsPage() {
                 <p className="mt-4 leading-relaxed">
                   <Link
                     href={localizeHref("/privacy", locale)}
-                    className="text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                    className="text-[var(--primary)] underline hover:text-[var(--primary-hover)]"
                   >
                     {privacyLinkLabel}
                   </Link>

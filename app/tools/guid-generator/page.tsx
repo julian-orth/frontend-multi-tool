@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { SITE_CONFIG } from "@/lib/site-config";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "GUID Generator",
-  alternates: { canonical: "/tools/uuid-generator" },
+  alternates: { canonical: `${SITE_CONFIG.domain}/tools/uuid-generator` },
 };
 
 export default function GuidRedirectPage() {

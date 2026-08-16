@@ -1,49 +1,49 @@
 {
   "about": {
-    "badge": "About",
-    "title": "About This Project",
-    "intro": "A personal project built to practice production-grade frontend engineering in the open: typed tool registry, real tests, and no backend to hide behind.",
-    "stats": [
-      "Tools shipped",
-      "Tool categories",
-      "Automated tests",
-      "Backend servers"
-    ],
-    "whatTitle": "What it is",
-    "whatParagraphs": [
-      "Frontend Multitool is a growing collection of practical developer utilities such as formatters, encoders, generators, and converters that run entirely in the browser. There is no API layer processing your input.",
-      "The real point of the project is not only the tools themselves, but the codebase around them: a registry structure that keeps new tools linked, tested, and discoverable in a consistent way."
-    ],
-    "buildTitle": "How it's built",
+    "badge": "Portfolio project",
+    "title": "Frontend Multitool",
+    "intro": "A collection of small, fast browser tools - and a place to make digital utilities feel as clear and pleasant as the work they support.",
+    "authorLabel": "Concept, design and development",
+    "authorName": "Julian Orth",
+    "authorUrl": "julianorth.de",
+    "portfolioTitle": "A portfolio with practical value",
+    "portfolioText": "This project turns frontend craft into a tangible experience: useful utilities, a distinct interface, and thoughtful choices that begin before the code does.",
+    "focusTitle": "What the project explores",
     "principles": [
       {
-        "title": "Typed registry instead of page sprawl",
-        "description": "Each tool is a typed config object. A prebuild check blocks duplicate IDs, missing pages, or broken references before they can ship."
+        "title": "UI that makes work lighter",
+        "description": "Clear hierarchy, familiar interactions, and a visual rhythm that makes tools easy to scan on large and small screens alike."
       },
       {
-        "title": "Tests that verify real logic",
-        "description": "Vitest and Testing Library cover more than rendering: they verify color conversion, UUID decoding, validation behavior, and other real utility logic."
+        "title": "SEO with substance",
+        "description": "Clean page structure, useful metadata, and readable URLs give each tool a genuine chance to be found."
       },
       {
-        "title": "Client-side by architecture",
-        "description": "No cookies, no tracking, no backend. The theme is resolved before first paint so the UI starts in the correct color scheme immediately."
+        "title": "Frontend as a product",
+        "description": "The focus is a fast, independent browser experience: small details, considered states, and an interface worth coming back to."
       }
     ],
-    "lighthouseTitle": "Lighthouse scores",
-    "lighthouseDescription": "Measured against the production deployment, not the dev server. Update these after major changes instead of trusting them forever.",
-    "lighthouseLabels": [
+    "toolsLabel": "Tools in the set",
+    "clientSideLabel": "Client-side processing",
+    "technicalTitle": "Technical implementation",
+    "technicalIntro": "Built as a Next.js app with a clear focus on performance, maintainability, and a polished interface - without account or API complexity that adds no value to these utilities.",
+    "technicalItems": [
+      {
+        "title": "Stack & tooling",
+        "description": "Next.js 16, React 19, TypeScript, and Tailwind CSS 4 form the foundation. Lucide supplies icons, while qrcode, DOMPurify, and diff are used where they create real utility value."
+      },
+      {
+        "title": "Workflow & quality",
+        "description": "The tool registry keeps pages and metadata consistent. Vitest covers logic, while ESLint and TypeScript guard changes. Claude Code supports the development workflow with research, iteration, and testing."
+      }
+    ],
+    "lighthouseTitle": "Lighthouse check",
+    "lighthouseIntro": "Placeholders for the next production-build measurement. The goal is reliable delivery metrics, not flattering dev-server results.",
+    "lighthouseMetrics": [
       "Performance",
       "Accessibility",
       "Best Practices",
       "SEO"
-    ],
-    "stackTitle": "Stack",
-    "stackItems": [
-      "Next.js 16 (App Router) for routing and page-level metadata",
-      "React 19 and TypeScript in strict mode with one shared tool type",
-      "Tailwind CSS 4 on top of a small set of theme variables",
-      "Vitest and Testing Library as a release-quality verification layer",
-      "Small internal CLI scripts for scaffolding and validating tools"
     ]
   },
   "privacy": {

@@ -108,7 +108,7 @@ export default function Breadcrumb() {
               ) : (
                 <Link
                   href={localizeHref(crumb.href, locale)}
-                  className="rounded text-gray-600 hover:text-blue-600 hover:underline focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none dark:text-gray-400 dark:hover:text-blue-400 dark:focus:ring-offset-gray-950"
+                  className="rounded text-gray-600 hover:text-[var(--primary)] hover:underline focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none dark:text-gray-400"
                 >
                   {crumb.name}
                 </Link>

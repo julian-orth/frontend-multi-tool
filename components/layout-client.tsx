@@ -1,20 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import SidebarNav from "@/components/SidebarNav";
 import { LiteralLocalizer } from "@/components/literal-localizer";
-import { stripLocalePrefix } from "@/lib/i18n/locale";
 
 export function ClientLayoutWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const isToolPage = stripLocalePrefix(pathname).startsWith("/tools/");
-
   return (
     <>
       <a
@@ -25,11 +19,7 @@ export function ClientLayoutWrapper({
       </a>
       <Header />
       <div className="flex w-full flex-1">
-        <SidebarNav />
-        <main
-          id="main-content"
-          className={`min-w-0 flex-1 pt-20 transition-all ${isToolPage ? "md:ml-72" : ""}`}
-        >
+        <main id="main-content" className="ml-16 min-w-0 flex-1">
           {children}
         </main>
       </div>
