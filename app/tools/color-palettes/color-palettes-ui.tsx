@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Copy,
   Check,
@@ -10,6 +10,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
+import { StyledSelect } from "@/components/styled-select";
 import {
   generateMonochromaticPalette,
   generateAnalogousPalette,
@@ -41,9 +42,19 @@ type PaletteType =
 
 type ExportFormat = "css" | "scss" | "json" | "svg" | "tailwind" | "array";
 
+// Static placeholder so server and client render the same markup on first
+// paint; the real random palette is generated client-side after mount.
+const DEFAULT_COLORS = [
+  "#6366f1",
+  "#8b5cf6",
+  "#ec4899",
+  "#f59e0b",
+  "#10b981",
+];
+
 export function ColorPalettesUI() {
   const [paletteType, setPaletteType] = useState<PaletteType>("random");
-  const [colors, setColors] = useState<string[]>(generateRandomPalette(5));
+  const [colors, setColors] = useState<string[]>(DEFAULT_COLORS);
   const [lockedColors, setLockedColors] = useState<Set<number>>(new Set());
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [colorCount, setColorCount] = useState(5);
@@ -97,6 +108,14 @@ export function ColorPalettesUI() {
     },
     [paletteType, colorCount, lockedColors, colors]
   );
+
+  // Replace the deterministic placeholder with a real random palette once
+  // mounted, so the server-rendered HTML matches the client's first render.
+  useEffect(() => {
+    setColors(generateRandomPalette(colorCount));
+    // Runs once on mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Toggle lock on a color
   const toggleLock = useCallback((index: number) => {
@@ -193,20 +212,24 @@ export function ColorPalettesUI() {
                     <label className="mb-2 block text-xs font-semibold text-gray-700 dark:text-gray-300">
                       Export Format
                     </label>
-                    <select
-                      value={exportFormat}
-                      onChange={(e) =>
-                        setExportFormat(e.target.value as ExportFormat)
-                      }
-                      className="mb-3 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-                    >
-                      <option value="css">CSS Variables</option>
-                      <option value="scss">SCSS Variables</option>
-                      <option value="json">JSON</option>
-                      <option value="svg">SVG</option>
-                      <option value="tailwind">Tailwind Config</option>
-                      <option value="array">JavaScript Array</option>
-                    </select>
+                    <div className="mb-3">
+                      <StyledSelect
+                        value={exportFormat}
+                        onChange={(v) => setExportFormat(v as ExportFormat)}
+                        options={[
+                          { value: "css", label: "CSS Variables" },
+                          { value: "scss", label: "SCSS Variables" },
+                          { value: "json", label: "JSON" },
+                          { value: "svg", label: "SVG" },
+                          { value: "tailwind", label: "Tailwind Config" },
+                          { value: "array", label: "JavaScript Array" },
+                        ]}
+                        className="w-full border-gray-200 bg-white text-sm text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                        listClassName="border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+                        optionActiveClassName="bg-indigo-600 font-medium text-white dark:bg-indigo-500"
+                        optionClassName="text-gray-700 hover:bg-indigo-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                      />
+                    </div>
                     <div className="flex gap-2">
                       <button
                         type="button"
@@ -344,7 +367,7 @@ export function ColorPalettesUI() {
                 {/* Copy Feedback */}
                 {copiedIndex === index && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                    <div className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-900">
+                    <div className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-900 dark:bg-gray-900 dark:text-gray-100">
                       <Check className="h-4 w-4" aria-hidden="true" />
                       Copied!
                     </div>
@@ -354,20 +377,23 @@ export function ColorPalettesUI() {
 
               {/* Color Info */}
               <div className="bg-white p-3 dark:bg-gray-900">
-                <input
-                  type="text"
-                  value={color.toUpperCase()}
-                  onChange={(e) => handleColorChange(index, e.target.value)}
-                  className="w-full rounded border border-gray-200 bg-white px-2 py-1 text-center font-mono text-xs font-semibold text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleCopyColor(color, index)}
-                  className="mt-2 flex w-full cursor-pointer items-center justify-center gap-1 rounded-lg bg-indigo-100 px-2 py-1.5 text-xs font-medium text-indigo-700 transition-colors hover:bg-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50"
-                >
-                  <Copy className="h-3 w-3" aria-hidden="true" />
-                  Copy HEX
-                </button>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={color.toUpperCase()}
+                    onChange={(e) => handleColorChange(index, e.target.value)}
+                    className="w-full min-w-0 flex-1 rounded border border-gray-200 bg-white px-2 py-1 text-center font-mono text-xs font-semibold text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleCopyColor(color, index)}
+                    aria-label="Copy HEX"
+                    title="Copy HEX"
+                    className="flex h-7 w-7 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-indigo-100 text-indigo-700 transition-colors hover:bg-indigo-200 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50"
+                  >
+                    <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                  </button>
+                </div>
               </div>
             </div>
           );

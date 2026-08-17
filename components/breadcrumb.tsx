@@ -7,6 +7,7 @@ import { getToolById } from "@/lib/tools/registry";
 import { useLocale } from "@/lib/contexts/locale-context";
 import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
 import { getLocalizedTool } from "@/lib/i18n/tools";
+import { getLocalizedToolGroup } from "@/lib/i18n/tool-groups";
 
 function toTitle(str: string) {
   // Special cases for acronyms
@@ -48,7 +49,12 @@ export default function Breadcrumb() {
     if (tool && localizedTool) {
       // Add Group > Tool Name without a /tools landing page
       crumbs.push(
-        { name: `${tool.group} Tools`, href: "/" },
+        {
+          name: t("nav.toolGroupSuffix", {
+            group: getLocalizedToolGroup(tool.group, locale),
+          }),
+          href: "/",
+        },
         { name: localizedTool.name, href: basePathname }
       );
     } else {
@@ -86,7 +92,7 @@ export default function Breadcrumb() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <nav className="mb-6" aria-label="Breadcrumb">
+      <nav className="mb-6" aria-label={t("nav.breadcrumbLabel")}>
         <ol className="flex flex-wrap items-center text-sm text-gray-500 dark:text-gray-400">
           {crumbs.map((crumb, i) => (
             <li key={`${crumb.href}-${i}`} className="flex items-center">

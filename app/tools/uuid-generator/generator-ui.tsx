@@ -1,10 +1,33 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Loader2, ChevronDown, Download } from "lucide-react";
+import { Loader2, Download } from "lucide-react";
 import { uuidv1, uuidv3, uuidv4, uuidv5, uuidv7, uuidNil } from "./uuid-utils";
 import { CopyButton } from "./copy-button";
 import PrimaryButton from "@/components/primary-button";
-import "@/lib/styles/form-utilities.css";
+import { StyledSelect } from "@/components/styled-select";
+
+const VERSION_OPTIONS = [
+  { value: "v1", label: "v1 (timestamp)" },
+  { value: "v3", label: "v3 (namespace+MD5)" },
+  { value: "v4", label: "v4 (random)" },
+  { value: "v5", label: "v5 (namespace+SHA-1)" },
+  { value: "v7", label: "v7 (Unix time, random)" },
+  { value: "nil", label: "NIL (all zeros)" },
+] as const;
+
+const COUNT_OPTIONS = ["1", "5", "10", "20", "50", "100"].map((n) => ({
+  value: n,
+  label: n,
+}));
+
+const tealSelectClassName =
+  "h-12 border-teal-200 bg-white/80 text-sm font-medium text-gray-900 focus:border-teal-500 focus:ring-teal-500 dark:border-teal-800 dark:bg-gray-900/60 dark:text-gray-100";
+const tealListClassName =
+  "border-teal-200 bg-white dark:border-teal-800 dark:bg-gray-900";
+const tealOptionActiveClassName =
+  "bg-teal-600 font-medium text-white dark:bg-teal-500";
+const tealOptionClassName =
+  "text-gray-700 hover:bg-teal-50 dark:text-gray-300 dark:hover:bg-gray-800";
 
 export function GeneratorUI() {
   const [version, setVersion] = useState<
@@ -135,23 +158,16 @@ export function GeneratorUI() {
           >
             Version
           </label>
-          <div className="select-icon-wrapper" style={{ maxWidth: "150px" }}>
-            <select
+          <div style={{ width: "150px" }}>
+            <StyledSelect
               id="uuid-version"
-              className="h-12 w-full cursor-pointer appearance-none rounded-xl border border-teal-200 bg-white/80 px-3 pr-10 text-sm font-medium text-gray-900 focus:border-teal-500 focus:ring-2 focus:ring-teal-500 dark:border-teal-800 dark:bg-gray-900/60 dark:text-gray-100"
               value={version}
-              onChange={(e) => setVersion(e.target.value as any)}
-            >
-              <option value="v1">v1 (timestamp)</option>
-              <option value="v3">v3 (namespace+MD5)</option>
-              <option value="v4">v4 (random)</option>
-              <option value="v5">v5 (namespace+SHA-1)</option>
-              <option value="v7">v7 (Unix time, random)</option>
-              <option value="nil">NIL (all zeros)</option>
-            </select>
-            <ChevronDown
-              className="select-icon h-4 w-4 text-gray-400 dark:text-gray-300"
-              aria-hidden="true"
+              onChange={(v) => setVersion(v as typeof version)}
+              options={VERSION_OPTIONS}
+              className={`w-full rounded-xl ${tealSelectClassName}`}
+              listClassName={`rounded-xl ${tealListClassName}`}
+              optionActiveClassName={tealOptionActiveClassName}
+              optionClassName={tealOptionClassName}
             />
           </div>
         </div>
@@ -199,28 +215,24 @@ export function GeneratorUI() {
           >
             Count
           </label>
-          <div className="select-icon-wrapper" style={{ maxWidth: "150px" }}>
-            <select
+          <div style={{ width: "150px" }}>
+            <StyledSelect
               id="uuid-count"
-              className="h-12 w-full cursor-pointer appearance-none rounded-xl border border-teal-200 bg-white/80 px-3 pr-10 text-sm font-medium text-gray-900 focus:border-teal-500 focus:ring-2 focus:ring-teal-500 dark:border-teal-800 dark:bg-gray-900/60 dark:text-gray-100"
               value={String(count)}
-              onChange={(e) => setCount(Number(e.target.value))}
-            >
-              <option value="1">1</option>
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-            </select>
-            <ChevronDown
-              className="select-icon h-4 w-4 text-gray-400 dark:text-gray-300"
-              aria-hidden="true"
+              onChange={(v) => setCount(Number(v))}
+              options={COUNT_OPTIONS}
+              className={`w-full rounded-xl ${tealSelectClassName}`}
+              listClassName={`rounded-xl ${tealListClassName}`}
+              optionActiveClassName={tealOptionActiveClassName}
+              optionClassName={tealOptionClassName}
             />
           </div>
         </div>
 
-        <div style={{ marginTop: "23px" }} className="flex items-center gap-2">
+        <div
+          style={{ marginTop: "23px" }}
+          className="flex flex-wrap items-center gap-2"
+        >
           <PrimaryButton
             type="submit"
             className="px-8 py-3"
@@ -276,7 +288,7 @@ export function GeneratorUI() {
                 type="text"
                 value={uuid}
                 readOnly
-                className="h-12 rounded-xl border border-teal-200 bg-white/60 px-4 font-mono text-lg text-gray-900 shadow-inner transition focus:ring-2 focus:ring-teal-500 focus:outline-none dark:border-teal-800 dark:bg-gray-900/60 dark:text-gray-100"
+                className="h-12 min-w-0 rounded-xl border border-teal-200 bg-white/60 px-4 font-mono text-lg text-gray-900 shadow-inner transition focus:ring-2 focus:ring-teal-500 focus:outline-none dark:border-teal-800 dark:bg-gray-900/60 dark:text-gray-100"
                 aria-label={`Generated UUID ${idx + 1}`}
                 style={{
                   letterSpacing: "0.04em",

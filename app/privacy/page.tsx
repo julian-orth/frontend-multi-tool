@@ -69,12 +69,6 @@ export default async function PrivacyPage() {
               )}
             </section>
           ))}
-
-          <section className="mt-12 border-t border-[var(--line)] pt-8">
-            <p className="text-center text-sm text-[var(--ink-soft)]">
-              {content.lastUpdated}
-            </p>
-          </section>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Check, Copy, Download, Eye, EyeOff, RefreshCcw, ShieldCheck } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
 import { Checkbox } from "@/components/checkbox";
+import { StyledSelect } from "@/components/styled-select";
 import {
   estimateStrength,
   formatEntropy,
@@ -18,7 +19,9 @@ import {
 
 export function PasswordGeneratorUI() {
   const [mode, setMode] = useState<GeneratorMode>("password");
-  const [showValues, setShowValues] = useState(false);
+  const [revealedIndices, setRevealedIndices] = useState<Set<number>>(
+    new Set()
+  );
   const [copied, setCopied] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -69,6 +72,7 @@ export function PasswordGeneratorUI() {
       setResults(nextValues);
       setLastEntropy(entropy);
       setLastCharsetSize(charsetSize);
+      setRevealedIndices(new Set());
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Failed to generate values."
@@ -77,6 +81,23 @@ export function PasswordGeneratorUI() {
       setLastEntropy(0);
       setLastCharsetSize(0);
     }
+  };
+
+  const maskValue = (value: string) => {
+    if (value.length <= 10) return "•".repeat(value.length);
+    return `${value.slice(0, 4)}...${value.slice(-4)}`;
+  };
+
+  const toggleReveal = (index: number) => {
+    setRevealedIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
   };
 
   const handleCopy = async (value: string, index: number) => {
@@ -185,7 +206,7 @@ export function PasswordGeneratorUI() {
                       length: Number(event.target.value),
                     }))
                   }
-                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-indigo-600 dark:bg-gray-800"
+                  className="h-2 w-full cursor-pointer accent-indigo-600 dark:accent-indigo-400"
                 />
               </div>
 
@@ -293,7 +314,7 @@ export function PasswordGeneratorUI() {
                       wordCount: Number(event.target.value),
                     }))
                   }
-                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 accent-indigo-600 dark:bg-gray-800"
+                  className="h-2 w-full cursor-pointer accent-indigo-600 dark:accent-indigo-400"
                 />
               </div>
 
@@ -319,21 +340,26 @@ export function PasswordGeneratorUI() {
                   <label htmlFor="capitalization" className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Capitalization
                   </label>
-                  <select
+                  <StyledSelect
                     id="capitalization"
                     value={passphraseOptions.capitalization}
-                    onChange={(event) =>
+                    onChange={(v) =>
                       setPassphraseOptions((prev) => ({
                         ...prev,
-                        capitalization: event.target.value as PassphraseOptions["capitalization"],
+                        capitalization:
+                          v as PassphraseOptions["capitalization"],
                       }))
                     }
-                    className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100"
-                  >
-                    <option value="lower">lowercase</option>
-                    <option value="title">Title Case</option>
-                    <option value="upper">UPPERCASE</option>
-                  </select>
+                    options={[
+                      { value: "lower", label: "lowercase" },
+                      { value: "title", label: "Title Case" },
+                      { value: "upper", label: "UPPERCASE" },
+                    ]}
+                    className="w-full border-gray-300 bg-white text-sm text-gray-900 focus:border-indigo-500 focus:ring-indigo-500/20 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-100"
+                    listClassName="border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-950"
+                    optionActiveClassName="bg-indigo-600 font-medium text-white dark:bg-indigo-500"
+                    optionClassName="text-gray-700 hover:bg-indigo-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                  />
                 </div>
               </div>
 
@@ -384,15 +410,6 @@ export function PasswordGeneratorUI() {
                 <RefreshCcw className="h-4 w-4" aria-hidden="true" />
                 Generate
               </PrimaryButton>
-              <PrimaryButton
-                onClick={() => setShowValues((value) => !value)}
-                variant="outline"
-                className="border-indigo-500 text-indigo-700 dark:border-indigo-400 dark:text-indigo-300"
-                aria-label={showValues ? "Hide passwords" : "Show passwords"}
-                title={showValues ? "Hide passwords" : "Show passwords"}
-              >
-                {showValues ? <EyeOff className="h-4 w-4" aria-hidden="true" /> : <Eye className="h-4 w-4" aria-hidden="true" />}
-              </PrimaryButton>
             </div>
           </div>
 
@@ -403,9 +420,9 @@ export function PasswordGeneratorUI() {
           )}
         </div>
 
-        <div className="space-y-4 rounded-2xl border border-indigo-200 bg-indigo-50/60 p-6 dark:border-indigo-900/60 dark:bg-indigo-950/20">
+        <div className="space-y-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50">Security score</h3>
-          <div className="overflow-hidden rounded-full bg-white/70 dark:bg-gray-900/60">
+          <div className="overflow-hidden rounded-full bg-gray-100 dark:bg-gray-800">
             <div
               className={`h-3 transition-all ${getStrengthBarClass(strength.score)}`}
               style={{ width: `${strength.score * 20}%` }}
@@ -415,16 +432,16 @@ export function PasswordGeneratorUI() {
             {strength.label}
           </p>
           <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="rounded-xl border border-indigo-200 bg-white p-3 dark:border-indigo-800 dark:bg-gray-900">
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800">
               <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Entropy</p>
               <p className="mt-1 font-semibold text-gray-900 dark:text-gray-50">{formatEntropy(lastEntropy)}</p>
             </div>
-            <div className="rounded-xl border border-indigo-200 bg-white p-3 dark:border-indigo-800 dark:bg-gray-900">
+            <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-800">
               <p className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">Character space</p>
               <p className="mt-1 font-semibold text-gray-900 dark:text-gray-50">{lastCharsetSize || "-"}</p>
             </div>
           </div>
-          <div className="rounded-xl border border-indigo-200 bg-white p-3 text-sm text-gray-700 dark:border-indigo-800 dark:bg-gray-900 dark:text-gray-300">
+          <div className="rounded-xl border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
             Estimated offline cracking time: <span className="font-semibold text-gray-900 dark:text-gray-100">{strength.crackEstimate}</span>
           </div>
         </div>
@@ -457,8 +474,29 @@ export function PasswordGeneratorUI() {
                 className="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-950"
               >
                 <code className="min-w-0 flex-1 truncate text-sm text-gray-900 dark:text-gray-100">
-                  {showValues ? value : "•".repeat(Math.min(value.length, 48))}
+                  {revealedIndices.has(index) ? value : maskValue(value)}
                 </code>
+                <button
+                  type="button"
+                  onClick={() => toggleReveal(index)}
+                  className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 transition hover:bg-gray-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                  aria-label={
+                    revealedIndices.has(index)
+                      ? "Hide passwords"
+                      : "Show passwords"
+                  }
+                  title={
+                    revealedIndices.has(index)
+                      ? "Hide passwords"
+                      : "Show passwords"
+                  }
+                >
+                  {revealedIndices.has(index) ? (
+                    <EyeOff className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </button>
                 <button
                   type="button"
                   onClick={() => void handleCopy(value, index)}

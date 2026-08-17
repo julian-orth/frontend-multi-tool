@@ -1,6 +1,8 @@
 import React from "react";
 import { RefreshCw, QrCode } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
+import { StyledSelect } from "@/components/styled-select";
+import { useLocale } from "@/lib/contexts/locale-context";
 import type { ErrorCorrectionLevel } from "./utils";
 
 interface CustomizationOptionsProps {
@@ -28,6 +30,7 @@ export function CustomizationOptions({
   onGenerate,
   onReset,
 }: CustomizationOptionsProps) {
+  const { locale } = useLocale();
   return (
     <div className="space-y-4 rounded-xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800/50">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-50">
@@ -42,19 +45,45 @@ export function CustomizationOptions({
         >
           Error Correction Level
         </label>
-        <select
+        <StyledSelect
           id="error-level"
           value={errorLevel}
-          onChange={(e) =>
-            onErrorLevelChange(e.target.value as ErrorCorrectionLevel)
-          }
-          className="w-full cursor-pointer rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-gray-900 focus:border-purple-500 focus:ring-2 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-        >
-          <option value="low">Low (7% recovery)</option>
-          <option value="medium">Medium (15% recovery)</option>
-          <option value="quartile">Quartile (25% recovery)</option>
-          <option value="high">High (30% recovery)</option>
-        </select>
+          onChange={(v) => onErrorLevelChange(v as ErrorCorrectionLevel)}
+          options={[
+            {
+              value: "low",
+              label:
+                locale === "de"
+                  ? "Niedrig (7 % Erholung)"
+                  : "Low (7% recovery)",
+            },
+            {
+              value: "medium",
+              label:
+                locale === "de"
+                  ? "Mittel (15 % Erholung)"
+                  : "Medium (15% recovery)",
+            },
+            {
+              value: "quartile",
+              label:
+                locale === "de"
+                  ? "Quartil (25 % Erholung)"
+                  : "Quartile (25% recovery)",
+            },
+            {
+              value: "high",
+              label:
+                locale === "de"
+                  ? "Hoch (30 % Erholung)"
+                  : "High (30% recovery)",
+            },
+          ]}
+          className="w-full border-gray-200 bg-white text-gray-900 focus:border-purple-500 focus:ring-purple-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+          listClassName="border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+          optionActiveClassName="bg-purple-600 font-medium text-white dark:bg-purple-500"
+          optionClassName="text-gray-700 hover:bg-purple-50 dark:text-gray-300 dark:hover:bg-gray-800"
+        />
       </div>
 
       {/* Colors */}

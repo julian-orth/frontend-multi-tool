@@ -66,6 +66,7 @@ export function ToolQuickSwitch() {
           aria-label={t("nav.tools")}
           aria-expanded={isOpen}
           aria-controls="tool-quick-switch"
+          data-suppress-tap-tooltip
         >
           <span className="grid grid-cols-3 gap-0.5" aria-hidden="true">
             {Array.from({ length: 9 }).map((_, index) => (

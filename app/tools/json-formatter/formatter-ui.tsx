@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useCallback } from "react";
 import {
-  ChevronDown,
   Copy,
   Check,
   Download,
@@ -14,8 +13,10 @@ import {
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
 import { Checkbox } from "@/components/checkbox";
-import { formatJson, minifyJson, validateJson, sortJsonKeys } from "./utils";
-import "@/lib/styles/form-utilities.css";
+import { StyledSelect } from "@/components/styled-select";
+import { useLocale } from "@/lib/contexts/locale-context";
+import { formatJson, minifyJson, validateJson } from "./utils";
+import { uiContent } from "./content";
 
 type ValidationResult = {
   isValid: boolean;
@@ -25,6 +26,8 @@ type ValidationResult = {
 };
 
 export function JsonFormatterUI() {
+  const { locale } = useLocale();
+  const c = uiContent[locale];
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [indentSize, setIndentSize] = useState<2 | 3 | 4>(2);
@@ -103,7 +106,7 @@ export function JsonFormatterUI() {
       reader.onerror = () => {
         setValidation({
           isValid: false,
-          error: "Failed to read file",
+          error: c.fileReadFailed,
         });
       };
       reader.readAsText(file);
@@ -113,7 +116,7 @@ export function JsonFormatterUI() {
         fileInputRef.current.value = "";
       }
     },
-    []
+    [c]
   );
 
   const handleLoadFromUrl = useCallback(async () => {
@@ -135,15 +138,14 @@ export function JsonFormatterUI() {
     } catch (error) {
       setValidation({
         isValid: false,
-        error:
-          error instanceof Error
-            ? `Failed to load from URL: ${error.message}`
-            : "Failed to load from URL",
+        error: c.loadUrlFailed(
+          error instanceof Error ? error.message : String(error)
+        ),
       });
     } finally {
       setIsLoadingUrl(false);
     }
-  }, [urlInput]);
+  }, [urlInput, c]);
 
   // Calculate line numbers for output
   const outputLines = output.split("\n");
@@ -155,24 +157,22 @@ export function JsonFormatterUI() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex flex-col">
           <label className="mb-1 block text-sm font-medium" htmlFor="indent">
-            Indent Size
+            {c.indentSizeLabel}
           </label>
-          <div className="select-icon-wrapper" style={{ maxWidth: "150px" }}>
-            <select
+          <div style={{ width: "150px" }}>
+            <StyledSelect
               id="indent"
-              className="h-12 w-full cursor-pointer appearance-none rounded-xl border border-green-200 bg-white/80 px-3 pr-10 text-sm font-medium text-gray-900 focus:border-green-500 focus:ring-2 focus:ring-green-500 dark:border-green-800 dark:bg-gray-900/60 dark:text-gray-100"
-              value={indentSize}
-              onChange={(e) =>
-                setIndentSize(Number(e.target.value) as 2 | 3 | 4)
-              }
-            >
-              <option value="2">2 spaces</option>
-              <option value="3">3 spaces</option>
-              <option value="4">4 spaces</option>
-            </select>
-            <ChevronDown
-              className="select-icon h-4 w-4 text-gray-400 dark:text-gray-300"
-              aria-hidden="true"
+              value={String(indentSize)}
+              onChange={(v) => setIndentSize(Number(v) as 2 | 3 | 4)}
+              options={[
+                { value: "2", label: c.indentOptions[2] },
+                { value: "3", label: c.indentOptions[3] },
+                { value: "4", label: c.indentOptions[4] },
+              ]}
+              className="w-full rounded-xl border-green-200 bg-white/80 text-sm font-medium text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-green-800 dark:bg-gray-900/60 dark:text-gray-100"
+              listClassName="rounded-xl border-green-200 bg-white dark:border-green-800 dark:bg-gray-900"
+              optionActiveClassName="bg-green-600 font-medium text-white dark:bg-green-500"
+              optionClassName="text-gray-700 hover:bg-green-50 dark:text-gray-300 dark:hover:bg-gray-800"
             />
           </div>
         </div>
@@ -180,38 +180,39 @@ export function JsonFormatterUI() {
           <Checkbox
             checked={sortKeys}
             onChange={setSortKeys}
-            label="Sort keys"
+            label={c.sortKeysLabel}
           />
         </div>
         <div style={{ position: "relative", top: "10px" }}>
           <Checkbox
             checked={showLineNumbers}
             onChange={setShowLineNumbers}
-            label="Line numbers"
+            label={c.lineNumbersLabel}
           />
         </div>
         <div className="ml-auto flex flex-wrap gap-2">
           <PrimaryButton onClick={handleFormat} className="px-6">
-            Format
+            {c.formatButton}
           </PrimaryButton>
           <PrimaryButton
             onClick={handleMinify}
             variant="outline"
             className="px-6"
           >
-            Minify
+            {c.minifyButton}
           </PrimaryButton>
           <PrimaryButton
             onClick={handleValidate}
             variant="outline"
             className="px-6"
           >
-            Validate
+            {c.validateButton}
           </PrimaryButton>
           <PrimaryButton
             onClick={handleClear}
             variant="outline"
             className="px-4"
+            aria-label={c.clearButtonAriaLabel}
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
           </PrimaryButton>
@@ -233,7 +234,7 @@ export function JsonFormatterUI() {
           className="flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800"
         >
           <Upload className="h-4 w-4" aria-hidden="true" />
-          Load from file
+          {c.loadFromFileLabel}
         </label>
 
         {!showUrlInput ? (
@@ -244,7 +245,7 @@ export function JsonFormatterUI() {
               className="flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800"
             >
               <Link className="h-4 w-4" aria-hidden="true" />
-              Load from URL
+              {c.loadFromUrlLabel}
             </button>
             <button
               type="button"
@@ -252,7 +253,7 @@ export function JsonFormatterUI() {
               className="flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-green-700 transition-colors hover:bg-green-100 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-800"
             >
               <FileJson className="h-4 w-4" aria-hidden="true" />
-              Load sample
+              {c.loadSampleLabel}
             </button>
           </>
         ) : (
@@ -269,7 +270,7 @@ export function JsonFormatterUI() {
                   setUrlInput("");
                 }
               }}
-              placeholder="Enter JSON URL (e.g., https://api.example.com/data.json)"
+              placeholder={c.urlPlaceholder}
               className="flex-1 rounded-lg border border-green-300 bg-white px-3 py-2 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 dark:border-green-700 dark:bg-gray-900 dark:text-gray-100"
               disabled={isLoadingUrl}
             />
@@ -278,7 +279,7 @@ export function JsonFormatterUI() {
               disabled={!urlInput.trim() || isLoadingUrl}
               className="px-4"
             >
-              {isLoadingUrl ? "Loading..." : "Load"}
+              {isLoadingUrl ? c.loadingButton : c.loadButton}
             </PrimaryButton>
             <button
               type="button"
@@ -289,7 +290,7 @@ export function JsonFormatterUI() {
               className="cursor-pointer rounded-lg px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
               disabled={isLoadingUrl}
             >
-              Cancel
+              {c.cancelButton}
             </button>
           </div>
         )}
@@ -323,7 +324,7 @@ export function JsonFormatterUI() {
                   : "text-red-800 dark:text-red-200"
               }`}
             >
-              {validation.isValid ? "Valid JSON" : "Invalid JSON"}
+              {validation.isValid ? c.validJson : c.invalidJson}
             </p>
             {!validation.isValid && validation.error && (
               <p className="mt-1 text-sm text-red-700 dark:text-red-300">
@@ -331,7 +332,7 @@ export function JsonFormatterUI() {
                 {validation.line !== undefined &&
                   validation.column !== undefined && (
                     <span className="ml-2 font-mono text-xs">
-                      (Line {validation.line}, Column {validation.column})
+                      {c.lineColumn(validation.line, validation.column)}
                     </span>
                   )}
               </p>
@@ -349,14 +350,14 @@ export function JsonFormatterUI() {
               className="text-sm font-semibold text-gray-700 dark:text-gray-300"
               htmlFor="json-input"
             >
-              Input JSON
+              {c.inputLabel}
             </label>
           </div>
           <textarea
             id="json-input"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder='Paste your JSON here... e.g. {"key": "value"}'
+            placeholder={c.inputPlaceholder}
             className="min-h-[400px] w-full rounded-xl border border-green-200 bg-white/80 p-4 font-mono text-sm text-gray-900 focus:border-green-500 focus:ring-2 focus:ring-green-500 dark:border-green-800 dark:bg-gray-900/60 dark:text-gray-100"
             spellCheck={false}
           />
@@ -367,9 +368,9 @@ export function JsonFormatterUI() {
           <div className="mb-2 flex items-center justify-between">
             <span
               className="text-sm font-semibold text-gray-700 dark:text-gray-300"
-              aria-label="Output"
+              aria-label={c.outputLabel}
             >
-              Output
+              {c.outputLabel}
             </span>
             {output && (
               <div className="flex gap-2">
@@ -382,12 +383,12 @@ export function JsonFormatterUI() {
                   {copied ? (
                     <>
                       <Check className="h-3 w-3" aria-hidden="true" />
-                      Copied
+                      {c.copiedButton}
                     </>
                   ) : (
                     <>
                       <Copy className="h-3 w-3" aria-hidden="true" />
-                      Copy
+                      {c.copyButton}
                     </>
                   )}
                 </button>
@@ -397,7 +398,7 @@ export function JsonFormatterUI() {
                   className="flex cursor-pointer items-center gap-1 text-xs text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300"
                 >
                   <Download className="h-3 w-3" aria-hidden="true" />
-                  Download
+                  {c.downloadButton}
                 </button>
               </div>
             )}
@@ -424,7 +425,7 @@ export function JsonFormatterUI() {
               </div>
             ) : (
               <div className="flex h-[400px] items-center justify-center text-gray-500 dark:text-gray-400">
-                <p className="text-sm">Output will appear here...</p>
+                <p className="text-sm">{c.outputPlaceholder}</p>
               </div>
             )}
           </div>
@@ -435,15 +436,15 @@ export function JsonFormatterUI() {
       {output && (
         <div className="flex flex-wrap gap-6 text-sm text-gray-600 dark:text-gray-400">
           <div>
-            <span className="font-medium">Characters:</span>{" "}
+            <span className="font-medium">{c.charactersLabel}</span>{" "}
             {output.length.toLocaleString()}
           </div>
           <div>
-            <span className="font-medium">Lines:</span>{" "}
+            <span className="font-medium">{c.linesLabel}</span>{" "}
             {lineCount.toLocaleString()}
           </div>
           <div>
-            <span className="font-medium">Size:</span>{" "}
+            <span className="font-medium">{c.sizeLabel}</span>{" "}
             {(new Blob([output]).size / 1024).toFixed(2)} KB
           </div>
         </div>

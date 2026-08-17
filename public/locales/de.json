@@ -6,16 +6,23 @@
     "home": "Startseite",
     "tools": "Tools auswählen",
     "about": "Über",
-    "aboutTooltip": "Über Frontend Multitool"
+    "aboutTooltip": "Über Frontend Multitool",
+    "toolGroupSuffix": "{group}-Tools",
+    "breadcrumbLabel": "Breadcrumb",
+    "skipToContent": "Zum Inhalt springen"
   },
   "language": {
     "label": "Sprache",
     "de": "DE",
     "en": "EN",
-    "switchTo": "Sprache wechseln zu {language}"
+    "switchTo": "Sprache wechseln zu {language}",
+    "switched": "Sprache gewechselt zu {language}"
   },
   "theme": {
-    "toggle": "Theme wechseln"
+    "toggle": "Theme wechseln",
+    "light": "Hell",
+    "dark": "Dunkel",
+    "switched": "Theme geändert zu {theme}"
   },
   "favorites": {
     "open": "Favorisierte Tools anzeigen",
@@ -90,5 +97,10 @@
     "tool": "Tool",
     "tools": "Tools",
     "legal": "Rechtliches"
+  },
+  "toolPage": {
+    "keyFacts": "Wichtige Fakten",
+    "faq": "Häufig gestellte Fragen",
+    "relatedTools": "Verwandte Tools"
   }
 }

@@ -1,3 +1,11 @@
+export type JWTDecodeError =
+  | { code: "empty" }
+  | { code: "wrong-part-count"; got: number }
+  | { code: "empty-header-or-payload" }
+  | { code: "invalid-header-json"; message: string }
+  | { code: "invalid-payload-json"; message: string }
+  | { code: "decode-error"; message: string };
+
 export interface JWTResult {
   isValid: boolean;
   header: string;
@@ -5,7 +13,7 @@ export interface JWTResult {
   signature: string;
   headerObj: Record<string, unknown> | null;
   payloadObj: Record<string, unknown> | null;
-  error?: string;
+  error?: JWTDecodeError;
 }
 
 /**
@@ -13,30 +21,24 @@ export interface JWTResult {
  * Converts Base64URL encoded string to regular string
  */
 function base64UrlDecode(input: string): string {
-  try {
-    // Replace Base64URL characters with standard Base64
-    let base64 = input.replace(/-/g, "+").replace(/_/g, "/");
+  // Replace Base64URL characters with standard Base64
+  let base64 = input.replace(/-/g, "+").replace(/_/g, "/");
 
-    // Add padding if necessary
-    const pad = base64.length % 4;
-    if (pad) {
-      if (pad === 1) {
-        throw new Error("Invalid Base64URL string");
-      }
-      base64 += "=".repeat(4 - pad);
+  // Add padding if necessary
+  const pad = base64.length % 4;
+  if (pad) {
+    if (pad === 1) {
+      throw new Error("Invalid Base64URL string");
     }
-
-    // Decode using standard Base64
-    const decoded = atob(base64);
-
-    // Convert to UTF-8
-    const bytes = Uint8Array.from(decoded, (c) => c.charCodeAt(0));
-    return new TextDecoder().decode(bytes);
-  } catch (error) {
-    throw new Error(
-      `Failed to decode Base64URL: ${error instanceof Error ? error.message : "Unknown error"}`
-    );
+    base64 += "=".repeat(4 - pad);
   }
+
+  // Decode using standard Base64
+  const decoded = atob(base64);
+
+  // Convert to UTF-8
+  const bytes = Uint8Array.from(decoded, (c) => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
 }
 
 /**
@@ -55,7 +57,7 @@ export function decodeJWT(token: string): JWTResult {
       signature: "",
       headerObj: null,
       payloadObj: null,
-      error: "Please enter a JWT token",
+      error: { code: "empty" },
     };
   }
 
@@ -70,7 +72,7 @@ export function decodeJWT(token: string): JWTResult {
       signature: "",
       headerObj: null,
       payloadObj: null,
-      error: `Invalid JWT format. Expected 3 parts (header.payload.signature), got ${parts.length} parts`,
+      error: { code: "wrong-part-count", got: parts.length },
     };
   }
 
@@ -85,7 +87,7 @@ export function decodeJWT(token: string): JWTResult {
       signature: signaturePart || "",
       headerObj: null,
       payloadObj: null,
-      error: "JWT header or payload is empty",
+      error: { code: "empty-header-or-payload" },
     };
   }
 
@@ -104,7 +106,10 @@ export function decodeJWT(token: string): JWTResult {
         signature: signaturePart || "",
         headerObj: null,
         payloadObj: null,
-        error: `Invalid JSON in header: ${e instanceof Error ? e.message : "Unknown error"}`,
+        error: {
+          code: "invalid-header-json",
+          message: e instanceof Error ? e.message : "Unknown error",
+        },
       };
     }
 
@@ -122,7 +127,10 @@ export function decodeJWT(token: string): JWTResult {
         signature: signaturePart || "",
         headerObj,
         payloadObj: null,
-        error: `Invalid JSON in payload: ${e instanceof Error ? e.message : "Unknown error"}`,
+        error: {
+          code: "invalid-payload-json",
+          message: e instanceof Error ? e.message : "Unknown error",
+        },
       };
     }
 
@@ -142,23 +150,88 @@ export function decodeJWT(token: string): JWTResult {
       signature: signaturePart || "",
       headerObj: null,
       payloadObj: null,
-      error: `Decoding error: ${error instanceof Error ? error.message : "Unknown error"}`,
+      error: {
+        code: "decode-error",
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
     };
   }
 }
 
+export type TimeUnit = "second" | "minute" | "hour" | "day";
+
+export interface RelativeTime {
+  value: number;
+  unit: TimeUnit;
+  direction: "past" | "future";
+}
+
+/** The set of JWT claim keys we have a localized description for. */
+export const KNOWN_CLAIM_KEYS = [
+  "iss",
+  "sub",
+  "aud",
+  "exp",
+  "nbf",
+  "iat",
+  "jti",
+  "name",
+  "email",
+  "email_verified",
+  "phone_number",
+  "phone_number_verified",
+  "given_name",
+  "family_name",
+  "middle_name",
+  "nickname",
+  "preferred_username",
+  "profile",
+  "picture",
+  "website",
+  "gender",
+  "birthdate",
+  "zoneinfo",
+  "locale",
+  "updated_at",
+  "azp",
+  "nonce",
+  "auth_time",
+  "acr",
+  "amr",
+  "scope",
+  "roles",
+  "groups",
+] as const;
+
+export type KnownClaimKey = (typeof KNOWN_CLAIM_KEYS)[number];
+
+function isKnownClaimKey(key: string): key is KnownClaimKey {
+  return (KNOWN_CLAIM_KEYS as readonly string[]).includes(key);
+}
+
+export interface JWTClaim {
+  key: string;
+  value: string;
+  knownKey: KnownClaimKey | null;
+}
+
+export interface ClaimsAnalysis {
+  claims: JWTClaim[];
+  isExpired: boolean;
+  expiration?: RelativeTime;
+}
+
 /**
  * Analyze JWT claims
- * Extracts and analyzes common JWT claims
+ * Extracts and analyzes common JWT claims. Returns structured data only —
+ * no English text — so the UI layer can render fully localized labels.
  */
-export function analyzeJWTClaims(payloadObj: Record<string, unknown> | null): {
-  claims: Array<{ key: string; value: string; description: string }>;
-  isExpired: boolean;
-  expirationInfo?: string;
-} {
-  const claims: Array<{ key: string; value: string; description: string }> = [];
+export function analyzeJWTClaims(
+  payloadObj: Record<string, unknown> | null
+): ClaimsAnalysis {
+  const claims: JWTClaim[] = [];
   let isExpired = false;
-  let expirationInfo: string | undefined;
+  let expiration: RelativeTime | undefined;
 
   if (!payloadObj) {
     return { claims, isExpired };
@@ -166,49 +239,8 @@ export function analyzeJWTClaims(payloadObj: Record<string, unknown> | null): {
 
   const now = Math.floor(Date.now() / 1000);
 
-  // Common JWT claims descriptions
-  const claimDescriptions: Record<string, string> = {
-    iss: "Issuer - Identifies who issued the JWT",
-    sub: "Subject - Identifies the subject of the JWT",
-    aud: "Audience - Identifies the recipients of the JWT",
-    exp: "Expiration Time - Time after which the JWT must not be accepted",
-    nbf: "Not Before - Time before which the JWT must not be accepted",
-    iat: "Issued At - Time at which the JWT was issued",
-    jti: "JWT ID - Unique identifier for the JWT",
-    name: "Name - Full name of the user",
-    email: "Email - Email address of the user",
-    email_verified: "Email Verified - Whether the email has been verified",
-    phone_number: "Phone Number - Phone number of the user",
-    phone_number_verified:
-      "Phone Verified - Whether the phone number has been verified",
-    given_name: "Given Name - First name of the user",
-    family_name: "Family Name - Last name of the user",
-    middle_name: "Middle Name - Middle name of the user",
-    nickname: "Nickname - Casual name of the user",
-    preferred_username: "Preferred Username - Shorthand name for the user",
-    profile: "Profile - Profile page URL",
-    picture: "Picture - Profile picture URL",
-    website: "Website - Web page or blog URL",
-    gender: "Gender - Gender of the user",
-    birthdate: "Birthdate - Birthday of the user",
-    zoneinfo: "Zone Info - Time zone of the user",
-    locale: "Locale - Locale of the user",
-    updated_at: "Updated At - Time the user's information was last updated",
-    azp: "Authorized Party - Party to which the ID token was issued",
-    nonce: "Nonce - Value used to associate a client session with an ID token",
-    auth_time: "Authentication Time - Time when authentication occurred",
-    acr: "Authentication Context Class Reference - Authentication context class",
-    amr: "Authentication Methods References - Authentication methods used",
-    scope: "Scope - Space-separated list of scope values",
-    roles: "Roles - User roles or permissions",
-    groups: "Groups - User groups",
-  };
-
-  // Process all claims
   for (const [key, value] of Object.entries(payloadObj)) {
     let displayValue = String(value);
-    const description =
-      claimDescriptions[key] || "Custom claim - Application-specific data";
 
     // Format timestamp values
     if (["exp", "nbf", "iat", "auth_time", "updated_at"].includes(key)) {
@@ -221,102 +253,92 @@ export function analyzeJWTClaims(payloadObj: Record<string, unknown> | null): {
         if (key === "exp") {
           if (timestamp < now) {
             isExpired = true;
-            const diffSeconds = now - timestamp;
-            expirationInfo = formatTimeDifference(diffSeconds, "ago");
+            expiration = { ...formatTimeDifference(now - timestamp), direction: "past" };
           } else {
-            const diffSeconds = timestamp - now;
-            expirationInfo = formatTimeDifference(diffSeconds, "from now");
+            expiration = {
+              ...formatTimeDifference(timestamp - now),
+              direction: "future",
+            };
           }
         }
       }
     }
 
-    // Format arrays
-    if (Array.isArray(value)) {
+    // Format arrays and objects
+    if (
+      Array.isArray(value) ||
+      (typeof value === "object" && value !== null)
+    ) {
       displayValue = JSON.stringify(value, null, 2);
     }
 
-    // Format objects
-    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
-      displayValue = JSON.stringify(value, null, 2);
-    }
-
-    claims.push({ key, value: displayValue, description });
+    claims.push({
+      key,
+      value: displayValue,
+      knownKey: isKnownClaimKey(key) ? key : null,
+    });
   }
 
-  return { claims, isExpired, expirationInfo };
+  return { claims, isExpired, expiration };
 }
 
 /**
- * Format time difference in human-readable format
+ * Reduce a second count to the largest whole unit (days/hours/minutes/seconds).
  */
-function formatTimeDifference(seconds: number, suffix: string): string {
+function formatTimeDifference(seconds: number): { value: number; unit: TimeUnit } {
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  if (days > 0) {
-    return `${days} day${days !== 1 ? "s" : ""} ${suffix}`;
-  }
-  if (hours > 0) {
-    return `${hours} hour${hours !== 1 ? "s" : ""} ${suffix}`;
-  }
-  if (minutes > 0) {
-    return `${minutes} minute${minutes !== 1 ? "s" : ""} ${suffix}`;
-  }
-  return `${seconds} second${seconds !== 1 ? "s" : ""} ${suffix}`;
+  if (days > 0) return { value: days, unit: "day" };
+  if (hours > 0) return { value: hours, unit: "hour" };
+  if (minutes > 0) return { value: minutes, unit: "minute" };
+  return { value: seconds, unit: "second" };
 }
 
+export const KNOWN_ALGORITHMS = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512",
+  "PS256",
+  "PS384",
+  "PS512",
+  "NONE",
+] as const;
+
+export type KnownAlgorithm = (typeof KNOWN_ALGORITHMS)[number];
+
 /**
- * Get algorithm name from JWT header
+ * Get algorithm name from JWT header. Returns structured data only.
  */
 export function getAlgorithmInfo(headerObj: Record<string, unknown> | null): {
   algorithm: string;
-  description: string;
+  knownAlgorithm: KnownAlgorithm | null;
   isNone: boolean;
+  isUnspecified: boolean;
 } {
   if (!headerObj || !headerObj.alg) {
     return {
       algorithm: "Unknown",
-      description: "Algorithm not specified in header",
+      knownAlgorithm: null,
       isNone: false,
+      isUnspecified: true,
     };
   }
 
   const alg = String(headerObj.alg).toUpperCase();
   const isNone = alg === "NONE";
+  const knownAlgorithm = (KNOWN_ALGORITHMS as readonly string[]).includes(alg)
+    ? (alg as KnownAlgorithm)
+    : null;
 
-  const algorithmDescriptions: Record<string, string> = {
-    HS256: "HMAC with SHA-256 - Symmetric algorithm using a shared secret",
-    HS384: "HMAC with SHA-384 - Symmetric algorithm using a shared secret",
-    HS512: "HMAC with SHA-512 - Symmetric algorithm using a shared secret",
-    RS256:
-      "RSA Signature with SHA-256 - Asymmetric algorithm using RSA key pair",
-    RS384:
-      "RSA Signature with SHA-384 - Asymmetric algorithm using RSA key pair",
-    RS512:
-      "RSA Signature with SHA-512 - Asymmetric algorithm using RSA key pair",
-    ES256:
-      "ECDSA with P-256 curve and SHA-256 - Asymmetric algorithm using elliptic curve",
-    ES384:
-      "ECDSA with P-384 curve and SHA-384 - Asymmetric algorithm using elliptic curve",
-    ES512:
-      "ECDSA with P-521 curve and SHA-512 - Asymmetric algorithm using elliptic curve",
-    PS256:
-      "RSASSA-PSS with SHA-256 - Asymmetric algorithm using RSA-PSS key pair",
-    PS384:
-      "RSASSA-PSS with SHA-384 - Asymmetric algorithm using RSA-PSS key pair",
-    PS512:
-      "RSASSA-PSS with SHA-512 - Asymmetric algorithm using RSA-PSS key pair",
-    NONE: "No digital signature or MAC - WARNING: Not secure!",
-  };
-
-  return {
-    algorithm: alg,
-    description:
-      algorithmDescriptions[alg] || "Custom or non-standard algorithm",
-    isNone,
-  };
+  return { algorithm: alg, knownAlgorithm, isNone, isUnspecified: false };
 }
 
 /**

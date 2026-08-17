@@ -250,8 +250,8 @@ export function RegexTesterUI() {
 
       {/* Load Samples */}
       <details className="rounded-xl border border-red-200 bg-red-50/30 dark:border-red-800 dark:bg-red-950/20">
-        <summary className="cursor-pointer px-4 py-3 text-sm font-semibold text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-100">
-          <div className="flex items-center gap-2">
+        <summary className="list-none px-4 py-3 text-sm font-semibold text-gray-700 hover:text-gray-900 [&::-webkit-details-marker]:hidden dark:text-gray-300 dark:hover:text-gray-100">
+          <div className="flex cursor-pointer items-center gap-2">
             <FileText className="h-4 w-4" aria-hidden="true" />
             Load Common Pattern Examples
             <ChevronDown className="ml-auto h-4 w-4" aria-hidden="true" />

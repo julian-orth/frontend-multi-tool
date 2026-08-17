@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
 import { Checkbox } from "@/components/checkbox";
+import { StyledSelect } from "@/components/styled-select";
+import { useLocale } from "@/lib/contexts/locale-context";
 import {
   encodeComponent,
   encodeFullUri,
@@ -30,6 +32,7 @@ import {
 type Mode = "encode" | "decode";
 
 export function UrlEncoderUI() {
+  const { locale } = useLocale();
   const [mode, setMode] = useState<Mode>("encode");
   const [encodingMode, setEncodingMode] = useState<EncodingMode>("component");
   const [input, setInput] = useState("");
@@ -208,18 +211,40 @@ export function UrlEncoderUI() {
         </div>
 
         {mode === "encode" && (
-          <select
+          <StyledSelect
             id="encoding-mode"
             value={encodingMode}
-            onChange={(e) => setEncodingMode(e.target.value as EncodingMode)}
-            className="rounded-lg border border-green-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 dark:border-green-800 dark:bg-gray-900 dark:text-gray-300"
-            aria-label="Encoding mode"
-          >
-            <option value="component">Component (Query Params)</option>
-            <option value="uri">Full URI</option>
-            <option value="formdata">Form Data (+ for spaces)</option>
-            <option value="rfc3986">RFC3986 Strict</option>
-          </select>
+            onChange={(v) => setEncodingMode(v as EncodingMode)}
+            ariaLabel={locale === "de" ? "Kodierungsmodus" : "Encoding mode"}
+            options={[
+              {
+                value: "component",
+                label:
+                  locale === "de"
+                    ? "Komponente (Abfrageparameter)"
+                    : "Component (Query Params)",
+              },
+              {
+                value: "uri",
+                label: locale === "de" ? "Vollständiger URI" : "Full URI",
+              },
+              {
+                value: "formdata",
+                label:
+                  locale === "de"
+                    ? "Formulardaten (+ für Leerzeichen)"
+                    : "Form Data (+ for spaces)",
+              },
+              {
+                value: "rfc3986",
+                label: locale === "de" ? "RFC3986 Streng" : "RFC3986 Strict",
+              },
+            ]}
+            className="border-green-200 bg-white text-sm font-medium text-gray-700 focus:border-green-500 focus:ring-green-500 dark:border-green-800 dark:bg-gray-900 dark:text-gray-300"
+            listClassName="border-green-200 bg-white dark:border-green-800 dark:bg-gray-900"
+            optionActiveClassName="bg-green-600 font-medium text-white dark:bg-green-500"
+            optionClassName="text-gray-700 hover:bg-green-50 dark:text-gray-300 dark:hover:bg-gray-800"
+          />
         )}
 
         <div className="flex flex-wrap items-center gap-3">

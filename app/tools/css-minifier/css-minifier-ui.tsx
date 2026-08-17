@@ -18,6 +18,8 @@ import {
   type BeautifyOptions,
 } from "./utils";
 import { Checkbox } from "@/components/checkbox";
+import { StyledSelect } from "@/components/styled-select";
+import { useLocale } from "@/lib/contexts/locale-context";
 
 const SAMPLE_CSS = `/* Sample CSS */
 .container {
@@ -51,6 +53,7 @@ const SAMPLE_CSS = `/* Sample CSS */
 type Mode = "minify" | "beautify";
 
 export default function CSSMinifierUI() {
+  const { locale } = useLocale();
   const [input, setInput] = useState(SAMPLE_CSS);
   const [mode, setMode] = useState<Mode>("minify");
   const [copied, setCopied] = useState(false);
@@ -223,15 +226,22 @@ export default function CSSMinifierUI() {
                 >
                   Indent Character:
                 </label>
-                <select
+                <StyledSelect
                   id="indentChar"
                   value={indentChar}
-                  onChange={(e) => setIndentChar(e.target.value as " " | "\t")}
-                  className="rounded-md border border-gray-300 px-3 py-1 text-sm dark:border-gray-600 dark:bg-gray-700"
-                >
-                  <option value=" ">Spaces</option>
-                  <option value="\t">Tabs</option>
-                </select>
+                  onChange={(v) => setIndentChar(v as " " | "\t")}
+                  options={[
+                    {
+                      value: " ",
+                      label: locale === "de" ? "Leerzeichen" : "Spaces",
+                    },
+                    { value: "\t", label: "Tabs" },
+                  ]}
+                  className="border-gray-300 text-sm dark:border-gray-600 dark:bg-gray-700"
+                  listClassName="border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800"
+                  optionActiveClassName="bg-teal-600 font-medium text-white dark:bg-teal-500"
+                  optionClassName="text-gray-700 hover:bg-teal-50 dark:text-gray-300 dark:hover:bg-gray-700"
+                />
               </div>
             </div>
           )}
@@ -640,15 +650,15 @@ export default function CSSMinifierUI() {
 
         {/* FAQ Section */}
         <section>
-          <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-gray-50">
+          <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-gray-50 sm:mb-6 sm:text-3xl">
             Frequently Asked Questions
           </h2>
-          <div className="space-y-6">
-            <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-              <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+          <div className="space-y-4 sm:space-y-6">
+            <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+              <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
                 Does minification change how my CSS works?
               </summary>
-              <p className="mt-3 text-gray-700 dark:text-gray-300">
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
                 No, minification only removes unnecessary characters like
                 whitespace and comments. The functionality and styling remain
                 exactly the same. Your CSS will work identically before and
@@ -658,11 +668,11 @@ export default function CSSMinifierUI() {
               </p>
             </details>
 
-            <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-              <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+            <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+              <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
                 How much file size can I save with CSS minification?
               </summary>
-              <p className="mt-3 text-gray-700 dark:text-gray-300">
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
                 Typical savings range from 20-40% for well-formatted CSS with
                 comments, and up to 60% for heavily commented or verbose CSS.
                 The exact savings depend on your coding style, comment usage,
@@ -672,11 +682,11 @@ export default function CSSMinifierUI() {
               </p>
             </details>
 
-            <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-              <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+            <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+              <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
                 Is my CSS data secure when using this tool?
               </summary>
-              <p className="mt-3 text-gray-700 dark:text-gray-300">
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
                 Yes, absolutely. All processing happens locally in your browser
                 using JavaScript. Your CSS never leaves your device or gets sent
                 to any server. This tool works completely offline once the page
@@ -685,11 +695,11 @@ export default function CSSMinifierUI() {
               </p>
             </details>
 
-            <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-              <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+            <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+              <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
                 Can I minify CSS that uses vendor prefixes?
               </summary>
-              <p className="mt-3 text-gray-700 dark:text-gray-300">
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
                 Yes, this tool handles vendor prefixes (-webkit-, -moz-, -ms-,
                 -o-) correctly during both minification and beautification. They
                 will be preserved and formatted appropriately. The tool
@@ -698,11 +708,11 @@ export default function CSSMinifierUI() {
               </p>
             </details>
 
-            <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-              <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+            <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+              <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
                 Should I minify CSS during development?
               </summary>
-              <p className="mt-3 text-gray-700 dark:text-gray-300">
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
                 No, keep CSS beautified during development for readability and
                 easier debugging. Only minify CSS for production deployment.
                 Modern build tools like webpack, Vite, and Parcel can automate
@@ -712,11 +722,11 @@ export default function CSSMinifierUI() {
               </p>
             </details>
 
-            <details className="group rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-              <summary className="cursor-pointer text-lg font-semibold text-gray-900 dark:text-gray-50">
+            <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+              <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
                 What&apos;s the difference between CSS minification and compression?
               </summary>
-              <p className="mt-3 text-gray-700 dark:text-gray-300">
+              <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
                 CSS minification removes unnecessary characters from the source
                 code itself (whitespace, comments, etc.), while compression
                 (gzip/Brotli) is applied by the web server during file transfer.

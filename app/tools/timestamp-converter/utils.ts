@@ -13,6 +13,35 @@ export interface TimestampResult {
   };
 }
 
+export type RelativeTimeUnit = "minute" | "hour" | "day" | "month" | "year";
+
+/** Localized strings needed to build the report text and relative-time phrases. */
+export interface TimestampFormatLabels {
+  detectedFormat: string;
+  iso8601: string;
+  rfc2822: string;
+  utc: string;
+  local: string;
+  relative: string;
+  unixSeconds: string;
+  unixMilliseconds: string;
+  errors: {
+    emptyTimestamp: string;
+    invalidTimestampFormat: string;
+    invalidTimestamp: string;
+    yearOutOfRange: (year: number) => string;
+    unknownError: string;
+    emptyDate: string;
+    invalidDateFormat: string;
+  };
+  relativeTime: {
+    justNow: string;
+    inAFewSeconds: string;
+    past: (n: number, unit: RelativeTimeUnit) => string;
+    future: (n: number, unit: RelativeTimeUnit) => string;
+  };
+}
+
 /**
  * Detect timestamp format (seconds, milliseconds, microseconds, nanoseconds)
  */
@@ -39,14 +68,17 @@ export function detectTimestampFormat(value: number): {
 /**
  * Convert timestamp to human-readable date
  */
-export function timestampToDate(input: string): TimestampResult {
+export function timestampToDate(
+  input: string,
+  labels: TimestampFormatLabels
+): TimestampResult {
   try {
     const trimmed = input.trim();
     if (!trimmed) {
       return {
         isValid: false,
         output: "",
-        error: "Please enter a timestamp",
+        error: labels.errors.emptyTimestamp,
       };
     }
 
@@ -56,7 +88,7 @@ export function timestampToDate(input: string): TimestampResult {
       return {
         isValid: false,
         output: "",
-        error: "Invalid timestamp format. Please enter a valid number.",
+        error: labels.errors.invalidTimestampFormat,
       };
     }
 
@@ -69,7 +101,7 @@ export function timestampToDate(input: string): TimestampResult {
       return {
         isValid: false,
         output: "",
-        error: "Invalid timestamp. Please check your input.",
+        error: labels.errors.invalidTimestamp,
       };
     }
 
@@ -79,7 +111,7 @@ export function timestampToDate(input: string): TimestampResult {
       return {
         isValid: false,
         output: "",
-        error: `Timestamp results in year ${year}. Please verify your input format.`,
+        error: labels.errors.yearOutOfRange(year),
       };
     }
 
@@ -88,19 +120,19 @@ export function timestampToDate(input: string): TimestampResult {
       rfc2822: date.toUTCString(),
       utc: date.toUTCString(),
       local: date.toLocaleString(),
-      relative: getRelativeTime(date),
+      relative: getRelativeTime(date, labels),
     };
 
-    const output = `Detected format: ${format}
+    const output = `${labels.detectedFormat}: ${format}
 
-ISO 8601: ${formats.iso8601}
-RFC 2822: ${formats.rfc2822}
-UTC: ${formats.utc}
-Local: ${formats.local}
-Relative: ${formats.relative}
+${labels.iso8601}: ${formats.iso8601}
+${labels.rfc2822}: ${formats.rfc2822}
+${labels.utc}: ${formats.utc}
+${labels.local}: ${formats.local}
+${labels.relative}: ${formats.relative}
 
-Unix Timestamp (seconds): ${Math.floor(normalized / 1000)}
-Unix Timestamp (milliseconds): ${normalized}`;
+${labels.unixSeconds}: ${Math.floor(normalized / 1000)}
+${labels.unixMilliseconds}: ${normalized}`;
 
     return {
       isValid: true,
@@ -113,7 +145,7 @@ Unix Timestamp (milliseconds): ${normalized}`;
     return {
       isValid: false,
       output: "",
-      error: error instanceof Error ? error.message : "Unknown error occurred",
+      error: error instanceof Error ? error.message : labels.errors.unknownError,
     };
   }
 }
@@ -121,14 +153,17 @@ Unix Timestamp (milliseconds): ${normalized}`;
 /**
  * Convert human-readable date to timestamp
  */
-export function dateToTimestamp(input: string): TimestampResult {
+export function dateToTimestamp(
+  input: string,
+  labels: TimestampFormatLabels
+): TimestampResult {
   try {
     const trimmed = input.trim();
     if (!trimmed) {
       return {
         isValid: false,
         output: "",
-        error: "Please enter a date",
+        error: labels.errors.emptyDate,
       };
     }
 
@@ -140,21 +175,20 @@ export function dateToTimestamp(input: string): TimestampResult {
       return {
         isValid: false,
         output: "",
-        error:
-          "Invalid date format. Try formats like: 2024-12-01, Dec 1 2024, 12/1/2024",
+        error: labels.errors.invalidDateFormat,
       };
     }
 
     const timestampSeconds = Math.floor(date.getTime() / 1000);
     const timestampMillis = date.getTime();
 
-    const output = `Unix Timestamp (seconds): ${timestampSeconds}
-Unix Timestamp (milliseconds): ${timestampMillis}
+    const output = `${labels.unixSeconds}: ${timestampSeconds}
+${labels.unixMilliseconds}: ${timestampMillis}
 
-ISO 8601: ${date.toISOString()}
-RFC 2822: ${date.toUTCString()}
-UTC: ${date.toUTCString()}
-Local: ${date.toLocaleString()}`;
+${labels.iso8601}: ${date.toISOString()}
+${labels.rfc2822}: ${date.toUTCString()}
+${labels.utc}: ${date.toUTCString()}
+${labels.local}: ${date.toLocaleString()}`;
 
     return {
       isValid: true,
@@ -166,7 +200,7 @@ Local: ${date.toLocaleString()}`;
     return {
       isValid: false,
       output: "",
-      error: error instanceof Error ? error.message : "Unknown error occurred",
+      error: error instanceof Error ? error.message : labels.errors.unknownError,
     };
   }
 }
@@ -174,18 +208,20 @@ Local: ${date.toLocaleString()}`;
 /**
  * Get current timestamp
  */
-export function getCurrentTimestamp(): TimestampResult {
+export function getCurrentTimestamp(
+  labels: TimestampFormatLabels
+): TimestampResult {
   const now = new Date();
   const timestampSeconds = Math.floor(now.getTime() / 1000);
   const timestampMillis = now.getTime();
 
-  const output = `Unix Timestamp (seconds): ${timestampSeconds}
-Unix Timestamp (milliseconds): ${timestampMillis}
+  const output = `${labels.unixSeconds}: ${timestampSeconds}
+${labels.unixMilliseconds}: ${timestampMillis}
 
-ISO 8601: ${now.toISOString()}
-RFC 2822: ${now.toUTCString()}
-UTC: ${now.toUTCString()}
-Local: ${now.toLocaleString()}`;
+${labels.iso8601}: ${now.toISOString()}
+${labels.rfc2822}: ${now.toUTCString()}
+${labels.utc}: ${now.toUTCString()}
+${labels.local}: ${now.toLocaleString()}`;
 
   return {
     isValid: true,
@@ -198,43 +234,39 @@ Local: ${now.toLocaleString()}`;
 /**
  * Get relative time description
  */
-function getRelativeTime(date: Date): string {
+function getRelativeTime(date: Date, labels: TimestampFormatLabels): string {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffSeconds = Math.floor(Math.abs(diffMs) / 1000);
   const isPast = diffMs > 0;
+  const { justNow, inAFewSeconds, past, future } = labels.relativeTime;
 
   if (diffSeconds < 60) {
-    return isPast ? "just now" : "in a few seconds";
+    return isPast ? justNow : inAFewSeconds;
   }
 
   const diffMinutes = Math.floor(diffSeconds / 60);
   if (diffMinutes < 60) {
-    const unit = diffMinutes === 1 ? "minute" : "minutes";
-    return isPast ? `${diffMinutes} ${unit} ago` : `in ${diffMinutes} ${unit}`;
+    return isPast ? past(diffMinutes, "minute") : future(diffMinutes, "minute");
   }
 
   const diffHours = Math.floor(diffMinutes / 60);
   if (diffHours < 24) {
-    const unit = diffHours === 1 ? "hour" : "hours";
-    return isPast ? `${diffHours} ${unit} ago` : `in ${diffHours} ${unit}`;
+    return isPast ? past(diffHours, "hour") : future(diffHours, "hour");
   }
 
   const diffDays = Math.floor(diffHours / 24);
   if (diffDays < 30) {
-    const unit = diffDays === 1 ? "day" : "days";
-    return isPast ? `${diffDays} ${unit} ago` : `in ${diffDays} ${unit}`;
+    return isPast ? past(diffDays, "day") : future(diffDays, "day");
   }
 
   const diffMonths = Math.floor(diffDays / 30);
   if (diffMonths < 12) {
-    const unit = diffMonths === 1 ? "month" : "months";
-    return isPast ? `${diffMonths} ${unit} ago` : `in ${diffMonths} ${unit}`;
+    return isPast ? past(diffMonths, "month") : future(diffMonths, "month");
   }
 
   const diffYears = Math.floor(diffMonths / 12);
-  const unit = diffYears === 1 ? "year" : "years";
-  return isPast ? `${diffYears} ${unit} ago` : `in ${diffYears} ${unit}`;
+  return isPast ? past(diffYears, "year") : future(diffYears, "year");
 }
 
 /**
@@ -256,7 +288,7 @@ export function formatTimestampInTimezone(
       second: "2-digit",
       hour12: false,
     });
-  } catch (error) {
+  } catch {
     return "Invalid timezone";
   }
 }

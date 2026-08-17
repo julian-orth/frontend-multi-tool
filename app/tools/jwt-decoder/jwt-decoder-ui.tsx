@@ -14,6 +14,7 @@ import {
   Info,
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
+import { useLocale } from "@/lib/contexts/locale-context";
 import {
   decodeJWT,
   analyzeJWTClaims,
@@ -21,8 +22,11 @@ import {
   generateSampleJWT,
   type JWTResult,
 } from "./utils";
+import { uiContent } from "./content";
 
 export function JWTDecoderUI() {
+  const { locale } = useLocale();
+  const c = uiContent[locale];
   const [input, setInput] = useState("");
   const [result, setResult] = useState<JWTResult | null>(null);
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
@@ -81,7 +85,7 @@ export function JWTDecoderUI() {
           signature: "",
           headerObj: null,
           payloadObj: null,
-          error: "Failed to read file",
+          error: { code: "decode-error", message: c.fileReadFailed },
         });
       };
       reader.readAsText(file);
@@ -91,7 +95,7 @@ export function JWTDecoderUI() {
         fileInputRef.current.value = "";
       }
     },
-    []
+    [c]
   );
 
   // Analyze claims if payload is valid
@@ -109,12 +113,13 @@ export function JWTDecoderUI() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex flex-1 gap-2">
           <PrimaryButton onClick={handleDecode} className="px-6">
-            Decode JWT
+            {c.decodeButton}
           </PrimaryButton>
           <PrimaryButton
             onClick={handleClear}
             variant="outline"
             className="px-4"
+            aria-label={c.clearButtonAriaLabel}
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
           </PrimaryButton>
@@ -122,7 +127,7 @@ export function JWTDecoderUI() {
       </div>
 
       {/* Load from File/Sample */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-red-200 bg-red-50/50 p-4 dark:border-red-800 dark:bg-red-950/20">
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-red-200 bg-red-50/50 p-4 dark:border-gray-700 dark:bg-gray-800/40">
         <input
           ref={fileInputRef}
           type="file"
@@ -136,7 +141,7 @@ export function JWTDecoderUI() {
           className="flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 dark:bg-gray-900 dark:text-red-400 dark:hover:bg-gray-800"
         >
           <FileText className="h-4 w-4" aria-hidden="true" />
-          Load from file
+          {c.loadFromFileLabel}
         </label>
         <button
           type="button"
@@ -144,7 +149,7 @@ export function JWTDecoderUI() {
           className="flex cursor-pointer items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-100 dark:bg-gray-900 dark:text-red-400 dark:hover:bg-gray-800"
         >
           <FileText className="h-4 w-4" aria-hidden="true" />
-          Load sample JWT
+          {c.loadSampleLabel}
         </button>
       </div>
 
@@ -155,17 +160,17 @@ export function JWTDecoderUI() {
             className="text-sm font-semibold text-gray-700 dark:text-gray-300"
             htmlFor="jwt-input"
           >
-            JWT Token Input
+            {c.tokenInputLabel}
           </label>
           <div className="text-xs text-gray-500 dark:text-gray-400">
-            {input.length.toLocaleString()} chars
+            {c.charsLabel(input.length)}
           </div>
         </div>
         <textarea
           id="jwt-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste your JWT token here (e.g., eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c)"
+          placeholder={c.tokenInputPlaceholder}
           className="min-h-[150px] w-full rounded-xl border border-red-200 bg-white/80 p-4 font-mono text-sm text-gray-900 focus:border-red-500 focus:ring-2 focus:ring-red-500 dark:border-red-800 dark:bg-gray-900/60 dark:text-gray-100"
           spellCheck={false}
         />
@@ -179,9 +184,11 @@ export function JWTDecoderUI() {
             aria-hidden="true"
           />
           <div className="flex-1">
-            <p className="font-medium text-red-800 dark:text-red-200">Error</p>
+            <p className="font-medium text-red-800 dark:text-red-200">
+              {c.errorLabel}
+            </p>
             <p className="mt-1 text-sm text-red-700 dark:text-red-300">
-              {result.error}
+              {c.decodeError(result.error)}
             </p>
           </div>
         </div>
@@ -197,11 +204,10 @@ export function JWTDecoderUI() {
             />
             <div className="flex-1">
               <p className="font-medium text-red-800 dark:text-red-200">
-                JWT Decoded Successfully
+                {c.decodedSuccessTitle}
               </p>
               <p className="mt-1 text-sm text-red-700 dark:text-red-300">
-                The token has been decoded. Review the header, payload, and
-                signature below.
+                {c.decodedSuccessBody}
               </p>
             </div>
           </div>
@@ -215,19 +221,17 @@ export function JWTDecoderUI() {
               />
               <div className="flex-1">
                 <p className="font-medium text-yellow-800 dark:text-yellow-200">
-                  Security Warning
+                  {c.securityWarningTitle}
                 </p>
                 <p className="mt-1 text-sm text-yellow-700 dark:text-yellow-300">
-                  This JWT uses the &quot;none&quot; algorithm, which provides no
-                  cryptographic protection. This is highly insecure and should
-                  never be used in production.
+                  {c.securityWarningBody}
                 </p>
               </div>
             </div>
           )}
 
           {/* Expiration Warning */}
-          {claimsAnalysis?.isExpired && (
+          {claimsAnalysis?.isExpired && claimsAnalysis.expiration && (
             <div className="flex items-start gap-3 rounded-xl border border-orange-200 bg-orange-50 p-4 dark:border-orange-800/50 dark:bg-orange-950/30">
               <Clock
                 className="h-5 w-5 flex-shrink-0 text-orange-600 dark:text-orange-400"
@@ -235,10 +239,10 @@ export function JWTDecoderUI() {
               />
               <div className="flex-1">
                 <p className="font-medium text-orange-800 dark:text-orange-200">
-                  Token Expired
+                  {c.tokenExpiredTitle}
                 </p>
                 <p className="mt-1 text-sm text-orange-700 dark:text-orange-300">
-                  This JWT has expired {claimsAnalysis.expirationInfo}
+                  {c.expiredSentence(claimsAnalysis.expiration)}
                 </p>
               </div>
             </div>
@@ -246,11 +250,11 @@ export function JWTDecoderUI() {
 
           {/* Algorithm Info */}
           {algorithmInfo && (
-            <div className="rounded-xl border border-red-200 bg-red-50/30 p-6 dark:border-red-800 dark:bg-red-950/10">
+            <div className="rounded-xl border border-red-200 bg-red-50/30 p-6 dark:border-gray-700 dark:bg-gray-800/30">
               <div className="mb-3 flex items-center gap-2">
                 <Shield className="h-5 w-5 text-red-600 dark:text-red-400" />
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Signing Algorithm
+                  {c.signingAlgorithmTitle}
                 </h3>
               </div>
               <div className="space-y-2">
@@ -260,7 +264,11 @@ export function JWTDecoderUI() {
                   </span>
                 </div>
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                  {algorithmInfo.description}
+                  {c.algorithmDescription(
+                    algorithmInfo.algorithm,
+                    algorithmInfo.knownAlgorithm,
+                    algorithmInfo.isUnspecified
+                  )}
                 </p>
               </div>
             </div>
@@ -272,7 +280,7 @@ export function JWTDecoderUI() {
             <div className="rounded-xl border border-red-200 bg-white p-6 dark:border-red-800 dark:bg-gray-900">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Header
+                  {c.headerTitle}
                 </h3>
                 <div className="flex gap-2">
                   <button
@@ -283,12 +291,12 @@ export function JWTDecoderUI() {
                     {copiedSection === "header" ? (
                       <>
                         <Check className="h-3 w-3" aria-hidden="true" />
-                        Copied
+                        {c.copiedButton}
                       </>
                     ) : (
                       <>
                         <Copy className="h-3 w-3" aria-hidden="true" />
-                        Copy
+                        {c.copyButton}
                       </>
                     )}
                   </button>
@@ -298,11 +306,11 @@ export function JWTDecoderUI() {
                     className="flex cursor-pointer items-center gap-1 text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
                   >
                     <Download className="h-3 w-3" aria-hidden="true" />
-                    Download
+                    {c.downloadButton}
                   </button>
                 </div>
               </div>
-              <pre className="overflow-x-auto rounded-lg bg-red-50/50 p-4 dark:bg-red-950/20">
+              <pre className="overflow-x-auto rounded-lg bg-red-50/50 p-4 dark:bg-gray-800/40">
                 <code className="text-sm text-gray-900 dark:text-gray-100">
                   {result.header}
                 </code>
@@ -313,7 +321,7 @@ export function JWTDecoderUI() {
             <div className="rounded-xl border border-red-200 bg-white p-6 dark:border-red-800 dark:bg-gray-900">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Payload
+                  {c.payloadTitle}
                 </h3>
                 <div className="flex gap-2">
                   <button
@@ -324,12 +332,12 @@ export function JWTDecoderUI() {
                     {copiedSection === "payload" ? (
                       <>
                         <Check className="h-3 w-3" aria-hidden="true" />
-                        Copied
+                        {c.copiedButton}
                       </>
                     ) : (
                       <>
                         <Copy className="h-3 w-3" aria-hidden="true" />
-                        Copy
+                        {c.copyButton}
                       </>
                     )}
                   </button>
@@ -339,11 +347,11 @@ export function JWTDecoderUI() {
                     className="flex cursor-pointer items-center gap-1 text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
                   >
                     <Download className="h-3 w-3" aria-hidden="true" />
-                    Download
+                    {c.downloadButton}
                   </button>
                 </div>
               </div>
-              <pre className="overflow-x-auto rounded-lg bg-red-50/50 p-4 dark:bg-red-950/20">
+              <pre className="overflow-x-auto rounded-lg bg-red-50/50 p-4 dark:bg-gray-800/40">
                 <code className="text-sm text-gray-900 dark:text-gray-100">
                   {result.payload}
                 </code>
@@ -356,14 +364,14 @@ export function JWTDecoderUI() {
                 <div className="mb-4 flex items-center gap-2">
                   <Info className="h-5 w-5 text-red-600 dark:text-red-400" />
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                    Claims Analysis
+                    {c.claimsAnalysisTitle}
                   </h3>
                 </div>
                 <div className="space-y-4">
                   {claimsAnalysis.claims.map((claim) => (
                     <div
                       key={claim.key}
-                      className="rounded-lg border border-red-100 bg-red-50/30 p-4 dark:border-red-900 dark:bg-red-950/10"
+                      className="rounded-lg border border-red-100 bg-red-50/30 p-4 dark:border-gray-700 dark:bg-gray-800/30"
                     >
                       <div className="mb-1 flex items-baseline gap-2">
                         <span className="font-mono font-semibold text-red-700 dark:text-red-300">
@@ -371,7 +379,7 @@ export function JWTDecoderUI() {
                         </span>
                       </div>
                       <div className="mb-2 text-xs text-gray-600 dark:text-gray-400">
-                        {claim.description}
+                        {c.claimDescription(claim.key, claim.knownKey)}
                       </div>
                       <div className="font-mono text-sm break-words text-gray-900 dark:text-gray-100">
                         {claim.value}
@@ -386,7 +394,7 @@ export function JWTDecoderUI() {
             <div className="rounded-xl border border-red-200 bg-white p-6 dark:border-red-800 dark:bg-gray-900">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                  Signature
+                  {c.signatureTitle}
                 </h3>
                 <div className="flex gap-2">
                   <button
@@ -397,27 +405,24 @@ export function JWTDecoderUI() {
                     {copiedSection === "signature" ? (
                       <>
                         <Check className="h-3 w-3" aria-hidden="true" />
-                        Copied
+                        {c.copiedButton}
                       </>
                     ) : (
                       <>
                         <Copy className="h-3 w-3" aria-hidden="true" />
-                        Copy
+                        {c.copyButton}
                       </>
                     )}
                   </button>
                 </div>
               </div>
-              <div className="overflow-x-auto rounded-lg bg-red-50/50 p-4 dark:bg-red-950/20">
+              <div className="overflow-x-auto rounded-lg bg-red-50/50 p-4 dark:bg-gray-800/40">
                 <code className="font-mono text-sm break-all text-gray-900 dark:text-gray-100">
-                  {result.signature || "(No signature)"}
+                  {result.signature || c.noSignature}
                 </code>
               </div>
               <p className="mt-3 text-xs text-gray-600 dark:text-gray-400">
-                The signature is used to verify that the sender of the JWT is
-                who it claims to be and that the message wasn&apos;t changed along
-                the way. To verify the signature, you need the secret key or
-                public key (depending on the algorithm used).
+                {c.signatureExplanation}
               </p>
             </div>
           </div>
@@ -425,34 +430,21 @@ export function JWTDecoderUI() {
       )}
 
       {/* Info Section */}
-      <div className="rounded-xl border border-red-200 bg-red-50/30 p-6 dark:border-red-800 dark:bg-red-950/10">
+      <div className="rounded-xl border border-red-200 bg-red-50/30 p-6 dark:border-gray-700 dark:bg-gray-800/30">
         <h3 className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
-          About JWT Tokens
+          {c.aboutTitle}
         </h3>
         <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-          <p>
-            JSON Web Tokens (JWT) are a compact, URL-safe means of representing
-            claims between two parties. A JWT consists of three parts separated
-            by dots: Header.Payload.Signature
-          </p>
+          <p>{c.aboutIntro}</p>
           <ul className="mt-2 ml-5 list-disc space-y-1">
-            <li>
-              <strong>Header:</strong> Contains the token type (JWT) and signing
-              algorithm (e.g., HS256, RS256)
-            </li>
-            <li>
-              <strong>Payload:</strong> Contains the claims (statements about
-              the user and additional metadata)
-            </li>
-            <li>
-              <strong>Signature:</strong> Used to verify the token&apos;s integrity
-              and authenticity
-            </li>
+            {c.aboutList.map((item) => (
+              <li key={item.label}>
+                <strong>{item.label}</strong> {item.text}
+              </li>
+            ))}
           </ul>
           <p className="mt-3 text-xs text-gray-600 dark:text-gray-400">
-            ⚠️ Note: This tool only decodes and displays JWT contents. It does
-            not verify signatures or validate tokens. All processing happens in
-            your browser for privacy.
+            {c.aboutPrivacyNote}
           </p>
         </div>
       </div>

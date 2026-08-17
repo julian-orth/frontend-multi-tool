@@ -11,6 +11,7 @@ import { useLocale } from "@/lib/contexts/locale-context";
 import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locale";
 import { TOOLS } from "@/lib/tools/registry";
 import { getLocalizedTool } from "@/lib/i18n/tools";
+import { getLocalizedToolGroup } from "@/lib/i18n/tool-groups";
 import {
   GROUP_COLOR_CLASSES,
   resolveToolIcon,
@@ -34,7 +35,13 @@ export function Header() {
   const tapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const handleHeaderClick = (event: React.MouseEvent<HTMLElement>) => {
     const labeled = (event.target as HTMLElement).closest("[aria-label]");
-    const label = labeled?.getAttribute("aria-label");
+    if (!labeled || labeled.hasAttribute("data-suppress-tap-tooltip")) return;
+    // Some buttons (e.g. the language toggle) already changed state by the
+    // time this fires, so they can supply a confirmation string instead of
+    // reusing their aria-label, which describes the now-completed action.
+    const label =
+      labeled.getAttribute("data-tap-label") ??
+      labeled.getAttribute("aria-label");
     if (!label) return;
 
     if (tapTimeoutRef.current) clearTimeout(tapTimeoutRef.current);
@@ -168,7 +175,7 @@ export function Header() {
                                   {localizedTool.name}
                                 </span>
                                 <span className="shrink-0 text-[10px] font-medium tracking-[0.08em] text-[var(--ink-soft)] uppercase">
-                                  {tool.group}
+                                  {getLocalizedToolGroup(tool.group, locale)}
                                 </span>
                               </span>
                             </span>
@@ -215,6 +222,7 @@ export function Header() {
             <Link
               href={localizeHref("/about", locale)}
               aria-label={t("nav.about")}
+              data-tap-label={t("nav.aboutTooltip")}
               className={railButtonClasses}
             >
               <Info className="h-4 w-4" aria-hidden="true" />
@@ -228,7 +236,7 @@ export function Header() {
           key={tapLabel}
           role="status"
           aria-live="polite"
-          className="nav-tap-toast pointer-events-none fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 rounded-lg border border-[var(--line)] bg-[var(--tooltip-bg)] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-[var(--tooltip-ink)] shadow-[0_8px_18px_rgba(15,23,42,0.2)] md:hidden"
+          className="nav-tap-toast pointer-events-none fixed bottom-20 left-1/2 z-[60] rounded-lg border border-[var(--line)] bg-[var(--tooltip-bg)] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-[var(--tooltip-ink)] shadow-[0_8px_18px_rgba(15,23,42,0.2)] md:hidden"
         >
           {tapLabel}
         </div>

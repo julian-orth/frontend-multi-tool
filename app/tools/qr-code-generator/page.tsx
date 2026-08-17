@@ -3,15 +3,8 @@ import type { Metadata } from "next";
 import { QRCodeGeneratorUI } from "./qr-code-generator-ui";
 import { ToolSchema } from "@/components/tool-schema";
 import { SITE_CONFIG } from "@/lib/site-config";
-import {
-  WhatIsQRCodeSection,
-  QRCodeTypesSection,
-  UseCasesSection,
-  CustomizationSection,
-  BestPracticesSection,
-} from "./seo-sections";
+import { WhatIsQRCodeSection, QuickFactsSection } from "./seo-sections";
 import { FAQSection } from "./faq-section";
-import { HowItWorksSection } from "./how-it-works-section";
 import { RelatedToolsSection } from "./related-tools-section";
 
 export const metadata: Metadata = {
@@ -90,12 +83,8 @@ export default function QRCodeGeneratorPage() {
           {/* SEO Content Sections */}
           <div className="mt-16 space-y-12">
             <WhatIsQRCodeSection />
-            <QRCodeTypesSection />
-            <UseCasesSection />
-            <CustomizationSection />
-            <BestPracticesSection />
+            <QuickFactsSection />
             <FAQSection />
-            <HowItWorksSection />
             <RelatedToolsSection />
           </div>
         </div>

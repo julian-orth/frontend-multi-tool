@@ -13,7 +13,9 @@ import {
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
 import { Checkbox } from "@/components/checkbox";
+import { StyledSelect } from "@/components/styled-select";
 import { useDebouncedValue } from "@/lib/hooks/use-debounced-value";
+import { useLocale } from "@/lib/contexts/locale-context";
 import {
   computeDiff,
   prepareSplitView,
@@ -26,6 +28,7 @@ import {
 } from "./utils";
 
 export function TextDiffUI() {
+  const { locale } = useLocale();
   const [oldText, setOldText] = useState("");
   const [newText, setNewText] = useState("");
   const [diffMode, setDiffMode] = useState<DiffMode>("lines");
@@ -36,6 +39,22 @@ export function TextDiffUI() {
   const [copied, setCopied] = useState(false);
   const fileInputOldRef = React.useRef<HTMLInputElement>(null);
   const fileInputNewRef = React.useRef<HTMLInputElement>(null);
+
+  const diffModeOptions: { value: DiffMode; label: string }[] = [
+    {
+      value: "lines",
+      label: locale === "de" ? "Zeile für Zeile" : "Line by Line",
+    },
+    {
+      value: "words",
+      label: locale === "de" ? "Wort für Wort" : "Word by Word",
+    },
+    {
+      value: "chars",
+      label:
+        locale === "de" ? "Zeichen für Zeichen" : "Character by Character",
+    },
+  ];
 
   // Compute diff (debounced so large pasted documents don't block typing)
   const debouncedOldText = useDebouncedValue(oldText, 200);
@@ -165,22 +184,24 @@ The end.`
       {/* Mode Selection */}
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
-          <label
-            htmlFor="diff-mode"
+          <span
+            id="diff-mode-label"
             className="text-sm font-semibold text-gray-700 dark:text-gray-300"
           >
             Compare:
-          </label>
-          <select
-            id="diff-mode"
-            value={diffMode}
-            onChange={(e) => setDiffMode(e.target.value as DiffMode)}
-            className="rounded-lg border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 dark:border-indigo-800 dark:bg-gray-900 dark:text-gray-300"
-          >
-            <option value="lines">Line by Line</option>
-            <option value="words">Word by Word</option>
-            <option value="chars">Character by Character</option>
-          </select>
+          </span>
+          <div className="w-[190px]">
+            <StyledSelect
+              value={diffMode}
+              onChange={setDiffMode}
+              options={diffModeOptions}
+              ariaLabelledBy="diff-mode-label"
+              className="w-full border-indigo-200 bg-white text-gray-700 focus:border-indigo-500 focus:ring-indigo-500 dark:border-indigo-800 dark:bg-gray-900 dark:text-gray-300"
+              listClassName="border-indigo-200 bg-white dark:border-indigo-800 dark:bg-gray-900"
+              optionActiveClassName="bg-indigo-600 font-medium text-white dark:bg-indigo-500"
+              optionClassName="text-gray-700 hover:bg-indigo-50 dark:text-gray-300 dark:hover:bg-gray-800"
+            />
+          </div>
         </div>
 
         <div className="flex items-center gap-2">

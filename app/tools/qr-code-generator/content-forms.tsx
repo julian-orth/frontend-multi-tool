@@ -1,4 +1,6 @@
 import React from "react";
+import { StyledSelect } from "@/components/styled-select";
+import { useLocale } from "@/lib/contexts/locale-context";
 import type { QRContentType } from "./utils";
 
 interface ContentFormsProps {
@@ -45,6 +47,7 @@ const labelClass =
 
 export function ContentForms(props: ContentFormsProps) {
   const { contentType } = props;
+  const { locale } = useLocale();
 
   if (contentType === "url" || contentType === "text") {
     return (
@@ -101,20 +104,28 @@ export function ContentForms(props: ContentFormsProps) {
           <label htmlFor="wifi-encryption" className={labelClass}>
             Security Type
           </label>
-          <select
+          <StyledSelect
             id="wifi-encryption"
             value={props.wifiEncryption}
-            onChange={(e) =>
-              props.onWifiEncryptionChange(
-                e.target.value as "WPA" | "WEP" | "nopass"
-              )
+            onChange={(v) =>
+              props.onWifiEncryptionChange(v as "WPA" | "WEP" | "nopass")
             }
-            className={`${inputClass} cursor-pointer`}
-          >
-            <option value="WPA">WPA/WPA2</option>
-            <option value="WEP">WEP</option>
-            <option value="nopass">None (Open Network)</option>
-          </select>
+            options={[
+              { value: "WPA", label: "WPA/WPA2" },
+              { value: "WEP", label: "WEP" },
+              {
+                value: "nopass",
+                label:
+                  locale === "de"
+                    ? "Keine (Offenes Netzwerk)"
+                    : "None (Open Network)",
+              },
+            ]}
+            className={inputClass}
+            listClassName="border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+            optionActiveClassName="bg-purple-600 font-medium text-white dark:bg-purple-500"
+            optionClassName="text-gray-700 hover:bg-purple-50 dark:text-gray-300 dark:hover:bg-gray-800"
+          />
         </div>
       </div>
     );

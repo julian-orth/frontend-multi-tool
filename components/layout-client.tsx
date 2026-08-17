@@ -3,23 +3,26 @@
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { LiteralLocalizer } from "@/components/literal-localizer";
+import { useLocale } from "@/lib/contexts/locale-context";
 
 export function ClientLayoutWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { t } = useLocale();
+
   return (
     <>
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-[var(--card)] focus:px-4 focus:py-2 focus:text-[var(--ink)] focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-[var(--focus)]"
       >
-        Skip to content
+        {t("nav.skipToContent")}
       </a>
       <Header />
       <div className="flex w-full flex-1">
-        <main id="main-content" className="min-w-0 flex-1 pb-16 md:pb-0 md:ml-16">
+        <main id="main-content" className="min-w-0 flex-1 md:ml-16">
           {children}
         </main>
       </div>

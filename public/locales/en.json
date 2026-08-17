@@ -6,16 +6,23 @@
     "home": "Home",
     "tools": "Choose tools",
     "about": "About",
-    "aboutTooltip": "About Frontend Multitool"
+    "aboutTooltip": "About Frontend Multitool",
+    "toolGroupSuffix": "{group} Tools",
+    "breadcrumbLabel": "Breadcrumb",
+    "skipToContent": "Skip to content"
   },
   "language": {
     "label": "Language",
     "de": "DE",
     "en": "EN",
-    "switchTo": "Switch language to {language}"
+    "switchTo": "Switch language to {language}",
+    "switched": "Language switched to {language}"
   },
   "theme": {
-    "toggle": "Toggle theme"
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "switched": "Theme changed to {theme}"
   },
   "favorites": {
     "open": "Show favorite tools",
@@ -90,5 +97,10 @@
     "tool": "Tool",
     "tools": "Tools",
     "legal": "Legal"
+  },
+  "toolPage": {
+    "keyFacts": "Key Facts",
+    "faq": "Frequently Asked Questions",
+    "relatedTools": "Related Tools"
   }
 }

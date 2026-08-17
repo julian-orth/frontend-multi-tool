@@ -9,8 +9,10 @@ import {
   RefreshCw,
   ChevronDown,
   Sparkles,
+  X,
 } from "lucide-react";
 import PrimaryButton from "@/components/primary-button";
+import { StyledSelect } from "@/components/styled-select";
 import {
   PRESET_GRADIENTS,
   getCategories,
@@ -141,19 +143,19 @@ export function GradientGeneratorUI() {
           <button
             type="button"
             onClick={() => setViewMode("presets")}
-            className={`cursor-pointer rounded-lg px-6 py-2.5 text-sm font-medium transition-colors ${
+            className={`inline-flex cursor-pointer items-center rounded-lg px-6 py-2.5 text-sm font-medium transition-colors ${
               viewMode === "presets"
                 ? "bg-rose-600 text-white dark:bg-rose-500"
                 : "bg-rose-100 text-rose-700 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-300 dark:hover:bg-rose-900/50"
             }`}
           >
-            <Sparkles className="mr-2 inline h-4 w-4" aria-hidden="true" />
+            <Sparkles className="mr-2 h-4 w-4" aria-hidden="true" />
             Preset Gradients
           </button>
           <button
             type="button"
             onClick={() => setViewMode("custom")}
-            className={`cursor-pointer rounded-lg px-6 py-2.5 text-sm font-medium transition-colors ${
+            className={`inline-flex cursor-pointer items-center rounded-lg px-6 py-2.5 text-sm font-medium transition-colors ${
               viewMode === "custom"
                 ? "bg-rose-600 text-white dark:bg-rose-500"
                 : "bg-rose-100 text-rose-700 hover:bg-rose-200 dark:bg-rose-900/30 dark:text-rose-300 dark:hover:bg-rose-900/50"
@@ -179,19 +181,23 @@ export function GradientGeneratorUI() {
                   <label className="mb-2 block text-xs font-semibold text-gray-700 dark:text-gray-300">
                     Export Format
                   </label>
-                  <select
-                    value={exportFormat}
-                    onChange={(e) =>
-                      setExportFormat(e.target.value as ExportFormat)
-                    }
-                    className="mb-3 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 focus:border-rose-500 focus:ring-2 focus:ring-rose-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-                  >
-                    <option value="css">CSS</option>
-                    <option value="scss">SCSS</option>
-                    <option value="tailwind">Tailwind</option>
-                    <option value="json">JSON</option>
-                    <option value="svg">SVG</option>
-                  </select>
+                  <div className="mb-3">
+                    <StyledSelect
+                      value={exportFormat}
+                      onChange={(v) => setExportFormat(v as ExportFormat)}
+                      options={[
+                        { value: "css", label: "CSS" },
+                        { value: "scss", label: "SCSS" },
+                        { value: "tailwind", label: "Tailwind" },
+                        { value: "json", label: "JSON" },
+                        { value: "svg", label: "SVG" },
+                      ]}
+                      className="w-full border-gray-200 bg-white text-sm text-gray-900 focus:border-rose-500 focus:ring-rose-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                      listClassName="border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+                      optionActiveClassName="bg-rose-600 font-medium text-white dark:bg-rose-500"
+                      optionClassName="text-gray-700 hover:bg-rose-50 dark:text-gray-300 dark:hover:bg-gray-800"
+                    />
+                  </div>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -523,6 +529,115 @@ export function GradientGeneratorUI() {
           </p>
         </div>
       </div>
+
+      {/* Gradient Details Modal */}
+      {selectedGradient && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+          onClick={() => setSelectedGradient(null)}
+        >
+          <div
+            className="w-full max-w-lg rounded-xl border border-gray-200 bg-white p-6 shadow-xl dark:border-gray-700 dark:bg-gray-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {selectedGradient.name}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setSelectedGradient(null)}
+                className="cursor-pointer rounded-lg p-1 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+                aria-label="Close"
+              >
+                <X className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </div>
+
+            <div
+              className="mb-4 h-32 w-full rounded-lg border border-gray-200 dark:border-gray-700"
+              style={{ background: generateGradientCSS(selectedGradient) }}
+            />
+
+            <dl className="mb-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              <dt className="text-gray-500 dark:text-gray-400">Type</dt>
+              <dd className="text-gray-900 capitalize dark:text-gray-100">
+                {selectedGradient.type}
+              </dd>
+              {selectedGradient.type === "linear" && (
+                <>
+                  <dt className="text-gray-500 dark:text-gray-400">Angle</dt>
+                  <dd className="text-gray-900 dark:text-gray-100">
+                    {selectedGradient.angle}°
+                  </dd>
+                </>
+              )}
+              {selectedGradient.category && (
+                <>
+                  <dt className="text-gray-500 dark:text-gray-400">
+                    Category
+                  </dt>
+                  <dd className="text-gray-900 dark:text-gray-100">
+                    {selectedGradient.category}
+                  </dd>
+                </>
+              )}
+            </dl>
+
+            <div className="mb-4 flex flex-wrap gap-2">
+              {selectedGradient.stops.map((stop, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center gap-1.5 rounded-lg border border-gray-200 py-1 pr-2 pl-1 dark:border-gray-700"
+                >
+                  <div
+                    className="h-5 w-5 rounded border border-gray-200 dark:border-gray-700"
+                    style={{ backgroundColor: stop.color }}
+                  />
+                  <span className="font-mono text-xs text-gray-700 dark:text-gray-300">
+                    {stop.color} · {stop.position}%
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <code className="mb-4 block overflow-x-auto rounded-lg bg-gray-100 p-3 font-mono text-xs break-all text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+              {generateGradientCSS(selectedGradient)}
+            </code>
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleCopyGradient(selectedGradient)}
+                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-rose-700"
+              >
+                {copiedId === selectedGradient.id ? (
+                  <>
+                    <Check className="h-4 w-4" aria-hidden="true" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-4 w-4" aria-hidden="true" />
+                    Copy CSS
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setCustomGradient(selectedGradient);
+                  setViewMode("custom");
+                  setSelectedGradient(null);
+                }}
+                className="cursor-pointer rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+              >
+                Edit as Custom
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
