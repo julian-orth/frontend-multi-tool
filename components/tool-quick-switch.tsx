@@ -77,7 +77,7 @@ export function ToolQuickSwitch() {
         {isOpen && (
           <section
             id="tool-quick-switch"
-            className="absolute top-0 left-full z-50 ml-3 w-[min(24rem,calc(100vw-5.75rem))] overflow-hidden rounded-2xl border border-[#343434] bg-[#202020] shadow-2xl shadow-black/40"
+            className="fixed inset-x-4 bottom-20 z-50 overflow-hidden rounded-2xl border border-[#343434] bg-[#202020] shadow-2xl shadow-black/40 md:absolute md:inset-x-auto md:top-0 md:bottom-auto md:left-full md:ml-3 md:w-[min(24rem,calc(100vw-5.75rem))]"
             aria-label={t("nav.tools")}
           >
             <div className="border-b border-[#343434] p-3">

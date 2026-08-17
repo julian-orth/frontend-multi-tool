@@ -304,7 +304,7 @@ export default function UuidGeneratorPage() {
                     hexadecimal digits separated by hyphens. This is the most
                     widely used and recommended format.
                   </p>
-                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                  <pre className="overflow-x-auto rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
                     <code>550e8400-e29b-41d4-a716-446655440000</code>
                   </pre>
                 </div>
@@ -318,7 +318,7 @@ export default function UuidGeneratorPage() {
                     space-efficient but less readable. Used when storage space
                     or URL length matters.
                   </p>
-                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                  <pre className="overflow-x-auto rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
                     <code>550e8400e29b41d4a716446655440000</code>
                   </pre>
                 </div>
@@ -332,7 +332,7 @@ export default function UuidGeneratorPage() {
                     URN. Used in semantic web, XML namespaces, and formal
                     specifications.
                   </p>
-                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                  <pre className="overflow-x-auto rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
                     <code>urn:uuid:550e8400-e29b-41d4-a716-446655440000</code>
                   </pre>
                 </div>
@@ -346,7 +346,7 @@ export default function UuidGeneratorPage() {
                     Microsoft GUID representation, especially in Windows APIs
                     and older .NET code.
                   </p>
-                  <pre className="rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
+                  <pre className="overflow-x-auto rounded bg-gray-100 p-3 text-sm dark:bg-gray-800">
                     <code>{`{550e8400-e29b-41d4-a716-446655440000}`}</code>
                   </pre>
                 </div>

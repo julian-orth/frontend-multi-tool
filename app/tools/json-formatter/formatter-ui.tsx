@@ -256,7 +256,7 @@ export function JsonFormatterUI() {
             </button>
           </>
         ) : (
-          <div className="flex flex-1 items-center gap-2">
+          <div className="flex flex-1 flex-wrap items-center gap-2">
             <input
               type="url"
               value={urlInput}

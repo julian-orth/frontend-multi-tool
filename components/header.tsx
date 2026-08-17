@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { Heart, Home, Info, PocketKnife, Trash2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -28,6 +28,20 @@ export function Header() {
     favoriteToolIds.includes(tool.id)
   );
 
+  // Hover-based tooltips never appear on touch devices, so tapping a nav
+  // icon instead flashes its label centered above the bottom bar.
+  const [tapLabel, setTapLabel] = useState<string | null>(null);
+  const tapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleHeaderClick = (event: React.MouseEvent<HTMLElement>) => {
+    const labeled = (event.target as HTMLElement).closest("[aria-label]");
+    const label = labeled?.getAttribute("aria-label");
+    if (!label) return;
+
+    if (tapTimeoutRef.current) clearTimeout(tapTimeoutRef.current);
+    setTapLabel(label);
+    tapTimeoutRef.current = setTimeout(() => setTapLabel(null), 1300);
+  };
+
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (basePathname === "/") {
       e.preventDefault();
@@ -39,7 +53,10 @@ export function Header() {
     "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-[var(--ink)] transition-all hover:border hover:border-[var(--line)] hover:bg-[var(--paper-2)] hover:shadow-[0_1px_0_var(--line-soft)] focus:ring-2 focus:ring-[var(--focus)] focus:ring-offset-2 focus:ring-offset-[var(--paper)] focus:outline-none";
 
   return (
-    <header className="fixed top-0 left-0 z-50 flex h-full w-16 flex-col items-center border-r border-[var(--line)] bg-[var(--card)] py-4">
+    <header
+      onClick={handleHeaderClick}
+      className="fixed inset-x-0 bottom-0 z-50 flex h-16 w-full max-w-full flex-row items-center gap-1 overflow-x-hidden border-t border-[var(--line)] bg-[var(--card)] px-2 py-2 md:inset-x-auto md:top-0 md:bottom-auto md:left-0 md:h-full md:w-16 md:flex-col md:gap-0 md:overflow-x-visible md:border-t-0 md:border-r md:px-0 md:py-4"
+    >
       <IconTooltip label={t("site.name")} side="right">
         <Link
           href={localizeHref("/", locale)}
@@ -54,21 +71,25 @@ export function Header() {
         </Link>
       </IconTooltip>
 
-      <div className="mt-4 h-px w-8 shrink-0 bg-[var(--line)]" />
+      <div className="mx-1 h-8 w-px shrink-0 bg-[var(--line)] md:mx-0 md:mt-4 md:h-px md:w-8" />
 
-      <div className="mt-4 flex flex-col items-center gap-2">
-        <IconTooltip label={t("nav.home")} side="right">
-          <Link
-            href={localizeHref("/", locale)}
-            onClick={handleLogoClick}
-            aria-label={t("nav.home")}
-            className={`${railButtonClasses} ${basePathname === "/" ? "bg-[var(--paper-2)]" : ""}`}
-          >
-            <Home className="h-5 w-5" aria-hidden="true" />
-          </Link>
-        </IconTooltip>
-        <ToolQuickSwitch />
-        <div className="relative">
+      <div className="contents md:mt-4 md:flex md:flex-col md:items-center md:gap-2">
+        <div className="flex flex-1 items-center justify-center md:flex-none">
+          <IconTooltip label={t("nav.home")} side="right">
+            <Link
+              href={localizeHref("/", locale)}
+              onClick={handleLogoClick}
+              aria-label={t("nav.home")}
+              className={`${railButtonClasses} ${basePathname === "/" ? "bg-[var(--paper-2)]" : ""}`}
+            >
+              <Home className="h-5 w-5" aria-hidden="true" />
+            </Link>
+          </IconTooltip>
+        </div>
+        <div className="flex flex-1 items-center justify-center md:flex-none">
+          <ToolQuickSwitch />
+        </div>
+        <div className="relative flex flex-1 items-center justify-center md:flex-none">
           <IconTooltip label={t("favorites.open")} side="right">
             <button
               type="button"
@@ -101,7 +122,7 @@ export function Header() {
           {isFavoritesOpen && (
             <div
               id="favorite-tools-menu"
-              className="absolute top-0 left-full z-50 ml-2 w-80 overflow-hidden border border-[var(--line)] bg-[var(--card)] shadow-xl"
+              className="fixed inset-x-4 bottom-20 z-50 overflow-hidden border border-[var(--line)] bg-[var(--card)] shadow-xl md:absolute md:inset-x-auto md:top-0 md:bottom-auto md:left-full md:ml-2 md:w-80"
             >
               <div className="flex items-center justify-between border-b border-[var(--line)] bg-[var(--paper-2)] px-3 py-2.5">
                 <div className="flex items-center gap-2">
@@ -177,24 +198,41 @@ export function Header() {
         </div>
       </div>
 
-      <div className="flex-1" />
+      <div className="hidden md:block md:flex-1" />
 
-      <div className="mb-2 h-px w-8 shrink-0 bg-[var(--line)]" />
+      <div className="mx-1 h-8 w-px shrink-0 bg-[var(--line)] md:mx-0 md:mb-2 md:h-px md:w-8" />
 
-      <div className="flex flex-col items-center gap-2">
-        <LanguageToggle />
-        <ThemeToggle />
+      <div className="contents md:flex md:flex-col md:items-center md:gap-2">
+        <div className="flex flex-1 items-center justify-center md:flex-none">
+          <LanguageToggle />
+        </div>
+        <div className="flex flex-1 items-center justify-center md:flex-none">
+          <ThemeToggle />
+        </div>
 
-        <IconTooltip label={t("nav.aboutTooltip")} side="right">
-          <Link
-            href={localizeHref("/about", locale)}
-            aria-label={t("nav.about")}
-            className={railButtonClasses}
-          >
-            <Info className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </IconTooltip>
+        <div className="flex flex-1 items-center justify-center md:flex-none">
+          <IconTooltip label={t("nav.aboutTooltip")} side="right">
+            <Link
+              href={localizeHref("/about", locale)}
+              aria-label={t("nav.about")}
+              className={railButtonClasses}
+            >
+              <Info className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </IconTooltip>
+        </div>
       </div>
+
+      {tapLabel && (
+        <div
+          key={tapLabel}
+          role="status"
+          aria-live="polite"
+          className="nav-tap-toast pointer-events-none fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 rounded-lg border border-[var(--line)] bg-[var(--tooltip-bg)] px-3 py-1.5 text-xs font-medium whitespace-nowrap text-[var(--tooltip-ink)] shadow-[0_8px_18px_rgba(15,23,42,0.2)] md:hidden"
+        >
+          {tapLabel}
+        </div>
+      )}
     </header>
   );
 }

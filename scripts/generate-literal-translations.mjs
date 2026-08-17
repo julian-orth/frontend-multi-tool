@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import translate from "@vitalets/google-translate-api";
+import { translate } from "@vitalets/google-translate-api";
 
 const ROOT = process.cwd();
 const sourcePath = path.join(
@@ -31,23 +31,37 @@ for (const text of unique) {
   enMap[text] = text;
 }
 
-const pending = unique.filter((text) => !deMap[text]);
+const pending = unique.filter((text) => !deMap[text] || deMap[text] === text);
 console.log(
   `Total literals: ${unique.length}, pending German translations: ${pending.length}`
 );
 
-const BATCH_SIZE = 12;
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function translateWithRetry(text, attempts = 4) {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const result = await translate(text, { to: "de" });
+      return result.text;
+    } catch (error) {
+      if (attempt === attempts) return text;
+      const isRateLimit = error?.name === "TooManyRequestsError";
+      await sleep(isRateLimit ? 4000 * attempt : 500 * attempt);
+    }
+  }
+  return text;
+}
+
+const BATCH_SIZE = 5;
+let failed = 0;
 for (let i = 0; i < pending.length; i += BATCH_SIZE) {
   const batch = pending.slice(i, i + BATCH_SIZE);
 
   await Promise.all(
     batch.map(async (text) => {
-      try {
-        const result = await translate(text, { to: "de" });
-        deMap[text] = result.text;
-      } catch (error) {
-        deMap[text] = text;
-      }
+      const translated = await translateWithRetry(text);
+      deMap[text] = translated;
+      if (translated === text) failed++;
     })
   );
 
@@ -57,6 +71,14 @@ for (let i = 0; i < pending.length; i += BATCH_SIZE) {
       `Progress: ${Math.min(i + BATCH_SIZE, pending.length)}/${pending.length}`
     );
   }
+
+  await sleep(600);
+}
+
+if (failed > 0) {
+  console.log(
+    `Warning: ${failed} strings still untranslated after retries (rerun the script to try again).`
+  );
 }
 
 for (const text of unique) {

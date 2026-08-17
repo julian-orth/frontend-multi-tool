@@ -1914,8 +1914,6 @@
   "Which UUID version should I use?": "Which UUID version should I use?",
   "Why is my UUID marked invalid?": "Why is my UUID marked invalid?",
   "Yes, UUIDs are excellent primary keys for distributed systems, though there are trade-offs. Benefits include generation without database round-trips and no collision risk when merging datasets. Downsides include larger index size (16 bytes vs 4-8 for integers) and potential indexing performance issues with random UUIDs (use v1/v7 for better locality).": "Yes, UUIDs are excellent primary keys for distributed systems, though there are trade-offs. Benefits include generation without database round-trips and no collision risk when merging datasets. Downsides include larger index size (16 bytes vs 4-8 for integers) and potential indexing performance issues with random UUIDs (use v1/v7 for better locality).",
-  "Main navigation": "Main navigation",
-  "Search tools": "Search tools",
   "Breadcrumb": "Breadcrumb",
   "Skip to content": "Skip to content"
 }

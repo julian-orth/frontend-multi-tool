@@ -143,25 +143,7 @@ export default function CSSMinifierUI() {
 
   return (
     <div className="container mx-auto px-4 py-4">
-      {/* Header */}
       <div className="mb-8">
-        <div className="mb-4 flex items-center gap-3">
-          <div className="rounded-full bg-teal-100 p-4 dark:bg-teal-900/30">
-            <FileCode
-              className="h-8 w-8 text-teal-600 dark:text-teal-400"
-              aria-hidden="true"
-            />
-          </div>
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              CSS Minifier/Beautifier
-            </h1>
-            <p className="mt-1 text-lg text-gray-600 dark:text-gray-400">
-              Minify CSS to reduce file size or beautify for readability
-            </p>
-          </div>
-        </div>
-
         {/* Mode Toggle */}
         <div className="flex gap-2">
           <button

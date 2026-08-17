@@ -19,7 +19,7 @@ export function ClientLayoutWrapper({
       </a>
       <Header />
       <div className="flex w-full flex-1">
-        <main id="main-content" className="ml-16 min-w-0 flex-1">
+        <main id="main-content" className="min-w-0 flex-1 pb-16 md:pb-0 md:ml-16">
           {children}
         </main>
       </div>

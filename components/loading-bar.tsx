@@ -101,9 +101,9 @@ export function LoadingBar() {
 
   return (
     <div
-      className={`fixed top-0 right-0 z-50 h-[3px] overflow-hidden bg-transparent transition-opacity ease-out ${
+      className={`fixed top-0 right-0 left-0 z-50 h-[3px] overflow-hidden bg-transparent transition-opacity ease-out md:left-16 ${
         visible ? "opacity-100 duration-150" : "opacity-0 duration-200"
-      } left-16`}
+      }`}
     >
       <div
         className="h-full bg-[var(--primary)] shadow-[0_0_6px_var(--primary)] transition-[width] duration-300 ease-out"
