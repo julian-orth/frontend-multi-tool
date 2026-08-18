@@ -133,10 +133,11 @@ export default async function RootLayout({
       : themeCookie === "light"
         ? "light"
         : undefined;
+  const locale = await getServerLocale();
 
   return (
     <html
-      lang="en"
+      lang={locale}
       className={initialTheme === "dark" ? "dark" : undefined}
       suppressHydrationWarning
     >

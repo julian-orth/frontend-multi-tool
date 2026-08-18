@@ -3,7 +3,7 @@
   "short_name": "Multitool",
   "description": "Privacy-first developer tools running entirely in your browser",
   "start_url": "/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#0a0a0a",
   "theme_color": "#3b82f6",
   "orientation": "portrait-primary",
