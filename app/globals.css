@@ -425,6 +425,35 @@ main#main-content:has(nav[aria-label="Breadcrumb"])
   background-color: #353535 !important;
 }
 
+/* The `~=` selectors above only match an exact "bg-gray-950" token, so they
+   miss opacity-modified variants like "dark:bg-gray-950/80" (a handful of
+   tool panels use these for a glass/backdrop-blur look) — those need a
+   substring match on "bg-gray-950/" instead, since the slash-and-percentage
+   suffix varies per component. That class is only ever meant to render in
+   dark mode (it's "dark:"-prefixed), but the substring match doesn't know
+   that — the literal class name is present in the DOM in both themes, only
+   Tailwind's own dark-mode CSS is conditional — so this block must itself
+   stay scoped under .dark, or it would force these colors in light mode too. */
+.dark main#main-content:has(nav[aria-label="Breadcrumb"])
+  :is([class*="bg-gray-950/"], [class*="bg-slate-950/"]) {
+  background-color: #171717 !important;
+}
+
+.dark main#main-content:has(nav[aria-label="Breadcrumb"])
+  :is([class*="bg-gray-900/"], [class*="bg-slate-900/"]) {
+  background-color: #202020 !important;
+}
+
+.dark main#main-content:has(nav[aria-label="Breadcrumb"])
+  :is([class*="bg-gray-800/"], [class*="bg-slate-800/"]) {
+  background-color: #292929 !important;
+}
+
+.dark main#main-content:has(nav[aria-label="Breadcrumb"])
+  :is([class*="bg-gray-700/"], [class*="bg-slate-700/"]) {
+  background-color: #353535 !important;
+}
+
 main#main-content:has(nav[aria-label="Breadcrumb"])
   :is(
     [class~="bg-gray-50"],
