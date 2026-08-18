@@ -1170,7 +1170,7 @@ main#main-content:has(nav[aria-label="Breadcrumb"]) > div > div > div.mb-8 p {
 
 .stage .tool-favorite-tooltip {
   position: absolute;
-  top: 40px;
+  top: 10px;
   right: 10px;
   z-index: 4;
 }
