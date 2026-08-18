@@ -69,7 +69,9 @@ export function HomeClient() {
     <div className="stage" ref={stageRef} style={spotlightStyle}>
       <div className="spotlight" aria-hidden="true" />
       <header>
-        <div className="eyebrow">{t("site.name")}</div>
+        <div className="eyebrow">
+          <span aria-hidden="true">{"//"}</span> {t("site.name")}
+        </div>
         <h1>{t("home.title")}</h1>
         <p>{t("home.intro")}</p>
         <div className="home-search-row">

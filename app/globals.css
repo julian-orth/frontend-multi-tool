@@ -190,20 +190,17 @@ svg {
   font-size: 12px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #ffb238;
+  color: #8b93a0;
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 14px;
 }
 
-.stage .eyebrow::before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ffb238;
-  box-shadow: 0 0 8px #ffb238;
+.stage .eyebrow span {
+  color: #ffb238;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .stage h1 {
