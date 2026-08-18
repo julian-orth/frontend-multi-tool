@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/breadcrumb";
+import { FavoriteButton } from "@/components/favorite-button";
 import { JWTDecoderUI } from "./jwt-decoder-ui";
 import type { Metadata } from "next";
 import { ToolSchema } from "@/components/tool-schema";
@@ -58,9 +59,12 @@ export default async function JwtDecoderPage() {
         <div className="mx-0 max-w-7xl">
           <div className="mb-8">
             <Breadcrumb />
-            <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              {c.h1}
-            </h1>
+            <div className="mb-3 flex items-start justify-between gap-4">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+                {c.h1}
+              </h1>
+              <FavoriteButton toolId="jwt-decoder" toolName={c.h1} />
+            </div>
             <p className="text-lg text-gray-600 dark:text-gray-400">
               {c.intro}
             </p>
@@ -85,19 +89,19 @@ export default async function JwtDecoderPage() {
             </section>
 
             <section>
-              <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-gray-50 sm:mb-6 sm:text-3xl">
+              <h2 className="mb-4 text-xl font-bold text-gray-900 sm:mb-6 sm:text-3xl dark:text-gray-50">
                 {chrome.faq}
               </h2>
               <div className="space-y-4 sm:space-y-6">
                 {c.faq.map((item) => (
                   <details
                     key={item.question}
-                    className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6"
+                    className="group rounded-xl border border-gray-200 bg-white p-4 sm:p-6 dark:border-gray-800 dark:bg-gray-900"
                   >
-                    <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
+                    <summary className="cursor-pointer text-base font-semibold text-gray-900 sm:text-lg dark:text-gray-50">
                       {item.question}
                     </summary>
-                    <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
+                    <p className="mt-2 text-sm text-gray-700 sm:mt-3 sm:text-base dark:text-gray-300">
                       {item.answer}
                     </p>
                   </details>

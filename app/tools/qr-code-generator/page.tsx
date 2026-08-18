@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/breadcrumb";
+import { FavoriteButton } from "@/components/favorite-button";
 import type { Metadata } from "next";
 import { QRCodeGeneratorUI } from "./qr-code-generator-ui";
 import { ToolSchema } from "@/components/tool-schema";
@@ -58,9 +59,12 @@ export default async function QRCodeGeneratorPage() {
         <div className="mx-0 max-w-7xl">
           <div className="mb-8">
             <Breadcrumb />
-            <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              {c.h1}
-            </h1>
+            <div className="mb-3 flex items-start justify-between gap-4">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+                {c.h1}
+              </h1>
+              <FavoriteButton toolId="qr-code-generator" toolName={c.h1} />
+            </div>
             <p className="text-lg text-gray-600 dark:text-gray-400">
               {c.intro}
             </p>

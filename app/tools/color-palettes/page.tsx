@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/breadcrumb";
+import { FavoriteButton } from "@/components/favorite-button";
 import { ColorPalettesUI } from "./color-palettes-ui";
 import type { Metadata } from "next";
 import { ToolSchema } from "@/components/tool-schema";
@@ -55,9 +56,12 @@ export default async function ColorPalettesPage() {
         <div className="mx-0 max-w-7xl">
           <div className="mb-8">
             <Breadcrumb />
-            <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              {c.shortTitle}
-            </h1>
+            <div className="mb-3 flex items-start justify-between gap-4">
+              <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
+                {c.shortTitle}
+              </h1>
+              <FavoriteButton toolId="color-palettes" toolName={c.shortTitle} />
+            </div>
             <p className="text-lg text-gray-600 dark:text-gray-400">
               {c.intro}
             </p>
