@@ -15,6 +15,12 @@ const VERSION_OPTIONS = [
   { value: "nil", label: "NIL (all zeros)" },
 ] as const;
 
+type UuidVersion = (typeof VERSION_OPTIONS)[number]["value"];
+
+function isUuidVersion(value: string): value is UuidVersion {
+  return VERSION_OPTIONS.some((option) => option.value === value);
+}
+
 const COUNT_OPTIONS = ["1", "5", "10", "20", "50", "100"].map((n) => ({
   value: n,
   label: n,
@@ -30,9 +36,7 @@ const tealOptionClassName =
   "text-gray-700 hover:bg-teal-50 dark:text-gray-300 dark:hover:bg-gray-800";
 
 export function GeneratorUI() {
-  const [version, setVersion] = useState<
-    "v1" | "v3" | "v4" | "v5" | "v7" | "nil"
-  >("v4");
+  const [version, setVersion] = useState<UuidVersion>("v4");
 
   useEffect(() => {
     // Reads the URL on the client only, to keep server and initial client
@@ -40,12 +44,13 @@ export function GeneratorUI() {
     try {
       const params = new URLSearchParams(window.location.search);
       const v = params.get("version");
-      if (v && ["v1", "v3", "v4", "v5", "v7", "nil"].includes(v)) {
+      if (v && isUuidVersion(v)) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        setVersion(v as any);
+        setVersion(v);
       }
-    } catch (e) {
-      // noop
+    } catch {
+      // URLSearchParams/window access can throw in non-browser environments;
+      // falling back to the default version is safe.
     }
   }, []);
 
@@ -73,8 +78,8 @@ export function GeneratorUI() {
         (search ? `?${search}` : "") +
         window.location.hash;
       window.history.replaceState({}, "", newUrl);
-    } catch (e) {
-      // noop
+    } catch {
+      // URL sync is a non-critical convenience; ignore if it fails.
     }
   }, [version]);
 
@@ -276,10 +281,14 @@ export function GeneratorUI() {
       </form>
 
       {result && (
-        <div className="mt-4 flex w-full flex-col gap-2">
-          <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <div
+          className="mt-4 flex w-full flex-col gap-2"
+          role="status"
+          aria-live="polite"
+        >
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Generated UUID{result.length > 1 ? "s" : ""}
-          </label>
+          </p>
           {result.map((uuid, idx) => (
             <div key={idx} className="flex items-center gap-3">
               <input

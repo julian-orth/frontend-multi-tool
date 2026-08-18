@@ -18,7 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title,
     description: translations.home.intro,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: {
+        de: SITE_CONFIG.domain,
+        en: `${SITE_CONFIG.domain}/en`,
+      },
+    },
     openGraph: {
       title: `${title} | ${SITE_CONFIG.name}`,
       description: translations.home.intro,
@@ -26,11 +32,13 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: SITE_CONFIG.name,
       locale: locale === "en" ? "en_US" : "de_DE",
       type: "website",
+      images: ["/images/og-image.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: `${title} | ${SITE_CONFIG.name}`,
       description: translations.home.intro,
+      images: ["/images/og-image.png"],
     },
   };
 }

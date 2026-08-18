@@ -23,14 +23,20 @@ export async function generateMetadata(): Promise<Metadata> {
       description: c.metaDescription,
       url: `${SITE_CONFIG.domain}${path}`,
       siteName: SITE_CONFIG.name,
+      images: ["/images/og-image.png"],
     },
     twitter: {
       card: "summary",
       title: `${c.title} — ${SITE_CONFIG.name}`,
       description: c.metaDescription,
+      images: ["/images/og-image.png"],
     },
     alternates: {
       canonical: `${SITE_CONFIG.domain}${path}`,
+      languages: {
+        de: `${SITE_CONFIG.domain}/tools/timestamp-converter`,
+        en: `${SITE_CONFIG.domain}/en/tools/timestamp-converter`,
+      },
     },
   };
 }

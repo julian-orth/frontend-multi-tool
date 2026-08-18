@@ -16,14 +16,20 @@ export async function generateMetadata(): Promise<Metadata> {
       description: content.sections[0].paragraphs[0],
       type: "website",
       url: `${SITE_CONFIG.domain}${path}`,
+      images: ["/images/og-image.png"],
     },
     twitter: {
       card: "summary",
       title: `${content.title} | ${SITE_CONFIG.name}`,
       description: content.sections[0].paragraphs[0],
+      images: ["/images/og-image.png"],
     },
     alternates: {
       canonical: `${SITE_CONFIG.domain}${path}`,
+      languages: {
+        de: `${SITE_CONFIG.domain}/privacy`,
+        en: `${SITE_CONFIG.domain}/en/privacy`,
+      },
     },
   };
 }

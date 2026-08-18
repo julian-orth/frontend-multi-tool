@@ -35,9 +35,12 @@ export function Footer() {
             </p>
           </div>
           <div>
-            <h4 className="mb-3 text-sm font-bold tracking-wider text-gray-900 uppercase dark:text-white">
+            {/* Not a heading: footer content sits outside the page's own
+                heading outline (h1 -> section h2s), and a fixed h4 here
+                would skip levels on pages with a shallower outline. */}
+            <p className="mb-3 text-sm font-bold tracking-wider text-gray-900 uppercase dark:text-white">
               {t("footer.popularTools")}
-            </h4>
+            </p>
             <ul className="space-y-2 text-sm">
               {TOOLS.slice(0, 5).map((tool) => {
                 const localizedTool = getLocalizedTool(tool, locale);

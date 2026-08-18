@@ -64,6 +64,7 @@ export function Header() {
       onClick={handleHeaderClick}
       className="fixed inset-x-0 bottom-0 z-50 flex h-16 w-full max-w-full flex-row items-center gap-1 overflow-x-hidden border-t border-[var(--line)] bg-[var(--card)] px-2 py-2 md:inset-x-auto md:top-0 md:bottom-auto md:left-0 md:h-full md:w-16 md:flex-col md:gap-0 md:overflow-x-visible md:border-t-0 md:border-r md:px-0 md:py-4"
     >
+      <nav aria-label={t("nav.primary")} className="contents">
       <IconTooltip label={t("site.name")} side="right">
         <Link
           href={localizeHref("/", locale)}
@@ -230,6 +231,7 @@ export function Header() {
           </IconTooltip>
         </div>
       </div>
+      </nav>
 
       {tapLabel && (
         <div

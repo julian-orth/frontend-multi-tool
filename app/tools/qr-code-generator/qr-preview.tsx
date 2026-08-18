@@ -28,10 +28,14 @@ export function QRPreview({
         <div
           className="flex items-center justify-center overflow-auto rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-8 dark:border-gray-700 dark:bg-gray-800/50"
           style={{ minHeight: "400px" }}
+          role="status"
+          aria-live="polite"
         >
           {/* Canvas is always rendered but hidden when no QR code */}
           <canvas
             ref={canvasRef}
+            role="img"
+            aria-label={qrDataUrl ? "Generated QR code" : undefined}
             className={`${qrDataUrl ? "" : "hidden"}`}
             style={{
               imageRendering: "crisp-edges",

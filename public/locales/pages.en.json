@@ -37,13 +37,13 @@
         "description": "The tool registry keeps pages and metadata consistent. Vitest covers logic, while ESLint and TypeScript guard changes. Claude Code supports the development workflow with research, iteration, and testing."
       }
     ],
-    "lighthouseTitle": "Lighthouse check",
-    "lighthouseIntro": "Placeholders for the next production-build measurement. The goal is reliable delivery metrics, not flattering dev-server results.",
-    "lighthouseMetrics": [
-      "Performance",
-      "Accessibility",
-      "Best Practices",
-      "SEO"
+    "qualityTitle": "Quality, in numbers",
+    "qualityIntro": "Lighthouse scores measured with the CLI against the production build (as of August 2026). The performance score swings heavily with the test machine and network simulation, so it's deliberately left out here - accessibility, best practices, and SEO are stable and more meaningful.",
+    "qualityMetrics": [
+      { "label": "Accessibility", "value": "100" },
+      { "label": "Best Practices", "value": "100" },
+      { "label": "SEO", "value": "100" },
+      { "label": "Tests passing", "value": "334" }
     ]
   },
   "privacy": {

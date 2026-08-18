@@ -340,6 +340,7 @@ export function ColorPickerUI() {
                     type="button"
                     onClick={() => handleCopy(value, format)}
                     className="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg text-pink-600 transition-colors hover:bg-pink-100 dark:text-pink-400 dark:hover:bg-pink-900/30"
+                    aria-label={`Copy ${format.toUpperCase()}`}
                     title={`Copy ${format.toUpperCase()}`}
                   >
                     {copiedFormat === format ? (

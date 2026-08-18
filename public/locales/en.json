@@ -9,7 +9,8 @@
     "aboutTooltip": "About Frontend Multitool",
     "toolGroupSuffix": "{group} Tools",
     "breadcrumbLabel": "Breadcrumb",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "primary": "Primary navigation"
   },
   "language": {
     "label": "Language",
@@ -32,11 +33,6 @@
     "remove": "Remove {name} from favorites",
     "clearAll": "Clear all favorites"
   },
-  "mobile": {
-    "openMenu": "Open navigation menu",
-    "closeMenu": "Close navigation menu",
-    "openTool": "Open {name} tool"
-  },
   "sidebar": {
     "searchPlaceholder": "Search {count} tools…",
     "search": "Search tools",
@@ -51,7 +47,6 @@
     "searchLabel": "Search tools",
     "searchPlaceholder": "Search tools, e.g. json, uuid, color...",
     "noToolsFound": "No tools found for \"{query}\".",
-    "openTool": "Open {name}",
     "resultsCounter": "Showing {shown} of {total} tools"
   },
   "categories": {

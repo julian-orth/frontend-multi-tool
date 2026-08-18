@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 
 export interface StyledSelectOption<T extends string = string> {
@@ -55,6 +55,8 @@ export function StyledSelect<T extends string = string>({
 }: StyledSelectProps<T>) {
   const [open, setOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
+  const generatedId = useId();
+  const optionIdPrefix = `${id ?? generatedId}-option`;
   const containerRef = useRef<HTMLDivElement>(null);
   const optionRefs = useRef<Array<HTMLLIElement | null>>([]);
   const typeaheadRef = useRef("");
@@ -190,8 +192,13 @@ export function StyledSelect<T extends string = string>({
         type="button"
         id={id}
         disabled={disabled}
+        role="combobox"
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-controls={open ? `${optionIdPrefix}s` : undefined}
+        aria-activedescendant={
+          open ? `${optionIdPrefix}-${highlightedIndex}` : undefined
+        }
         aria-labelledby={ariaLabelledBy}
         aria-label={ariaLabel}
         onClick={() => (open ? setOpen(false) : openMenu())}
@@ -207,6 +214,7 @@ export function StyledSelect<T extends string = string>({
       </button>
       {open && (
         <ul
+          id={`${optionIdPrefix}s`}
           role="listbox"
           aria-labelledby={ariaLabelledBy}
           className={`${LIST_BASE} ${listClassName}`}
@@ -214,6 +222,7 @@ export function StyledSelect<T extends string = string>({
           {options.map((option, index) => (
             <li
               key={option.value}
+              id={`${optionIdPrefix}-${index}`}
               ref={(el) => {
                 optionRefs.current[index] = el;
               }}

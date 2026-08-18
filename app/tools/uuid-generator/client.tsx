@@ -26,8 +26,9 @@ export function UuidGeneratorClient() {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setTab(t as Tab);
       }
-    } catch (e) {
-      // noop
+    } catch {
+      // URLSearchParams/window access can throw in non-browser environments;
+      // falling back to the default tab is safe.
     }
   }, []);
 
@@ -45,8 +46,8 @@ export function UuidGeneratorClient() {
         (search ? `?${search}` : "") +
         window.location.hash;
       window.history.replaceState({}, "", newUrl);
-    } catch (e) {
-      // noop
+    } catch {
+      // URL sync is a non-critical convenience; ignore if it fails.
     }
   }, [tab]);
 

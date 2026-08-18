@@ -116,27 +116,6 @@ export interface ToolConfig extends Tool {
 }
 
 /**
- * Tool registry entry
- * Used by the centralized tool registry system
- */
-export interface ToolRegistryEntry {
-  /** Tool configuration */
-  config: ToolConfig;
-
-  /** Lazy-loaded component path */
-  componentPath: string;
-
-  /** Auto-detected from filesystem */
-  hasUtils: boolean;
-
-  /** Auto-detected from filesystem */
-  hasTests: boolean;
-
-  /** Last modified timestamp */
-  lastModified?: Date;
-}
-
-/**
  * Validation result for tool configuration
  */
 export interface ToolValidationResult {
@@ -144,25 +123,4 @@ export interface ToolValidationResult {
   errors: string[];
   warnings: string[];
   toolId: string;
-}
-
-/**
- * Tool search/filter options
- */
-export interface ToolSearchOptions {
-  query?: string;
-  groups?: ToolGroup[];
-  status?: ToolStatus[];
-  includeDeprecated?: boolean;
-}
-
-/**
- * Tool metrics for analytics (future use)
- */
-export interface ToolMetrics {
-  toolId: string;
-  views?: number;
-  uses?: number;
-  lastUsed?: Date;
-  averageSessionTime?: number;
 }

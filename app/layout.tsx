@@ -7,6 +7,7 @@ import { FavoritesProvider } from "@/lib/contexts/favorites-context";
 import { LocaleProvider } from "@/lib/contexts/locale-context";
 import { ClientLayoutWrapper } from "@/components/layout-client";
 import { LoadingBar } from "@/components/loading-bar";
+import { getServerLocale } from "@/lib/i18n/server";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -22,60 +23,79 @@ export const viewport: Viewport = {
   ],
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_CONFIG.domain),
-  title: {
-    default: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-    template: `%s | ${SITE_CONFIG.name}`,
-  },
-  description: SITE_CONFIG.description,
-  keywords: [
-    "developer tools",
-    "online utilities",
-    "json formatter",
-    "base64 encoder",
-    "uuid generator",
-    "regex tester",
-    "color converter",
-    "privacy-first tools",
-    "client-side tools",
-  ],
-  authors: [{ name: SITE_CONFIG.name }],
-  creator: SITE_CONFIG.name,
-  publisher: SITE_CONFIG.name,
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: SITE_CONFIG.domain,
-    siteName: SITE_CONFIG.name,
-    title: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const ogLocale = locale === "en" ? "en_US" : "de_DE";
+
+  return {
+    metadataBase: new URL(SITE_CONFIG.domain),
+    title: {
+      default: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+      template: `%s | ${SITE_CONFIG.name}`,
+    },
     description: SITE_CONFIG.description,
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
-    description: SITE_CONFIG.description,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    keywords: [
+      "developer tools",
+      "online utilities",
+      "json formatter",
+      "base64 encoder",
+      "uuid generator",
+      "regex tester",
+      "color converter",
+      "privacy-first tools",
+      "client-side tools",
+    ],
+    authors: [{ name: SITE_CONFIG.name }],
+    creator: SITE_CONFIG.name,
+    publisher: SITE_CONFIG.name,
+    openGraph: {
+      type: "website",
+      locale: ogLocale,
+      alternateLocale: locale === "en" ? "de_DE" : "en_US",
+      url: SITE_CONFIG.domain,
+      siteName: SITE_CONFIG.name,
+      title: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+      description: SITE_CONFIG.description,
+      images: [
+        {
+          url: "/images/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${SITE_CONFIG.name} - ${SITE_CONFIG.tagline}`,
+      description: SITE_CONFIG.description,
+      images: ["/images/og-image.png"],
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  icons: {
-    icon: "/favicon.svg",
-    apple: "/apple-touch-icon.svg",
-  },
-  manifest: "/manifest.json",
-  alternates: {
-    canonical: SITE_CONFIG.domain,
-  },
-};
+    icons: {
+      icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: "/manifest.json",
+    alternates: {
+      canonical: SITE_CONFIG.domain,
+      languages: {
+        de: SITE_CONFIG.domain,
+        en: `${SITE_CONFIG.domain}/en`,
+      },
+    },
+  };
+}
 
 const themeBootstrapScript = `
 (function() {

@@ -24,14 +24,20 @@ export async function generateMetadata(): Promise<Metadata> {
       description,
       url: `${SITE_CONFIG.domain}${path}`,
       siteName: SITE_CONFIG.name,
+      images: ["/images/og-image.png"],
     },
     twitter: {
       card: "summary",
       title: `${title} | ${SITE_CONFIG.name}`,
       description,
+      images: ["/images/og-image.png"],
     },
     alternates: {
       canonical: `${SITE_CONFIG.domain}${path}`,
+      languages: {
+        de: `${SITE_CONFIG.domain}/about`,
+        en: `${SITE_CONFIG.domain}/en/about`,
+      },
     },
   };
 }
@@ -121,17 +127,17 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        <section className="about-lighthouse">
+        <section className="about-quality">
           <div className="about-section-heading">
             <span>{"// 02"}</span>
-            <h2>{content.lighthouseTitle}</h2>
+            <h2>{content.qualityTitle}</h2>
           </div>
-          <p className="about-section-intro">{content.lighthouseIntro}</p>
-          <div className="about-lighthouse-grid">
-            {content.lighthouseMetrics.map((metric) => (
-              <div key={metric}>
-                <strong>--</strong>
-                <span>{metric}</span>
+          <p className="about-section-intro">{content.qualityIntro}</p>
+          <div className="about-quality-grid">
+            {content.qualityMetrics.map((metric) => (
+              <div key={metric.label}>
+                <strong>{metric.value}</strong>
+                <span>{metric.label}</span>
               </div>
             ))}
           </div>

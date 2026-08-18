@@ -2,9 +2,7 @@
 
 A modern, privacy-first web application built with Next.js 16 that provides a comprehensive collection of free online developer tools. All tools run entirely client-side in your browser, ensuring your data never leaves your device.
 
-![Frontend Multitool Screenshot](/public/images/screenshot/developertools_screenshot2.png)
-
-⭐ **[Live Demo](https://frontend-toolkit-vercel.vercel.app/)** ⭐
+![Frontend Multitool Screenshot](/public/images/screenshot/homepage.png)
 
 ## 🚀 Features
 
@@ -17,7 +15,7 @@ A modern, privacy-first web application built with Next.js 16 that provides a co
 - **Zero Registration** - all tools work instantly without sign-up
 - **Privacy First** - 100% client-side processing, no data sent to servers
 - **Accessibility** - WCAG AA compliant with keyboard navigation and screen reader support
-- **Blog & Content** - Developer guides and best practices
+- **Bilingual** - Full German/English content via locale-prefixed routing (`/en/...`)
 
 ## 📋 Available Tools
 
@@ -103,7 +101,7 @@ npm run validate:tools   # Validate all tools in registry
 
 ```
 frontend-toolkit/
-├── app/                      # Next.js 15 App Router
+├── app/                      # Next.js 16 App Router
 │   ├── layout.tsx           # Root layout with theme provider
 │   ├── page.tsx             # Homepage with tool grid
 │   ├── globals.css          # Global styles and CSS variables
@@ -294,4 +292,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Frontend Multitool** - Built with Next.js 15, React 19, and Tailwind CSS 4
+**Frontend Multitool** - Built with Next.js 16, React 19, and Tailwind CSS 4

@@ -120,9 +120,6 @@ export function ToolSearch({ tools }: { tools: Tool[] }) {
                         key={tool.id}
                         href={localizeHref(tool.href, locale)}
                         className="group relative rounded-sm border border-[var(--line)] bg-[var(--paper)] px-3 py-3 text-left shadow-[0_1px_0_var(--line-soft)] transition-colors hover:bg-[var(--paper-2)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
-                        aria-label={t("home.openTool", {
-                          name: localizedTool.name,
-                        })}
                       >
                         <div className="mb-2">
                           <span className="inline-flex items-center justify-center rounded-full border border-[var(--line)]/60 p-1.5">

@@ -164,16 +164,17 @@ export function CustomizationOptions({
       {/* Action Buttons */}
       <div className="flex flex-col gap-3 sm:flex-row">
         <PrimaryButton onClick={onGenerate} className="flex-1">
-          <QrCode className="mr-2 h-4 w-4" />
+          <QrCode className="mr-2 h-4 w-4" aria-hidden="true" />
           Generate QR Code
         </PrimaryButton>
         <button
           type="button"
           onClick={onReset}
           className="cursor-pointer rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+          aria-label="Reset to defaults"
           title="Reset to defaults"
         >
-          <RefreshCw className="h-4 w-4" />
+          <RefreshCw className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
     </div>

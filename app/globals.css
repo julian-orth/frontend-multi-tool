@@ -24,6 +24,12 @@
   --primary: #9f3f38;
   --primary-hover: #7e322d;
   --primary-foreground: #ffffff;
+  /* Same hue as --primary, used for text/borders sitting directly on
+     --card/--paper. Equal to --primary here since it already clears 4.5:1
+     against white surfaces; the dark theme below overrides it with a
+     lighter tone; no single value can pass AA against both a white button
+     background and a near-black surface. */
+  --primary-on-surface: #9f3f38;
   --secondary: #f3f4f6;
   --secondary-foreground: #0a0a0a;
   --muted: #f9fafb;
@@ -51,6 +57,9 @@
   --primary: #bd625a;
   --primary-hover: #d47a71;
   --primary-foreground: #ffffff;
+  /* Lighter than --primary: at this luminance, --primary itself only
+     reaches ~3.9:1 against --card, failing WCAG AA for text/borders. */
+  --primary-on-surface: #d9847b;
   --secondary: #282828;
   --secondary-foreground: #ededed;
   --muted: #202020;
@@ -864,7 +873,7 @@ main#main-content:has(nav[aria-label="Breadcrumb"]) > div > div > div.mb-8 p {
 }
 
 .about-technical,
-.about-lighthouse {
+.about-quality {
   margin-top: 48px;
 }
 
@@ -925,29 +934,29 @@ main#main-content:has(nav[aria-label="Breadcrumb"]) > div > div > div.mb-8 p {
   line-height: 1.65;
 }
 
-.about-lighthouse-grid {
+.about-quality-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   border: 1px solid var(--about-line);
   background: var(--about-surface);
 }
 
-.about-lighthouse-grid > div {
+.about-quality-grid > div {
   padding: 20px;
 }
 
-.about-lighthouse-grid > div + div {
+.about-quality-grid > div + div {
   border-left: 1px solid var(--about-line);
 }
 
-.about-lighthouse-grid strong {
+.about-quality-grid strong {
   display: block;
   color: var(--about-soft);
   font-family: "Space Mono", monospace;
   font-size: 28px;
 }
 
-.about-lighthouse-grid span {
+.about-quality-grid span {
   display: block;
   margin-top: 6px;
   color: var(--about-ink);
@@ -969,7 +978,7 @@ main#main-content:has(nav[aria-label="Breadcrumb"]) > div > div > div.mb-8 p {
   .about-stats,
   .about-focus > div,
   .about-technical-grid,
-  .about-lighthouse-grid {
+  .about-quality-grid {
     grid-template-columns: 1fr;
   }
 
@@ -978,7 +987,7 @@ main#main-content:has(nav[aria-label="Breadcrumb"]) > div > div > div.mb-8 p {
     border-left: 0;
   }
 
-  .about-lighthouse-grid > div + div {
+  .about-quality-grid > div + div {
     border-top: 1px solid var(--about-line);
     border-left: 0;
   }

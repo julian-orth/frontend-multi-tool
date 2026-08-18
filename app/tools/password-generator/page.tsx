@@ -2,53 +2,60 @@ import type { Metadata } from "next";
 import Breadcrumb from "@/components/breadcrumb";
 import { ToolSchema } from "@/components/tool-schema";
 import { SITE_CONFIG } from "@/lib/site-config";
+import { getServerLocale } from "@/lib/i18n/server";
+import { localizeHref } from "@/lib/i18n/locale";
 import { PasswordGeneratorUI } from "./password-generator-ui";
+import { pageContent } from "./content";
 
-export const metadata: Metadata = {
-  title: "Password Generator - Secure Password & Passphrase Builder",
-  description:
-    "Generate cryptographically secure passwords and passphrases with entropy scoring, ambiguity filters, batch export, and privacy-first browser processing.",
-  keywords: [
-    "password generator",
-    "secure password generator",
-    "passphrase generator",
-    "entropy calculator",
-    "random password",
-    "password strength",
-    "bulk password generation",
-  ],
-  openGraph: {
-    title: "Password Generator - Secure Password & Passphrase Builder",
-    description:
-      "Generate secure passwords and passphrases with advanced options, entropy insights, and copy/export tools. All processing happens in your browser.",
-    url: `${SITE_CONFIG.domain}/tools/password-generator`,
-    siteName: SITE_CONFIG.name,
-  },
-  twitter: {
-    card: "summary",
-    title: `Password Generator - ${SITE_CONFIG.name}`,
-    description:
-      "Create strong passwords and passphrases with professional controls and entropy scoring.",
-  },
-  alternates: {
-    canonical: `${SITE_CONFIG.domain}/tools/password-generator`,
-  },
-};
+const SECTION_CLASSES = [
+  "rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20",
+  "rounded-xl border border-cyan-200 bg-cyan-50/50 p-6 dark:border-cyan-800 dark:bg-cyan-950/20",
+  "rounded-xl border border-emerald-200 bg-emerald-50/50 p-6 dark:border-emerald-800 dark:bg-emerald-950/20",
+] as const;
 
-export default function PasswordGeneratorPage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const c = pageContent[locale];
+  const path = localizeHref("/tools/password-generator", locale);
+
+  return {
+    title: c.metaTitle,
+    description: c.metaDescription,
+    keywords: c.keywords,
+    openGraph: {
+      title: c.ogTitle,
+      description: c.ogDescription,
+      url: `${SITE_CONFIG.domain}${path}`,
+      siteName: SITE_CONFIG.name,
+      images: ["/images/og-image.png"],
+    },
+    twitter: {
+      card: "summary",
+      title: `${c.twitterTitle} - ${SITE_CONFIG.name}`,
+      description: c.twitterDescription,
+      images: ["/images/og-image.png"],
+    },
+    alternates: {
+      canonical: `${SITE_CONFIG.domain}${path}`,
+      languages: {
+        de: `${SITE_CONFIG.domain}/tools/password-generator`,
+        en: `${SITE_CONFIG.domain}/en/tools/password-generator`,
+      },
+    },
+  };
+}
+
+export default async function PasswordGeneratorPage() {
+  const locale = await getServerLocale();
+  const c = pageContent[locale];
+
   return (
     <>
       <ToolSchema
-        name="Password Generator"
-        description="Generate cryptographically secure passwords and passphrases with entropy scoring and advanced customization"
-        url="/tools/password-generator"
-        keywords={[
-          "password generator",
-          "passphrase generator",
-          "entropy",
-          "security",
-          "random password",
-        ]}
+        name={c.schemaName}
+        description={c.schemaDescription}
+        url={localizeHref("/tools/password-generator", locale)}
+        keywords={c.schemaKeywords}
       />
 
       <div className="px-6 py-8">
@@ -56,11 +63,10 @@ export default function PasswordGeneratorPage() {
           <div className="mb-8">
             <Breadcrumb />
             <h1 className="mb-3 text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-50">
-              Password Generator
+              {c.h1}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Build strong passwords and memorable passphrases with fine-grained
-              controls, live entropy insights, and bulk export.
+              {c.intro}
             </p>
           </div>
 
@@ -69,37 +75,16 @@ export default function PasswordGeneratorPage() {
           </div>
 
           <div className="mt-16 grid gap-6 md:grid-cols-3">
-            <section className="rounded-xl border border-indigo-200 bg-indigo-50/50 p-6 dark:border-indigo-800 dark:bg-indigo-950/20">
-              <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                Why Entropy Matters
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300">
-                Entropy estimates how many guesses an attacker needs on average.
-                Higher entropy means exponentially higher resistance against
-                brute-force attacks.
-              </p>
-            </section>
-
-            <section className="rounded-xl border border-cyan-200 bg-cyan-50/50 p-6 dark:border-cyan-800 dark:bg-cyan-950/20">
-              <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                Password vs Passphrase
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300">
-                Password mode is ideal for strict complexity policies.
-                Passphrase mode improves memorability while staying strong with
-                enough random words.
-              </p>
-            </section>
-
-            <section className="rounded-xl border border-emerald-200 bg-emerald-50/50 p-6 dark:border-emerald-800 dark:bg-emerald-950/20">
-              <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-50">
-                Privacy by Design
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300">
-                All generation uses browser cryptography APIs locally.
-                No passwords are sent to a server, logged, or stored remotely.
-              </p>
-            </section>
+            {c.sections.map((section, index) => (
+              <section key={section.heading} className={SECTION_CLASSES[index]}>
+                <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-gray-50">
+                  {section.heading}
+                </h2>
+                <p className="text-gray-700 dark:text-gray-300">
+                  {section.body}
+                </p>
+              </section>
+            ))}
           </div>
         </div>
       </div>

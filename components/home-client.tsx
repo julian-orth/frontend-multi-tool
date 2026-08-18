@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { Heart, Search, X } from "lucide-react";
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 import { resolveToolIcon } from "@/lib/tools/icon-resolver";
 import { TOOLS } from "@/lib/tools/registry";
 import { useFavorites } from "@/lib/contexts/favorites-context";
@@ -14,13 +20,16 @@ import { localizeHref } from "@/lib/i18n/locale";
 export function HomeClient() {
   const [query, setQuery] = useState("");
   const [activeToolId, setActiveToolId] = useState(TOOLS[0]?.id ?? "");
-  const [cursor, setCursor] = useState({ x: 50, y: 20 });
+  const stageRef = useRef<HTMLDivElement>(null);
   const { isFavorite, toggleFavorite } = useFavorites();
   const { locale, t } = useLocale();
 
   useEffect(() => {
+    // Written straight to the DOM (not React state) so the cursor-tracked
+    // spotlight doesn't re-render the whole tool grid on every mouse pixel.
     const handlePointerMove = (event: PointerEvent) => {
-      setCursor({ x: event.clientX, y: event.clientY });
+      stageRef.current?.style.setProperty("--mx", `${event.clientX}px`);
+      stageRef.current?.style.setProperty("--my", `${event.clientY}px`);
     };
 
     window.addEventListener("pointermove", handlePointerMove);
@@ -52,12 +61,12 @@ export function HomeClient() {
     ? activeToolId
     : (filteredTools[0]?.id ?? "");
   const spotlightStyle = {
-    ["--mx" as string]: `${cursor.x}px`,
-    ["--my" as string]: `${cursor.y}px`,
+    ["--mx" as string]: "50px",
+    ["--my" as string]: "20px",
   } as CSSProperties;
 
   return (
-    <main className="stage" style={spotlightStyle}>
+    <div className="stage" ref={stageRef} style={spotlightStyle}>
       <div className="spotlight" aria-hidden="true" />
       <header>
         <div className="eyebrow">{t("site.name")}</div>
@@ -118,9 +127,6 @@ export function HomeClient() {
                     href={localizeHref(tool.href, locale)}
                     className="tool-link"
                     onClick={() => setActiveToolId(tool.id)}
-                    aria-label={t("home.openTool", {
-                      name: localizedTool.name,
-                    })}
                   >
                     <div className="card">
                       <span className="status-dot" aria-hidden="true" />
@@ -155,6 +161,6 @@ export function HomeClient() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

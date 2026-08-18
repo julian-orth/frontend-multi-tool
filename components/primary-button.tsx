@@ -16,7 +16,7 @@ export default function PrimaryButton({
   const solid =
     "bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] focus:ring-[var(--primary)]";
   const outline =
-    "border-2 border-[var(--primary)] bg-[var(--card)] text-[var(--primary)] hover:bg-[var(--paper-2)] focus:ring-[var(--primary)]";
+    "border-2 border-[var(--primary-on-surface)] bg-[var(--card)] text-[var(--primary-on-surface)] hover:bg-[var(--paper-2)] focus:ring-[var(--primary)]";
 
   const classes = [base, variant === "solid" ? solid : outline, className]
     .filter(Boolean)

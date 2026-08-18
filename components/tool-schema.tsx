@@ -28,6 +28,7 @@ export function ToolSchema({
     name: name,
     description: description,
     url: `${SITE_CONFIG.domain}${url}`,
+    image: `${SITE_CONFIG.domain}/images/og-image.png`,
     applicationCategory: category,
     operatingSystem: "Web Browser",
     offers: {

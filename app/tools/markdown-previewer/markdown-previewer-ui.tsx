@@ -224,7 +224,7 @@ greet("World");
 
 [Visit GitHub](https://github.com)
 
-![Placeholder Image](https://via.placeholder.com/400x200?text=Markdown+Preview)
+![Sample Image](data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27400%27%20height%3D%27200%27%3E%3Crect%20width%3D%27400%27%20height%3D%27200%27%20fill%3D%27%23e2e8f0%27%2F%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20font-family%3D%27sans-serif%27%20font-size%3D%2720%27%20fill%3D%27%2364748b%27%3EMarkdown%20Preview%3C%2Ftext%3E%3C%2Fsvg%3E)
 
 ## Tables (GFM)
 

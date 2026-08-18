@@ -3,61 +3,65 @@ import type { Metadata } from "next";
 import { TextDiffUI } from "./text-diff-ui";
 import { ToolSchema } from "@/components/tool-schema";
 import { SITE_CONFIG } from "@/lib/site-config";
+import { getServerLocale } from "@/lib/i18n/server";
+import { localizeHref } from "@/lib/i18n/locale";
+import { getToolPageChrome } from "@/lib/i18n/tool-page-chrome";
+import { pageContent } from "./content";
 
-export const metadata: Metadata = {
-  title: "Text Diff Checker - Compare Text Differences Online",
-  description:
-    "Free online text diff tool to compare two texts side-by-side or in unified view. Visualize additions, deletions, and changes with line-by-line, word-by-word, or character-by-character comparison.",
-  keywords:
-    "text diff, compare text, text comparison, diff checker, side by side diff, unified diff, text changes, file comparison, merge conflicts, code review",
-  openGraph: {
-    title: "Text Diff Checker - Compare Text Differences Online",
-    description:
-      "Compare two texts and visualize differences with split or unified view. Perfect for reviewing changes, merging files, and code reviews.",
-    url: `${SITE_CONFIG.domain}/tools/text-diff`,
-    siteName: SITE_CONFIG.name,
-  },
-  twitter: {
-    card: "summary",
-    title: `Text Diff Checker - ${SITE_CONFIG.name}`,
-    description:
-      "Compare two texts and visualize differences with split or unified view. Perfect for reviewing changes, merging files, and code reviews.",
-  },
-  alternates: {
-    canonical: `${SITE_CONFIG.domain}/tools/text-diff`,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  const c = pageContent[locale];
+  const path = localizeHref("/tools/text-diff", locale);
 
-export default function TextDiffPage() {
+  return {
+    title: c.title,
+    description: c.metaDescription,
+    keywords: c.keywords,
+    openGraph: {
+      title: c.ogTitle,
+      description: c.ogDescription,
+      url: `${SITE_CONFIG.domain}${path}`,
+      siteName: SITE_CONFIG.name,
+      images: ["/images/og-image.png"],
+    },
+    twitter: {
+      card: "summary",
+      title: `${c.twitterTitle} - ${SITE_CONFIG.name}`,
+      description: c.twitterDescription,
+      images: ["/images/og-image.png"],
+    },
+    alternates: {
+      canonical: `${SITE_CONFIG.domain}${path}`,
+      languages: {
+        de: `${SITE_CONFIG.domain}/tools/text-diff`,
+        en: `${SITE_CONFIG.domain}/en/tools/text-diff`,
+      },
+    },
+  };
+}
+
+export default async function TextDiffPage() {
+  const locale = await getServerLocale();
+  const c = pageContent[locale];
+  const chrome = getToolPageChrome(locale);
+
   return (
     <>
       <ToolSchema
-        name="Text Diff Checker"
-        description="Free online text diff tool to compare two texts side-by-side or in unified view. Visualize additions, deletions, and changes with line-by-line, word-by-word, or character-by-character comparison."
-        url="/tools/text-diff"
-        keywords={[
-          "text diff",
-          "compare text",
-          "text comparison",
-          "diff checker",
-          "side by side diff",
-          "unified diff",
-          "text changes",
-          "file comparison",
-          "merge conflicts",
-          "code review",
-        ]}
+        name={c.schemaName}
+        description={c.schemaDescription}
+        url={localizeHref("/tools/text-diff", locale)}
+        keywords={c.schemaKeywords}
       />
       <div className="px-6 py-8">
         <div className="mx-0 max-w-7xl">
           <div className="mb-8">
             <Breadcrumb />
             <h1 className="mb-3 text-4xl font-bold tracking-tight text-black dark:text-white">
-              Text Diff Checker
+              {c.h1}
             </h1>
             <p className="text-lg text-gray-700 dark:text-gray-300">
-              Compare two texts and visualize differences side-by-side or in
-              unified view
+              {c.intro}
             </p>
           </div>
 
@@ -70,57 +74,33 @@ export default function TextDiffPage() {
             {/* What is Text Diff */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                What is a Text Diff Tool?
+                {c.whatIsHeading}
               </h2>
               <div className="space-y-4 text-gray-700 dark:text-gray-300">
-                <p>
-                  A text diff (difference) tool compares two text documents and
-                  highlights exactly what has been added, removed, or modified
-                  between them. It&apos;s used for code reviews, comparing document
-                  versions, checking configuration files, and resolving merge
-                  conflicts. This tool uses the Myers diff algorithm—the same
-                  approach used by Git—to compute changes accurately, entirely
-                  in your browser.
-                </p>
+                <p>{c.whatIsParagraph}</p>
               </div>
             </section>
 
             {/* Key Facts */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                Key Facts
+                {chrome.keyFacts}
               </h2>
               <div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
                 <ul className="ml-6 list-disc space-y-2 text-gray-700 dark:text-gray-300">
-                  <li>
-                    <strong>Split view</strong> shows both texts side-by-side in
-                    parallel columns for context; <strong>unified view</strong>{" "}
-                    combines them into one column with +/- markers, matching
-                    Git&apos;s patch format.
-                  </li>
-                  <li>
-                    <strong>Line-by-line</strong> mode is best for code and
-                    config files, <strong>word-by-word</strong> for prose and
-                    documentation, and <strong>character-by-character</strong>{" "}
-                    for spotting typos or precise data changes.
-                  </li>
-                  <li>
-                    Use &quot;ignore whitespace&quot; to skip formatting-only changes and
-                    &quot;ignore case&quot; for case-insensitive comparisons.
-                  </li>
-                  <li>
-                    Generated unified diff patches can be applied with{" "}
-                    <code>git apply patch.diff</code> or the Unix{" "}
-                    <code>patch</code> command.
-                  </li>
-                  <li>
-                    All comparison happens locally in your browser—no files or
-                    text are ever uploaded, so the tool works offline too.
-                  </li>
-                  <li>
-                    Designed for text only; use dedicated tools for binary files
-                    or images, and keep files under 1-2MB for best performance.
-                  </li>
+                  {c.keyFacts.map((parts, index) => (
+                    <li key={index}>
+                      {parts.map((part, partIndex) => {
+                        if (part.bold) {
+                          return <strong key={partIndex}>{part.text}</strong>;
+                        }
+                        if (part.code) {
+                          return <code key={partIndex}>{part.text}</code>;
+                        }
+                        return <span key={partIndex}>{part.text}</span>;
+                      })}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </section>
@@ -128,97 +108,65 @@ export default function TextDiffPage() {
             {/* FAQ Section */}
             <section>
               <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-gray-50 sm:mb-6 sm:text-3xl">
-                Frequently Asked Questions
+                {chrome.faq}
               </h2>
               <div className="space-y-4 sm:space-y-6">
-                <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
-                  <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
-                    What algorithm does this diff tool use?
-                  </summary>
-                  <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
-                    It uses the Myers diff algorithm, the same one that powers
-                    Git and Unix diff, which finds the shortest edit script
-                    between two texts quickly and accurately.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
-                  <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
-                    What&apos;s the difference between split and unified view?
-                  </summary>
-                  <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
-                    Split view shows both texts side-by-side for context;
-                    unified view combines them into one column with +/- markers,
-                    matching Git&apos;s patch format for quick scanning.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
-                  <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
-                    Why should I ignore whitespace when comparing code?
-                  </summary>
-                  <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
-                    Formatting changes like indentation or line endings don&apos;t
-                    affect functionality but can create false &quot;changes&quot; —
-                    ignoring whitespace lets you focus on real code changes.
-                  </p>
-                </details>
-
-                <details className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6">
-                  <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
-                    Is my data safe when using this tool?
-                  </summary>
-                  <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
-                    Yes. All comparison happens locally in your browser—nothing
-                    is uploaded to any server, so it&apos;s safe for sensitive or
-                    private documents.
-                  </p>
-                </details>
+                {c.faq.map((item) => (
+                  <details
+                    key={item.question}
+                    className="group rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900 sm:p-6"
+                  >
+                    <summary className="cursor-pointer text-base font-semibold text-gray-900 dark:text-gray-50 sm:text-lg">
+                      {item.question}
+                    </summary>
+                    <p className="mt-2 text-sm text-gray-700 dark:text-gray-300 sm:mt-3 sm:text-base">
+                      {item.answer}
+                    </p>
+                  </details>
+                ))}
               </div>
             </section>
 
             {/* Related Tools */}
             <section>
               <h2 className="mb-4 text-3xl font-bold text-gray-900 dark:text-gray-50">
-                Related Developer Tools
+                {c.relatedToolsHeading}
               </h2>
               <p className="mb-6 text-gray-700 dark:text-gray-300">
-                Explore other text processing and development tools to enhance
-                your workflow:
+                {c.relatedToolsIntro}
               </p>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <a
-                  href="/tools/json-formatter"
+                  href={localizeHref(c.relatedTools[0].href, locale)}
                   className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-blue-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-700"
                 >
                   <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-blue-600 dark:text-gray-50 dark:group-hover:text-blue-400">
-                    JSON Formatter
+                    {c.relatedTools[0].name}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Format JSON files before comparing them for better diff
-                    results
+                    {c.relatedTools[0].description}
                   </p>
                 </a>
                 <a
-                  href="/tools/regex-tester"
+                  href={localizeHref(c.relatedTools[1].href, locale)}
                   className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-orange-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-orange-700"
                 >
                   <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-orange-600 dark:text-gray-50 dark:group-hover:text-orange-400">
-                    Regex Tester
+                    {c.relatedTools[1].name}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Test patterns to find specific changes in text
+                    {c.relatedTools[1].description}
                   </p>
                 </a>
                 <a
-                  href="/tools/base64"
+                  href={localizeHref(c.relatedTools[2].href, locale)}
                   className="group rounded-xl border border-gray-200 bg-white p-6 transition-all hover:border-green-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-green-700"
                 >
                   <h3 className="mb-2 text-lg font-semibold text-gray-900 group-hover:text-green-600 dark:text-gray-50 dark:group-hover:text-green-400">
-                    Base64 Encoder/Decoder
+                    {c.relatedTools[2].name}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Decode Base64 content before comparing
+                    {c.relatedTools[2].description}
                   </p>
                 </a>
               </div>

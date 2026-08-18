@@ -20,14 +20,20 @@ export async function generateMetadata(): Promise<Metadata> {
       description: metadataDescription,
       type: "website",
       url: `${SITE_CONFIG.domain}${path}`,
+      images: ["/images/og-image.png"],
     },
     twitter: {
       card: "summary",
       title: `${content.title} | ${SITE_CONFIG.name}`,
       description: metadataDescription,
+      images: ["/images/og-image.png"],
     },
     alternates: {
       canonical: `${SITE_CONFIG.domain}${path}`,
+      languages: {
+        de: `${SITE_CONFIG.domain}/terms`,
+        en: `${SITE_CONFIG.domain}/en/terms`,
+      },
     },
   };
 }
@@ -78,7 +84,7 @@ export default async function TermsPage() {
                 <p className="mt-4 leading-relaxed">
                   <Link
                     href={localizeHref("/privacy", locale)}
-                    className="text-[var(--primary)] underline hover:text-[var(--primary-hover)]"
+                    className="text-[var(--primary-on-surface)] underline hover:text-[var(--primary-hover)]"
                   >
                     {privacyLinkLabel}
                   </Link>

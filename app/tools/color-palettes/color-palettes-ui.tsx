@@ -112,6 +112,10 @@ export function ColorPalettesUI() {
   // Replace the deterministic placeholder with a real random palette once
   // mounted, so the server-rendered HTML matches the client's first render.
   useEffect(() => {
+    // Intentional: randomize only after mount so SSR output and the first
+    // client render match; the randomized value can't be computed during
+    // render without diverging from the server-rendered markup.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setColors(generateRandomPalette(colorCount));
     // Runs once on mount only.
     // eslint-disable-next-line react-hooks/exhaustive-deps
